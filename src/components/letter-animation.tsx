@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
 
 interface LetterAnimationProps {
@@ -10,259 +9,226 @@ interface LetterAnimationProps {
   coupleName: string;
 }
 
-export const LetterAnimation = ({
-  onOpen,
-  coupleName,
-}: LetterAnimationProps) => {
-  const { t } = useTranslation('home');
+/**
+ * Ceremonial entrance sequence:
+ * Ganesh vandana -> golden glow -> carved doors -> doors open -> wedding site.
+ * Kept as the existing LetterAnimation API so the rest of the application does not change.
+ */
+export const LetterAnimation = ({ onOpen, coupleName }: LetterAnimationProps) => {
   const searchParams = useSearchParams();
-
-  const toName =
-    searchParams.get('to') || searchParams.get('toName') || t('letter.guest');
-
+  const toName = searchParams.get('to') || searchParams.get('toName') || 'Guest';
   const [isOpening, setIsOpening] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
+    if (isOpening) return;
     setIsOpening(true);
-    setTimeout(() => {
-      onOpen();
-    }, 8000); // 8 seconds: 1s blur + 5s letter display + 2s loading
+    // Allow the complete door reveal to play before entering the invitation.
+    window.setTimeout(onOpen, 5200);
   };
 
   return (
-    <div className="fixed inset-0 z-80 bg-gradient-to-br from-amber-50 via-yellow-50 to-red-50 overflow-hidden">
-      {/* Background Decorations */}
-      <div className="absolute inset-0">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-yellow-200/20 rounded-full blur-3xl"></div>
-      </div>
+    <main
+      className="fixed inset-0 z-[80] overflow-hidden bg-[#fbf3dc] text-[#4b211d]"
+      aria-label="Wedding invitation entrance"
+    >
+      {/* Warm ceremonial atmosphere */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(255,215,112,.34),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(129,38,28,.10),transparent_48%)]" />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#7b1e1e]/10 to-transparent" />
 
-      {/* Floating Hearts */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {/* Toran */}
+        <div className="absolute left-0 right-0 top-0 flex justify-center overflow-hidden">
+          <div className="h-14 w-[115%] rounded-b-[50%] border-b-2 border-[#b8872e]/40 bg-[radial-gradient(circle_at_8px_10px,#d68b24_0_3px,transparent_4px)] [background-size:32px_28px] opacity-90" />
+        </div>
+
+        {/* Diyas */}
+        {[
+          ['left-5 top-24', '-6deg'],
+          ['right-5 top-24', '6deg'],
+          ['left-10 bottom-12', '5deg'],
+          ['right-10 bottom-12', '-5deg'],
+        ].map(([position, rotation], i) => (
           <motion.div
             key={i}
-            initial={{ y: '100%', opacity: 0.3, rotate: 0 }}
-            animate={{
-              y: '-100%',
-              opacity: [0.3, 0.7, 0.3],
-              rotate: [0, 360, 720],
-              x: [0, 50, -50, 0],
-            }}
-            transition={{
-              duration: 8 + i * 2,
-              repeat: Infinity,
-              ease: 'linear',
-              delay: i * 1.5,
-            }}
-            className="absolute text-amber-300"
-            style={{
-              left: `${10 + i * 15}%`,
-            }}
+            className={`absolute ${position} hidden sm:block`}
+            style={{ rotate: rotation }}
+            animate={{ y: [0, -3, 0], opacity: [0.78, 1, 0.78] }}
+            transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.25 }}
           >
-            💕
+            <div className="relative h-3 w-10 rounded-[50%] border border-[#b8872e] bg-[#b56b26]/70">
+              <span className="absolute -top-6 left-1/2 h-7 w-3 -translate-x-1/2 rounded-[70%_30%_70%_30%] bg-[#f6bd43] blur-[1px] shadow-[0_0_18px_7px_rgba(246,189,67,.38)]" />
+            </div>
           </motion.div>
         ))}
       </div>
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6">
-        <div className="text-center">
-          {/* Greeting Text - Hidden when opening */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: isOpening ? 0 : 1, y: isOpening ? 30 : 0 }}
-            transition={{ duration: 1, delay: isOpening ? 0 : 0.5 }}
-            className="mb-3 sm:mb-4 md:mb-6"
-          >
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-red-800 mb-3 sm:mb-4">
-              {t('hero.welcome')}
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-md mx-auto px-2">
-              {toName ? (
-                <>
-                  {t('letter.dear')}{' '}
-                  <span className="font-medium text-red-700">{toName}</span>
-                  <br />
-                  {t('letter.you-are-invited')}
-                </>
-              ) : (
-                t('letter.you-are-invited')
-              )}
-            </p>
-          </motion.div>
-
-          {/* Invitation Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="relative mx-auto w-full max-w-xs sm:max-w-xs md:max-w-sm"
-          >
-            <motion.div
-              className="relative cursor-pointer"
-              onClick={handleClick}
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
-              whileHover={!isOpening ? { scale: 1.05 } : {}}
-              whileTap={!isOpening ? { scale: 0.95 } : {}}
-            >
-              {/* Invitation Image */}
-              <motion.div
-                className="relative w-full aspect-square rounded-lg overflow-hidden shadow-2xl"
-                animate={{
-                  filter: isOpening ? 'blur(20px)' : 'blur(0px)',
-                }}
-                transition={{ duration: 1 }}
-              >
-                <img
-                  src="/assets/images/ChatGPT Image Jun 9, 2026, 09_55_48 PM.png"
-                  alt="Wedding invitation"
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-
-              {/* Click Instruction Overlay */}
-              <AnimatePresence>
-                {!isOpening && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    {isHovered && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="bg-black/40 backdrop-blur-sm rounded-lg px-4 py-2 text-white text-xs sm:text-sm font-medium"
-                      >
-                        {t('letter.click-to-open-hover')}
-                      </motion.div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          </motion.div>
-
-          {/* Letter Inside - Appears on blur */}
-          <AnimatePresence>
-            {isOpening && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 1, delay: 1 }}
-                className="absolute inset-0 flex items-center justify-center z-50 p-4"
-              >
-                <motion.div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl shadow-2xl border-2 border-amber-200 overflow-hidden">
-                  {/* Letter Background */}
-                  <div className="absolute inset-0 opacity-30">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-red-200 rounded-full blur-3xl"></div>
-                  </div>
-
-                  {/* Letter Content */}
-                  <div className="relative p-6 sm:p-8 md:p-10 text-center">
-                    {/* Ornamental Top */}
-                    <div className="text-3xl sm:text-4xl mb-4 text-amber-600">✦</div>
-
-                    {/* Letter Content */}
-                    <div className="space-y-4">
-                      {toName && (
-                        <p className="text-base sm:text-lg text-amber-900 font-serif">
-                          {t('letter.dear')} <span className="font-bold text-red-700">{toName}</span>
-                        </p>
-                      )}
-
-                      <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-red-800 mb-2">
-                        {coupleName}
-                      </h2>
-
-                      <p className="text-sm sm:text-base text-amber-900 font-serif leading-relaxed max-w-sm mx-auto">
-                        {t('letter.invitation-title')}
-                      </p>
-
-                      <div className="pt-4 pb-2">
-                        <p className="text-base sm:text-lg font-serif italic text-red-700">
-                          &ldquo;{t('letter.invitation-quote')}&rdquo;
-                        </p>
-                      </div>
-
-                      {/* Ornamental Bottom */}
-                      <div className="text-2xl sm:text-3xl text-amber-600">✦</div>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Click Instruction */}
+      {/* Initial Ganesh invitation */}
+      <AnimatePresence>
+        {!isOpening && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: isOpening ? 0 : 1 }}
-            transition={{ duration: 0.5, delay: 2 }}
-            className="mt-3 sm:mt-4 md:mt-6"
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.08 }}
+            transition={{ duration: 0.8 }}
+            className="relative z-20 flex min-h-screen items-center justify-center px-5 py-10"
           >
-            <motion.p
-              animate={{
-                y: [0, -8, 0],
-                opacity: [0.7, 1, 0.7],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              className="text-xs sm:text-sm text-gray-600 font-medium"
-            >
-              {t('letter.click-to-open')}
-            </motion.p>
-            <div className="flex justify-center mt-3 sm:mt-4">
+            <div className="w-full max-w-xl text-center">
               <motion.div
-                animate={{
-                  scale: [1, 1.2, 1],
-                  rotate: [0, 10, -10, 0],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="text-xl sm:text-2xl"
+                initial={{ y: -16, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1 }}
               >
-                👆
+                <div className="mb-2 text-xs font-semibold tracking-[0.28em] text-[#8a4c23] sm:text-sm">
+                  ॐ श्री गणेशाय नमः
+                </div>
+                <div className="mb-1 text-[10px] uppercase tracking-[0.35em] text-[#a77735]">
+                  Om Shree Ganeshay Namah
+                </div>
+                <div className="mx-auto mb-5 h-px w-28 bg-gradient-to-r from-transparent via-[#b8872e] to-transparent" />
+              </motion.div>
+
+              <motion.button
+                type="button"
+                onClick={handleClick}
+                className="group relative mx-auto block w-full max-w-[390px] cursor-pointer rounded-[34px] border border-[#c89b3c]/55 bg-[#fff9e9]/70 p-4 shadow-[0_22px_60px_rgba(90,47,20,.18)] backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#9e2a2b]/40"
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+                aria-label="Open wedding invitation"
+              >
+                <div className="absolute inset-3 rounded-[26px] border border-[#b8872e]/35" />
+                <div className="relative overflow-hidden rounded-[22px] bg-[#fff6da]">
+                  <img
+                    src="/assets/images/ChatGPT Image Jun 9, 2026, 09_55_48 PM.png"
+                    alt="Lord Ganesha"
+                    className="mx-auto aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#6e201a]/35 to-transparent px-5 pb-4 pt-16">
+                    <span className="text-xs font-medium tracking-[0.22em] text-white/95">
+                      CLICK GANESH JI TO ENTER
+                    </span>
+                  </div>
+                </div>
+              </motion.button>
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="mt-5"
+              >
+                <p className="font-serif text-lg text-[#652b24] sm:text-xl">
+                  Dear <span className="font-semibold text-[#9e2a2b]">{toName}</span>
+                </p>
+                <p className="mt-1 text-sm text-[#80604e] sm:text-base">
+                  You are cordially invited to celebrate
+                </p>
+                <p className="mt-2 font-serif text-base italic text-[#8a4c23]">{coupleName}</p>
+                <motion.div
+                  animate={{ y: [0, 5, 0], opacity: [0.65, 1, 0.65] }}
+                  transition={{ duration: 1.8, repeat: Infinity }}
+                  className="mt-4 text-xl text-[#a77735]"
+                >
+                  ↓
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>
-        </div>
-      </div>
+        )}
+      </AnimatePresence>
 
-      {/* Loading overlay when opening */}
+      {/* Ceremonial gates revealed after clicking Ganesh */}
       <AnimatePresence>
         {isOpening && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 5.5 }}
-            className="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-40"
+            className="absolute inset-0 z-30 overflow-hidden bg-[#3a1714]"
           >
-            <div className="text-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                className="w-12 h-12 border-4 border-amber-200 border-t-red-700 rounded-full mx-auto mb-4"
-              />
-              <p className="text-red-700 text-lg font-serif font-medium">
-                {t('letter.opening-the-invitation')}
-              </p>
-            </div>
+            {/* Wedding courtyard behind the gates */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,#fff1b8_0%,#d9a33f_17%,#7b271e_42%,#301311_76%)]" />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.7, duration: 1.6 }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="relative h-[70vh] w-[72vw] max-w-4xl rounded-t-[48%] border-4 border-[#d6ad55]/80 bg-[#f8e4a7]/15 shadow-[0_0_100px_rgba(255,219,119,.35)]">
+                <div className="absolute inset-5 rounded-t-[45%] border border-[#e4c675]/60" />
+                <div className="absolute bottom-0 left-1/2 h-1/2 w-[52%] -translate-x-1/2 rounded-t-[48%] bg-[#5e211b]/60" />
+                <div className="absolute bottom-6 left-1/2 h-5 w-28 -translate-x-1/2 rounded-[50%] bg-[#f5c657] shadow-[0_0_35px_12px_rgba(245,198,87,.45)]" />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 0.8, 1] }}
+              transition={{ duration: 2.4, delay: 0.6 }}
+              className="absolute left-1/2 top-[15%] z-10 -translate-x-1/2 text-center text-[#ffe7a0]"
+            >
+              <div className="text-sm tracking-[0.4em]">ॐ</div>
+              <div className="mt-2 font-serif text-xl tracking-[0.16em] sm:text-3xl">DIVYA  ·  CHAYAN</div>
+            </motion.div>
+
+            {/* Left carved gate */}
+            <motion.div
+              initial={{ x: 0 }}
+              animate={{ x: '-102%' }}
+              transition={{ delay: 1.55, duration: 2.1, ease: [0.76, 0, 0.24, 1] }}
+              className="absolute inset-y-0 left-0 w-1/2 origin-left overflow-hidden border-r border-[#e0b95e]/60 bg-[linear-gradient(135deg,#5b1d18,#8e3a25_42%,#4b1715)] shadow-[14px_0_40px_rgba(0,0,0,.38)]"
+            >
+              <GateArtwork side="left" />
+            </motion.div>
+
+            {/* Right carved gate */}
+            <motion.div
+              initial={{ x: 0 }}
+              animate={{ x: '102%' }}
+              transition={{ delay: 1.55, duration: 2.1, ease: [0.76, 0, 0.24, 1] }}
+              className="absolute inset-y-0 right-0 w-1/2 origin-right overflow-hidden border-l border-[#e0b95e]/60 bg-[linear-gradient(225deg,#5b1d18,#8e3a25_42%,#4b1715)] shadow-[-14px_0_40px_rgba(0,0,0,.38)]"
+            >
+              <GateArtwork side="right" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ delay: 3.65, duration: 1.1 }}
+              className="absolute inset-0 z-50 flex items-center justify-center bg-[#fff0b8]"
+            />
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: [0, 1, 1, 0], y: [10, 0, 0, -8] }}
+              transition={{ duration: 4.4, times: [0, 0.25, 0.72, 1], delay: 0.2 }}
+              className="absolute bottom-10 left-1/2 z-[60] -translate-x-1/2 whitespace-nowrap font-serif text-sm tracking-[0.18em] text-[#fff1bd] sm:text-base"
+            >
+              THE DOORS TO OUR CELEBRATION ARE OPENING
+            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </main>
   );
 };
+
+function GateArtwork({ side }: { side: 'left' | 'right' }) {
+  return (
+    <div className={`absolute inset-0 ${side === 'left' ? 'pl-[8%] pr-[5%]' : 'pl-[5%] pr-[8%]'} py-[7%]`}>
+      <div className="h-full rounded-[24px] border-2 border-[#d5a947]/70 bg-[repeating-linear-gradient(90deg,rgba(255,218,123,.08)_0_2px,transparent_2px_28px)] p-4 sm:p-7">
+        <div className="h-full rounded-[18px] border border-[#e1bd67]/55 bg-[radial-gradient(circle_at_50%_20%,rgba(236,187,73,.22),transparent_32%),linear-gradient(180deg,rgba(74,20,16,.15),rgba(27,10,9,.42))] p-4 sm:p-8">
+          <div className="flex h-full flex-col items-center justify-between border border-[#c99639]/40 py-7">
+            <div className="text-3xl text-[#edc76c] sm:text-5xl">✦</div>
+            <div className="flex flex-col items-center gap-5 text-[#d9ae50]/75">
+              <div className="h-20 w-20 rounded-full border-2 border-[#d9ae50]/70 sm:h-32 sm:w-32">
+                <div className="m-3 flex h-[calc(100%-24px)] items-center justify-center rounded-full border border-[#d9ae50]/50 text-3xl sm:text-5xl">ॐ</div>
+              </div>
+              <div className="h-px w-24 bg-[#d9ae50]/50" />
+              <div className="text-2xl sm:text-4xl">❧</div>
+            </div>
+            <div className="text-xs tracking-[0.35em] text-[#e2bd68] sm:text-sm">शुभ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
