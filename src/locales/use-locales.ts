@@ -29,7 +29,7 @@ export function useTranslate(ns?: typeof resources) {
         const langChangePromise = i18n.changeLanguage(newLang);
 
         const currentMessages =
-          messages[newLang as keyof typeof messages] || messages.id;
+          messages[newLang as keyof typeof messages] ?? messages.en;
 
         toast.promise(langChangePromise, {
           loading: currentMessages.loading,
