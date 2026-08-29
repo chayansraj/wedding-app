@@ -2,25 +2,22 @@
 
 import { motion } from 'motion/react';
 import type { WeddingConfigType } from '@/types';
-import { Diya, Lotus, Mandala, OrnamentalDivider, Petals, SectionBackdrop } from '@/components/indian-ornaments';
+import { Diya, Mandala, OrnamentalDivider, Petals, SectionBackdrop } from '@/components/indian-ornaments';
 
 interface HeroSectionProps { isLoaded: boolean; couple: WeddingConfigType; onScrollToSection: (sectionId: string) => void; }
 
 export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSectionProps) => {
   return (
-    <SectionBackdrop className="min-h-[100svh] bg-[#fff6e3]">
+    <SectionBackdrop className="min-h-[100svh]">
       <div className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pb-14 pt-28 sm:px-8 sm:pt-32">
         <Petals count={18} />
-
-        {/* Decorative toran */}
-        <div className="absolute inset-x-0 top-0 h-24 border-b border-[#c89b3c]/35 bg-[radial-gradient(circle_at_12px_10px,#d89228_0_3px,transparent_4px)] [background-size:32px_26px] opacity-70" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 border-b border-[#c89b3c]/35 bg-[radial-gradient(circle_at_12px_10px,#d89228_0_3px,transparent_4px)] [background-size:32px_26px] opacity-70" />
         {[10, 20, 30, 70, 80, 90].map((left, i) => (
           <motion.div key={left} className="absolute top-0 hidden sm:block" style={{ left: `${left}%` }} animate={{ rotate: i % 2 ? [0, 2, -2, 0] : [0, -2, 2, 0] }} transition={{ duration: 4.5, repeat: Infinity, delay: i * .15 }}>
             <div className="h-14 w-px bg-[#c89b3c]/55" /><div className="mx-auto flex w-4 flex-col items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#ce7d27]"/><span className="h-2 w-2 rounded-full bg-[#e4ae4f]"/><span className="h-2 w-2 rounded-full bg-[#b95e2a]"/></div>
           </motion.div>
         ))}
 
-        {/* Corner lamps */}
         <Diya className="absolute left-0 top-28 h-16 w-16 text-[#b8872e] sm:left-4 sm:h-20 sm:w-20" />
         <Diya className="absolute right-0 top-28 h-16 w-16 text-[#b8872e] sm:right-4 sm:h-20 sm:w-20" />
         <Diya className="absolute bottom-10 left-0 h-16 w-16 text-[#b8872e] sm:left-4 sm:h-20 sm:w-20" />
