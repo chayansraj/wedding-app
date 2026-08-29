@@ -54,15 +54,15 @@ export const OrnamentalDivider = ({ label }: { label?: string }) => (
 );
 
 export const SectionBackdrop = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
-  <div className={`relative overflow-hidden bg-[#fff9ed] ${className}`}>
-    <div className="absolute inset-0 opacity-[.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #7b1e1e 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-    <Mandala size={360} className="absolute -left-40 top-20 text-[#b08a3a] opacity-[.16]" />
-    <Mandala size={280} className="absolute -right-32 bottom-10 text-[#7b1e1e] opacity-[.12]" />
-    <Petals count={8} />
+  <div className={`relative overflow-hidden bg-transparent ${className}`}>
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,241,199,.36),transparent_42%),linear-gradient(180deg,rgba(255,249,237,.35),rgba(255,249,237,.18))]" />
+    <div className="absolute inset-0 opacity-[.05]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #7b1e1e 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+    <Mandala size={360} className="absolute -left-40 top-20 text-[#b08a3a] opacity-[.13]" />
+    <Mandala size={280} className="absolute -right-32 bottom-10 text-[#7b1e1e] opacity-[.1]" />
+    <Petals count={10} />
     <div className="pointer-events-none absolute inset-x-0 top-0 h-20 border-b border-[#b08a3a]/20 bg-[radial-gradient(circle_at_10px_10px,#d89228_0_2px,transparent_3px)] [background-size:28px_24px] opacity-55" />
-    <OrnamentBell className="pointer-events-none absolute left-[7%] top-5 hidden sm:block" delay={.1} />
-    <OrnamentBell className="pointer-events-none absolute right-[7%] top-5 hidden sm:block" delay={.5} />
-    <Lotus className="pointer-events-none absolute left-1/2 top-1 h-8 w-14 -translate-x-1/2 text-[#b08a3a] opacity-45" />
+    <OrnamentBell className="pointer-events-none absolute left-[6%] top-5" delay={.1} />
+    <OrnamentBell className="pointer-events-none absolute right-[6%] top-5" delay={.5} />
     <div className="relative">{children}</div>
   </div>
 );
