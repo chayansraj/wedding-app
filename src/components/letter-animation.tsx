@@ -3,12 +3,15 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useSearchParams } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import { LanguageToggle } from '@/components/language-toggle';
 
 interface LetterAnimationProps { onOpen: () => void; coupleName: string; }
 
 export const LetterAnimation = ({ onOpen, coupleName }: LetterAnimationProps) => {
   const searchParams = useSearchParams();
   const toName = searchParams.get('to') || searchParams.get('toName') || 'Guest';
+  const { t } = useTranslation('home');
   const [stage, setStage] = useState<'welcome' | 'gates' | 'reveal'>('welcome');
 
   useEffect(() => {
@@ -20,6 +23,7 @@ export const LetterAnimation = ({ onOpen, coupleName }: LetterAnimationProps) =>
 
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-[#f8edd2] text-[#4b211d]" aria-label="Wedding invitation entrance">
+      <div className="absolute right-4 top-4 z-[120] sm:right-6 sm:top-6"><LanguageToggle /></div>
       <AnimatePresence mode="wait">
         {stage === 'welcome' && (
           <motion.section key="welcome" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 1.03 }} className="absolute inset-0 overflow-hidden">
@@ -33,10 +37,10 @@ export const LetterAnimation = ({ onOpen, coupleName }: LetterAnimationProps) =>
               </div>
             </div>
             <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[#3d1815]/75 via-[#3d1815]/20 to-transparent px-5 pb-[max(1.75rem,4vh)] pt-28 text-center sm:pb-[5vh]">
-              <p className="font-serif text-base text-[#fff5da] sm:text-xl">Dear <span className="font-semibold text-[#ffd88a]">{toName}</span></p>
-              <p className="mt-1 text-xs text-[#f8e8c5] sm:text-sm">You are cordially invited to celebrate</p>
+              <p className="font-serif text-base text-[#fff5da] sm:text-xl">{t('letter.dear')} <span className="font-semibold text-[#ffd88a]">{toName}</span></p>
+              <p className="mt-1 text-xs text-[#f8e8c5] sm:text-sm">{t('letter.you-are-invited')}</p>
               <p className="mt-1 font-serif text-lg italic text-[#ffd88a] sm:text-2xl">{coupleName}</p>
-              <motion.button type="button" onClick={() => setStage('gates')} whileTap={{ scale: 0.96 }} className="mx-auto mt-4 rounded-full border border-[#f1cf78] bg-[#7b1e1e]/95 px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#fff4d8] shadow-lg sm:px-10 sm:py-3.5 sm:text-sm">Click to Enter</motion.button>
+              <motion.button type="button" onClick={() => setStage('gates')} whileTap={{ scale: 0.96 }} className="mx-auto mt-4 rounded-full border border-[#f1cf78] bg-[#7b1e1e]/95 px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#fff4d8] shadow-lg sm:px-10 sm:py-3.5 sm:text-sm">{t('letter.click-to-open')}</motion.button>
               <motion.div animate={{ y: [0, 6, 0], opacity: [.45, 1, .45] }} transition={{ duration: 1.7, repeat: Infinity }} className="mt-2 text-xl text-[#ffd88a]">↓</motion.div>
             </div>
             {['left-3 top-[24%]','right-3 top-[24%]'].map((p,i)=><TempleBell key={p} className={`absolute ${p}`} delay={i*.2}/>) }
