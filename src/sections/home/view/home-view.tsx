@@ -6,9 +6,16 @@ import { LetterAnimation } from '@/components';
 import { HeroSection, CoupleIntroduction, WeddingDetailsCard, CountdownTimer, VenueInformation, EventSchedule, RSVP, GalleryPreview, ClosingMessage, FloatingNavigation, NavigationFAB, MusicPlayer, ScrollProgressIndicator } from '../components';
 import { NAVIGATION_SECTIONS, WEDDING_CONFIG } from '@/constants';
 
+const BACKGROUND_SOURCES = [
+  '/images/wedding-invitation-background.jpg',
+  '/assets/images/wedding-invitation-background.jpg',
+];
+
 export default function HomeView() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLetter, setShowLetter] = useState(true);
+  const [backgroundSource, setBackgroundSource] = useState(BACKGROUND_SOURCES[0]);
+  const [backgroundAttempt, setBackgroundAttempt] = useState(0);
   const activeSection = useScrollSpy(NAVIGATION_SECTIONS.map((section) => section.id));
 
   useEffect(() => {
@@ -23,18 +30,26 @@ export default function HomeView() {
     return <LetterAnimation onOpen={handleLetterOpen} coupleName="Chayan & Divya" />;
   }
 
+  const handleBackgroundError = () => {
+    const nextAttempt = backgroundAttempt + 1;
+    if (nextAttempt < BACKGROUND_SOURCES.length) {
+      setBackgroundAttempt(nextAttempt);
+      setBackgroundSource(BACKGROUND_SOURCES[nextAttempt]);
+    }
+  };
+
   return (
     <div className="relative isolate min-h-screen overflow-x-clip text-[#3d2420]">
-      {/* Persistent invitation artwork. Keep this at z-0 rather than a negative z-index
-          so it cannot fall behind the document/background stacking context. */}
+      {/* Full-invitation scenic background. Supports both common Next.js public paths. */}
       <img
-        src="/assets/images/wedding-invitation-background.jpg"
+        src={backgroundSource}
         alt=""
         aria-hidden="true"
+        onError={handleBackgroundError}
+        decoding="async"
         className="pointer-events-none fixed inset-0 z-0 h-full w-full object-cover object-center"
       />
-      {/* Readability veil: intentionally translucent so the floral, bell and diya artwork remains visible. */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[1] bg-[#fff8e8]/34" />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[1] bg-[#fff8e8]/20" />
 
       <div className="relative z-10">
         <FloatingNavigation activeSection={activeSection} onScrollToSection={scrollToSection} />
