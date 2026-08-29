@@ -3,88 +3,39 @@
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
+import { Diya, Lotus, OrnamentalDivider, SectionBackdrop } from '@/components/indian-ornaments';
 
-interface ClosingMessageProps {
-  bride: string;
-  groom: string;
-}
+interface ClosingMessageProps { bride: string; groom: string; }
 
 export const ClosingMessage = ({ bride, groom }: ClosingMessageProps) => {
   const { t } = useTranslation('home');
-
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: .2 });
 
   return (
-    <div
-      ref={ref}
-      className="py-20 px-4 bg-gradient-to-br from-rose-100 to-pink-200"
-    >
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
-          transition={{ duration: 0.8 }}
-          className="mb-12"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-gray-800 mb-6">
-            {t('closing-message.title')}
-          </h2>
-          <div className="w-24 h-px bg-rose-500 mx-auto mb-8"></div>
+    <SectionBackdrop className="bg-[#7b1e1e] text-[#fff9ed]">
+      <div ref={ref} className="relative px-4 py-28 text-center sm:py-36">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }} transition={{ duration: .8 }}>
+          <p className="font-serif text-sm uppercase tracking-[.35em] text-[#d7b76b]">Until we meet under the mandap</p>
+          <div className="my-7"><OrnamentalDivider /></div>
+          <h2 className="font-serif text-4xl text-[#fff9ed] sm:text-5xl md:text-6xl">{t('closing-message.title')}</h2>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.9 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl border border-white/40 mb-12"
-        >
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-700 leading-relaxed mb-6 font-light">
-            &quot;{t('closing-message.quote')}&quot;
-          </p>
-          <div className="text-base sm:text-lg text-gray-600">
-            {t('closing-message.with-love')}
-          </div>
-          <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-rose-600 mt-2">
-            {groom} & {bride}
-          </div>
+        <motion.div initial={{ opacity: 0, scale: .94 }} animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : .94 }} transition={{ duration: .9, delay: .15 }} className="mx-auto mt-12 max-w-3xl rounded-[2rem] border border-[#d7b76b]/30 bg-[#5e1717]/40 px-7 py-10 shadow-2xl backdrop-blur-sm sm:px-12">
+          <p className="font-serif text-xl italic leading-relaxed text-[#f9ead4] sm:text-2xl md:text-3xl">“{t('closing-message.quote')}”</p>
+          <div className="mx-auto my-7 h-px w-20 bg-[#d7b76b]/60" />
+          <p className="text-xs uppercase tracking-[.3em] text-[#d7b76b]">{t('closing-message.with-love')}</p>
+          <p className="mt-3 font-serif text-3xl text-[#fff9ed]">{groom} &amp; {bride}</p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="space-y-6"
-        >
-          <div className="flex justify-center space-x-4 text-2xl sm:text-3xl md:text-4xl">
-            <span className="animate-bounce">💕</span>
-            <span className="animate-bounce" style={{ animationDelay: '0.1s' }}>
-              💖
-            </span>
-            <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>
-              💕
-            </span>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }} transition={{ duration: .8, delay: .45 }} className="mt-14 flex flex-col items-center">
+          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-[#d7b76b]/50 bg-[#5e1717] shadow-[0_0_60px_rgba(215,183,107,.12)]">
+            <Diya className="h-20 w-20 text-[#d7b76b]" />
           </div>
-
-          <p className="text-sm sm:text-base text-gray-600">
-            #FiqriAndMio2025 #LoveWins #ForeverStartsNow
-          </p>
-        </motion.div>
-
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: inView ? 1 : 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 pt-8 border-t border-white/40"
-        >
-          <p className="text-xs sm:text-sm text-gray-500">
-            Questions? Contact us at wedding@fihaa.my.id
-          </p>
+          <Lotus className="mt-5 h-12 w-24 text-[#d7b76b]" />
+          <p className="mt-5 font-serif text-sm tracking-[.22em] text-[#f4dfbd]">शुभमस्तु · सर्वमंगलम्</p>
+          <p className="mt-3 text-xs text-[#e6ccb0]/75">With gratitude for being part of our celebration.</p>
         </motion.div>
       </div>
-    </div>
+    </SectionBackdrop>
   );
 };
