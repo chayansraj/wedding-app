@@ -1,0 +1,1 @@
+Temporary asset marker. The actual JPEG should be copied locally from the provided file.
