@@ -1,12 +1,13 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #fff8e8;
-  --foreground: #4b211d;
+  --background: #fff9ed;
+  --foreground: #2d2020;
   --primary: #8b1e1e;
-  --secondary: #c89b3c;
+  --secondary: #b08a3a;
   --tertiary: #7b1e1e;
   --accent-light: #f5e2b7;
+  --paper: #fffdf5;
 }
 
 @theme inline {
@@ -17,62 +18,23 @@
   --color-tertiary: var(--tertiary);
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--background);
-}
+html { scroll-behavior: smooth; background: var(--background); }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: Georgia, 'Times New Roman', serif; text-rendering: optimizeLegibility; }
+*, *::before, *::after { box-sizing: border-box; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(176, 138, 58, .25); color: #5b201c; }
 
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Georgia, 'Times New Roman', serif;
-  text-rendering: optimizeLegibility;
-}
+.accent-gold { color: var(--secondary); }
+.bg-accent-gold { background-color: var(--secondary); }
+.accent-maroon { color: var(--primary); }
+.bg-accent-maroon { background-color: var(--primary); }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-::selection {
-  background: rgba(200, 155, 60, 0.28);
-  color: #5b201c;
-}
-
-.accent-gold {
-  color: var(--secondary);
-}
-
-.bg-accent-gold {
-  background-color: var(--secondary);
-}
-
-.accent-maroon {
-  color: var(--primary);
-}
-
-.bg-accent-maroon {
-  background-color: var(--primary);
-}
+.label { display: block; margin-bottom: .55rem; font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #765c4e; }
+.input { width: 100%; border: 1px solid rgba(176,138,58,.32); border-radius: .9rem; background: #fffaf0; padding: .82rem 1rem; color: #382622; outline: none; transition: border-color .2s, box-shadow .2s, background .2s; }
+.input::placeholder { color: #aa9588; }
+.input:focus { border-color: #8b1e1e; background: #fffdf5; box-shadow: 0 0 0 3px rgba(139,30,30,.08); }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
