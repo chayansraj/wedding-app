@@ -1,33 +1,13 @@
 export const fallbackLng = 'en';
-export const languages = ['id', 'en'];
+export const languages = ['en', 'hi'];
 export const defaultNS = 'common';
 export const cookieName = 'i18next';
 
-// ----------------------------------------------------------------------
-
 export function i18nOptions(lng = fallbackLng, ns = defaultNS) {
-  return {
-    // debug: true,
-    lng,
-    fallbackLng,
-    ns,
-    defaultNS,
-    fallbackNS: defaultNS,
-    supportedLngs: languages,
-  };
+  return { lng, fallbackLng, ns, defaultNS, fallbackNS: defaultNS, supportedLngs: languages };
 }
 
-// ----------------------------------------------------------------------
-
 export const changeLangMessages = {
-  id: {
-    success: 'Bahasa telah diubah!',
-    error: 'Kesalahan saat mengubah bahasa!',
-    loading: 'Memuat...',
-  },
-  en: {
-    success: 'Language has been changed!',
-    error: 'Error changing language!',
-    loading: 'Loading...',
-  },
+  en: { success: 'Language changed to English.', error: 'Could not change language.', loading: 'Changing language...' },
+  hi: { success: 'भाषा हिंदी में बदल दी गई।', error: 'भाषा बदलने में समस्या हुई।', loading: 'भाषा बदली जा रही है...' },
 };
