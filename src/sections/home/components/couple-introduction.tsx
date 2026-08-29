@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
+import { Lotus, OrnamentalDivider, SectionBackdrop } from '@/components/indian-ornaments';
 
 interface CoupleIntroductionProps {
   bride: WeddingConfigType['bride'];
@@ -12,166 +13,93 @@ interface CoupleIntroductionProps {
   isVisible: boolean;
 }
 
-export const CoupleIntroduction = ({
-  bride,
-  groom,
-}: CoupleIntroductionProps) => {
+export const CoupleIntroduction = ({ bride, groom }: CoupleIntroductionProps) => {
   const { t } = useTranslation('home');
-
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.18 });
 
   return (
-    <div
-      ref={ref}
-      className="py-20 px-4 bg-gradient-to-b from-white to-rose-50/30"
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-gray-800 mb-4">
-            {t('couple.our-story')}
-          </h2>
-          <div className="w-24 h-px bg-rose-400 mx-auto"></div>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 mt-6 max-w-2xl mx-auto">
-            {t('couple.story-text')}
-          </p>
-        </motion.div>
-
-        {/* Couple Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Bride Card */}
+    <SectionBackdrop>
+      <div ref={ref} className="px-4 py-24 sm:py-28">
+        <div className="mx-auto max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -50 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center lg:text-right"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 28 }}
+            transition={{ duration: 0.8 }}
+            className="mb-16 text-center"
           >
-            <div className="relative inline-block mb-6">
-              <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-gradient-to-br from-rose-100 to-pink-200 rounded-full flex items-center justify-center text-6xl sm:text-7xl md:text-8xl lg:text-9xl shadow-2xl border-8 border-white">
-                <Image
-                  src={bride.photo}
-                  alt={`${bride.fullName}'s photo`}
-                  width={256}
-                  height={256}
-                  className="rounded-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-rose-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-xl sm:text-2xl">👸</span>
-              </div>
-            </div>
-
-            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-gray-800 mb-2">
-              {bride.fullName}
-            </h3>
-            <p className="text-base sm:text-lg md:text-xl text-rose-600 mb-4 font-medium">
-              {t('couple.the-bride')}
-            </p>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-md mx-auto lg:mx-0 lg:ml-auto">
-              {t('couple.bride-description')}
-            </p>
-
-            {/* Decorative Elements */}
-            <div className="mt-6 flex justify-center lg:justify-end space-x-2">
-              <div className="w-2 h-2 bg-rose-300 rounded-full"></div>
-              <div className="w-2 h-2 bg-rose-400 rounded-full"></div>
-              <div className="w-2 h-2 bg-rose-500 rounded-full"></div>
-            </div>
+            <p className="mb-4 font-serif text-sm uppercase tracking-[0.35em] text-[#8b1e1e]">Together with our families</p>
+            <h2 className="font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('couple.our-story')}</h2>
+            <div className="mx-auto mt-6"><OrnamentalDivider /></div>
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#6e5c55] sm:text-lg">{t('couple.story-text')}</p>
           </motion.div>
 
-          {/* Heart Divider (Desktop) */}
-          <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+          <div className="relative grid items-start gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: inView ? 1 : 0, rotate: inView ? 0 : -180 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-xl border-4 border-rose-100"
+              initial={{ opacity: 0, x: -45 }}
+              animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -45 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="text-center"
             >
-              <span className="text-xl sm:text-2xl md:text-3xl animate-pulse">
-                💖
-              </span>
+              <div className="mx-auto mb-7 w-fit">
+                <div className="relative h-64 w-64 sm:h-72 sm:w-72">
+                  <div className="absolute inset-0 rounded-full border border-[#b08a3a]/70 p-2" />
+                  <div className="absolute inset-3 rounded-full border border-[#b08a3a]/35 p-2" />
+                  <div className="absolute inset-6 overflow-hidden rounded-full border-4 border-[#fff9ed] shadow-[0_18px_45px_rgba(85,35,20,.18)]">
+                    <Image src={bride.photo} alt={`${bride.fullName}'s photo`} fill className="object-cover" sizes="288px" />
+                  </div>
+                  <Lotus className="absolute -bottom-5 left-1/2 h-12 w-24 -translate-x-1/2 text-[#b08a3a]" />
+                </div>
+              </div>
+              <p className="font-serif text-sm uppercase tracking-[0.3em] text-[#b08a3a]">The Bride</p>
+              <h3 className="mt-2 font-serif text-4xl text-[#7b1e1e] sm:text-5xl">{bride.fullName}</h3>
+              <p className="mx-auto mt-4 max-w-sm text-sm leading-7 text-[#6e5c55]">{t('couple.bride-description')}</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: inView ? 1 : 0, opacity: inView ? 1 : 0 }}
+              transition={{ duration: 0.9, delay: 0.35, type: 'spring' }}
+              className="flex items-center justify-center lg:pt-32"
+            >
+              <div className="flex h-24 w-24 items-center justify-center rounded-full border border-[#b08a3a]/50 bg-[#fff9ed] shadow-[0_12px_35px_rgba(85,35,20,.12)]">
+                <span className="font-serif text-4xl text-[#8b1e1e]">ॐ</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 45 }}
+              animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 45 }}
+              transition={{ duration: 0.8, delay: 0.25 }}
+              className="text-center"
+            >
+              <div className="mx-auto mb-7 w-fit">
+                <div className="relative h-64 w-64 sm:h-72 sm:w-72">
+                  <div className="absolute inset-0 rounded-full border border-[#b08a3a]/70 p-2" />
+                  <div className="absolute inset-3 rounded-full border border-[#b08a3a]/35 p-2" />
+                  <div className="absolute inset-6 overflow-hidden rounded-full border-4 border-[#fff9ed] shadow-[0_18px_45px_rgba(85,35,20,.18)]">
+                    <Image src={groom.photo} alt={`${groom.fullName}'s photo`} fill className="object-cover" sizes="288px" />
+                  </div>
+                  <Lotus className="absolute -bottom-5 left-1/2 h-12 w-24 -translate-x-1/2 text-[#b08a3a]" />
+                </div>
+              </div>
+              <p className="font-serif text-sm uppercase tracking-[0.3em] text-[#b08a3a]">The Groom</p>
+              <h3 className="mt-2 font-serif text-4xl text-[#7b1e1e] sm:text-5xl">{groom.fullName}</h3>
+              <p className="mx-auto mt-4 max-w-sm text-sm leading-7 text-[#6e5c55]">{t('couple.groom-description')}</p>
             </motion.div>
           </div>
 
-          {/* Heart Divider (Mobile) */}
-          <div className="lg:hidden flex justify-center -my-6 z-10">
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: inView ? 1 : 0, rotate: inView ? 0 : -180 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl border-4 border-rose-100"
-            >
-              <span className="text-lg sm:text-xl md:text-2xl animate-pulse">
-                💖
-              </span>
-            </motion.div>
-          </div>
-
-          {/* Groom Card */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 50 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-center lg:text-left"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
+            className="mx-auto mt-20 max-w-3xl text-center"
           >
-            <div className="relative inline-block mb-6">
-              <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-full flex items-center justify-center text-6xl sm:text-7xl md:text-8xl lg:text-9xl shadow-2xl border-8 border-white">
-                <Image
-                  src={groom.photo}
-                  alt={`${groom.fullName}'s photo`}
-                  width={256}
-                  height={256}
-                  className="rounded-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-4 -left-4 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-blue-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-xl sm:text-2xl">🤴</span>
-              </div>
-            </div>
-
-            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-gray-800 mb-2">
-              {groom.fullName}
-            </h3>
-            <p className="text-base sm:text-lg md:text-xl text-blue-600 mb-4 font-medium">
-              {t('couple.the-groom')}
-            </p>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-md mx-auto lg:mx-0">
-              {t('couple.groom-description')}
-            </p>
-
-            {/* Decorative Elements */}
-            <div className="mt-6 flex justify-center lg:justify-start space-x-2">
-              <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
-              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-            </div>
+            <OrnamentalDivider />
+            <p className="mt-7 font-serif text-2xl italic leading-relaxed text-[#4a3530] sm:text-3xl">“{t('couple.love-quote')}”</p>
+            <p className="mt-4 text-xs uppercase tracking-[0.3em] text-[#b08a3a]">A new chapter begins</p>
           </motion.div>
         </div>
-
-        {/* Love Quote */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-16"
-        >
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto shadow-lg border border-white/40">
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-gray-700 italic mb-4">
-              {t('couple.love-quote')}
-            </p>
-            <p className="text-gray-500 text-xs sm:text-sm">— Clannad</p>
-          </div>
-        </motion.div>
       </div>
-    </div>
+    </SectionBackdrop>
   );
 };
