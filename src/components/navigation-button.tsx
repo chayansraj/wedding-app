@@ -1,9 +1,7 @@
-import { NAVIGATION_ANIMATIONS } from '@/constants/navigation';
-import type { NavigationSection } from '@/types/navigation';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
+import type { NavigationSection } from '@/types/navigation';
 
-// NavigationButton Component for better code organization
 interface NavigationButtonProps {
   section: NavigationSection;
   index: number;
@@ -11,114 +9,38 @@ interface NavigationButtonProps {
   onClick: () => void;
 }
 
-export function NavigationButton({
-  section,
-  index,
-  isActive,
-  onClick,
-}: NavigationButtonProps) {
+export function NavigationButton({ section, index, isActive, onClick }: NavigationButtonProps) {
   const { t } = useTranslation('home');
-
-  const baseClasses =
-    'relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 group overflow-hidden cursor-pointer';
-
-  const activeClasses = 'text-white shadow-lg';
-
-  const inactiveClasses =
-    'text-gray-600 hover:text-rose-500 hover:bg-rose-50/80';
 
   return (
     <motion.button
       onClick={onClick}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3, delay: 0.1 * index }}
-      whileHover={NAVIGATION_ANIMATIONS.button.hover}
-      whileTap={NAVIGATION_ANIMATIONS.button.tap}
-      className={`${baseClasses} ${isActive ? activeClasses : inactiveClasses}`}
+      initial={{ opacity: 0, y: -5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.06 * index }}
+      whileHover={{ y: -1 }}
+      whileTap={{ scale: 0.96 }}
+      className={`relative flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-2 text-xs font-semibold tracking-wide transition-all duration-300 sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm ${
+        isActive
+          ? 'bg-[#8b1e1e] text-[#fff8e8] shadow-[0_5px_16px_rgba(123,30,30,.22)]'
+          : 'text-[#6f4c3b] hover:bg-[#f5e5c6] hover:text-[#8b1e1e]'
+      }`}
+      aria-current={isActive ? 'page' : undefined}
     >
-      {/* Animated Background for Active State */}
-      <AnimatePresence>
-        {isActive && (
-          <motion.div
-            initial={NAVIGATION_ANIMATIONS.background.initial}
-            animate={NAVIGATION_ANIMATIONS.background.animate}
-            exit={NAVIGATION_ANIMATIONS.background.exit}
-            transition={NAVIGATION_ANIMATIONS.background.transition}
-            className={`absolute inset-0 bg-gradient-to-r ${section.gradient} rounded-lg sm:rounded-xl`}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Glow Effect for Active State */}
-      <AnimatePresence>
-        {isActive && (
-          <motion.div
-            initial={NAVIGATION_ANIMATIONS.background.initial}
-            animate={{ scale: 1.2, opacity: 0.3 }}
-            exit={NAVIGATION_ANIMATIONS.background.exit}
-            transition={{ duration: 0.3 }}
-            className={`absolute inset-0 bg-gradient-to-r ${section.gradient} rounded-lg sm:rounded-xl blur-sm -z-10`}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Icon with Bounce Animation */}
       <motion.span
-        className="text-sm sm:text-base relative z-10"
-        animate={isActive ? NAVIGATION_ANIMATIONS.icon.active : {}}
-        transition={NAVIGATION_ANIMATIONS.icon.transition}
-        whileHover={NAVIGATION_ANIMATIONS.icon.hover}
+        animate={isActive ? { scale: [1, 1.12, 1] } : {}}
+        transition={{ duration: 1.8, repeat: Infinity }}
+        className="relative z-10 text-sm sm:text-base"
       >
         {section.icon}
       </motion.span>
-
-      {/* Label with Slide Animation */}
-      <motion.span
-        className="hidden sm:inline-block whitespace-nowrap relative z-10 text-xs sm:text-sm"
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 * index }}
-      >
+      <span className="relative z-10 hidden whitespace-nowrap sm:inline-block">
         {
-          // @ts-expect-error - err
+          // @ts-expect-error Translation keys are defined by the locale files.
           t(section.labelKey)
         }
-      </motion.span>
-
-      {/* Active Indicator Dot with Pulse */}
-      <AnimatePresence>
-        {isActive && (
-          <motion.div
-            initial={NAVIGATION_ANIMATIONS.background.initial}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={NAVIGATION_ANIMATIONS.background.exit}
-            transition={NAVIGATION_ANIMATIONS.background.transition}
-            className="absolute -bottom-0.5 sm:-bottom-1 left-1/2 -translate-x-1/2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-white rounded-full shadow-lg z-10"
-          >
-            <motion.div
-              animate={NAVIGATION_ANIMATIONS.pulse.animate}
-              transition={NAVIGATION_ANIMATIONS.pulse.transition}
-              className="w-full h-full bg-white rounded-full"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Hover Ripple Effect */}
-      <motion.div
-        className="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle at center, ${getRippleColor(
-            section.gradient
-          )} 0%, transparent 70%)`,
-        }}
-      />
+      </span>
+      {isActive && <span className="absolute bottom-1 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-[#e6c46b]" />}
     </motion.button>
   );
 }
-
-// Helper function to get ripple color
-const getRippleColor = (gradient: string): string => {
-  return gradient.includes('rose') ? '#f43f5e' : '#8b5cf6';
-};
