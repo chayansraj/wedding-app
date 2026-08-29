@@ -3,123 +3,50 @@
 import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
+import { Lotus, OrnamentalDivider, SectionBackdrop } from '@/components/indian-ornaments';
 
 export const GalleryPreview = () => {
   const { t } = useTranslation('home');
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: .12 });
 
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  });
-
-  // Mock gallery images
-  const galleryImages = [
-    {
-      id: 1,
-      category: 'engagement',
-      emoji: '💕',
-      description: t('gallery.engagement'),
-    },
-    {
-      id: 2,
-      category: 'travel',
-      emoji: '✈️',
-      description: t('gallery.travel'),
-    },
-    {
-      id: 3,
-      category: 'date',
-      emoji: '🌹',
-      description: t('gallery.date'),
-    },
-    {
-      id: 4,
-      category: 'proposal',
-      emoji: '💍',
-      description: t('gallery.proposal'),
-    },
-    {
-      id: 5,
-      category: 'family',
-      emoji: '👨‍👩‍👧‍👦',
-      description: t('gallery.family'),
-    },
-    {
-      id: 6,
-      category: 'friends',
-      emoji: '🎉',
-      description: t('gallery.friends'),
-    },
+  const memories = [
+    ['engagement', t('gallery.engagement'), 'A moment that began it all'],
+    ['travel', t('gallery.travel'), 'Adventures together'],
+    ['date', t('gallery.date'), 'Little moments, forever'],
+    ['proposal', t('gallery.proposal'), 'A promise for a lifetime'],
+    ['family', t('gallery.family'), 'Two families, one celebration'],
+    ['friends', t('gallery.friends'), 'The people who make it special'],
   ];
 
   return (
-    <div
-      ref={ref}
-      className="py-20 px-4 bg-gradient-to-br from-gray-50 to-rose-50"
-    >
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-gray-800 mb-4">
-            {t('gallery.journey-title')}
-          </h2>
-          <div className="w-24 h-px bg-rose-400 mx-auto mb-6"></div>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            {t('gallery.journey-subtitle')}
-          </p>
-        </motion.div>
+    <SectionBackdrop className="bg-[#f8f0e1]">
+      <div ref={ref} className="px-4 py-24 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">
+            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">Our memories</p>
+            <h2 className="mt-3 font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('gallery.journey-title')}</h2>
+            <div className="mt-6"><OrnamentalDivider /></div>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#6e5c55]">{t('gallery.journey-subtitle')}</p>
+          </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {galleryImages.map((image, index) => (
-            <motion.div
-              key={image.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.8 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative aspect-square bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 cursor-pointer"
-            >
-              {/* Image placeholder with emoji */}
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-100 to-pink-200 flex items-center justify-center">
-                <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl opacity-50 group-hover:scale-110 transition-transform duration-300">
-                  {image.emoji}
-                </span>
-              </div>
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end">
-                <div className="p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <p className="text-xs sm:text-sm md:text-base font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    {image.description}
-                  </p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {memories.map(([key, description, caption], index) => (
+              <motion.div key={key} initial={{ opacity: 0, y: 35, rotate: index % 2 ? 1.2 : -1.2 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 35, rotate: inView ? (index % 2 ? 1.2 : -1.2) : 0 }} transition={{ duration: .65, delay: index * .08 }} className="group rounded-sm bg-[#fffdf5] p-3 shadow-[0_15px_40px_rgba(83,42,24,.12)]">
+                <div className="relative aspect-[4/3] overflow-hidden border border-[#b08a3a]/25 bg-[linear-gradient(135deg,#f1dfbd,#f8eee0)]">
+                  <div className="absolute inset-5 border border-[#b08a3a]/35" />
+                  <Lotus className="absolute left-1/2 top-1/2 h-20 w-32 -translate-x-1/2 -translate-y-1/2 text-[#8b1e1e]/40 transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute bottom-4 left-0 right-0 text-center font-serif text-lg text-[#7b1e1e]">{description}</div>
                 </div>
-              </div>
-
-              {/* Decorative corner */}
-              <div className="absolute top-2 right-2 w-6 h-6 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </motion.div>
-          ))}
+                <div className="px-2 pb-2 pt-4 text-center">
+                  <p className="font-serif text-lg text-[#2d2020]">{caption}</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[.25em] text-[#b08a3a]">{key}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <p className="mt-10 text-center text-xs text-[#8c7568]">Replace these album frames with your wedding photographs in <code className="rounded bg-[#efe2cd] px-1.5 py-0.5">public/</code> when ready.</p>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-12"
-        >
-          <button className="bg-white text-gray-700 px-8 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-rose-300 group text-sm sm:text-base">
-            <span className="flex items-center space-x-2">
-              <span>{t('gallery.view-full')}</span>
-              <span className="group-hover:translate-x-1 transition-transform duration-300">
-                📸
-              </span>
-            </span>
-          </button>
-        </motion.div>
       </div>
-    </div>
+    </SectionBackdrop>
   );
 };
