@@ -24,21 +24,31 @@ export default function HomeView() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-transparent text-[#3d2420]">
-      <div aria-hidden="true" className="wedding-background" />
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-[9] bg-[#fff8e8]/30" />
+    <div className="relative isolate min-h-screen overflow-x-clip text-[#3d2420]">
+      {/* Persistent invitation artwork. Keep this at z-0 rather than a negative z-index
+          so it cannot fall behind the document/background stacking context. */}
+      <img
+        src="/assets/images/wedding-invitation-background.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 h-full w-full object-cover object-center"
+      />
+      {/* Readability veil: intentionally translucent so the floral, bell and diya artwork remains visible. */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[1] bg-[#fff8e8]/34" />
 
-      <FloatingNavigation activeSection={activeSection} onScrollToSection={scrollToSection} />
-      <section id="hero" className="relative bg-transparent"><HeroSection isLoaded={isLoaded} couple={WEDDING_CONFIG} onScrollToSection={scrollToSection} /></section>
-      <section id="couple" className="relative bg-transparent"><CoupleIntroduction bride={WEDDING_CONFIG.bride} groom={WEDDING_CONFIG.groom} isVisible={isLoaded} /></section>
-      <section id="details" className="relative bg-transparent"><WeddingDetailsCard date={WEDDING_CONFIG.date} venue={WEDDING_CONFIG.venue} /><CountdownTimer targetDate={WEDDING_CONFIG.date} /></section>
-      <section id="venue" className="relative bg-transparent"><VenueInformation venue={WEDDING_CONFIG.venue} /><EventSchedule /></section>
-      <section id="gallery" className="relative bg-transparent"><GalleryPreview /></section>
-      <section id="rsvp" className="relative bg-transparent"><RSVP /></section>
-      <section id="closing" className="relative bg-transparent"><ClosingMessage bride={WEDDING_CONFIG.bride.fullName} groom={WEDDING_CONFIG.groom.fullName} /></section>
-      <MusicPlayer />
-      <NavigationFAB activeSection={activeSection} onScrollToSection={scrollToSection} />
-      <ScrollProgressIndicator activeSection={activeSection} />
+      <div className="relative z-10">
+        <FloatingNavigation activeSection={activeSection} onScrollToSection={scrollToSection} />
+        <section id="hero" className="relative bg-transparent"><HeroSection isLoaded={isLoaded} couple={WEDDING_CONFIG} onScrollToSection={scrollToSection} /></section>
+        <section id="couple" className="relative bg-transparent"><CoupleIntroduction bride={WEDDING_CONFIG.bride} groom={WEDDING_CONFIG.groom} isVisible={isLoaded} /></section>
+        <section id="details" className="relative bg-transparent"><WeddingDetailsCard date={WEDDING_CONFIG.date} venue={WEDDING_CONFIG.venue} /><CountdownTimer targetDate={WEDDING_CONFIG.date} /></section>
+        <section id="venue" className="relative bg-transparent"><VenueInformation venue={WEDDING_CONFIG.venue} /><EventSchedule /></section>
+        <section id="gallery" className="relative bg-transparent"><GalleryPreview /></section>
+        <section id="rsvp" className="relative bg-transparent"><RSVP /></section>
+        <section id="closing" className="relative bg-transparent"><ClosingMessage bride={WEDDING_CONFIG.bride.fullName} groom={WEDDING_CONFIG.groom.fullName} /></section>
+        <MusicPlayer />
+        <NavigationFAB activeSection={activeSection} onScrollToSection={scrollToSection} />
+        <ScrollProgressIndicator activeSection={activeSection} />
+      </div>
     </div>
   );
 }
