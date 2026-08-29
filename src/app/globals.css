@@ -1,29 +1,48 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Indian Wedding Theme */
+  --background: #FFFAF0;           /* Floral White */
+  --foreground: #2D1B2E;           /* Dark Plum */
+  --primary: #8B0000;              /* Deep Maroon */
+  --secondary: #FFD700;            /* Gold */
+  --tertiary: #722F37;             /* Deep Red */
+  --accent-light: #FFE4B5;         /* Moccasin */
+  --font-poppins: 'Serif', 'Georgia', serif; /* Traditional serif for weddings */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-poppins: var(--font-poppins);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, var(--background) 0%, #FFF8F0 100%);
   color: var(--foreground);
-  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+  font-family: 'Georgia', 'Garamond', serif;
 }
 
 * {
-  font-family: var(--font-poppins);
+  font-family: 'Georgia', 'Garamond', serif;
+}
+
+/* Gold accent for highlights */
+.accent-gold {
+  color: var(--secondary);
+}
+
+.bg-accent-gold {
+  background-color: var(--secondary);
+}
+
+/* Deep maroon primary */
+.accent-maroon {
+  color: var(--primary);
+}
+
+.bg-accent-maroon {
+  background-color: var(--primary);
 }

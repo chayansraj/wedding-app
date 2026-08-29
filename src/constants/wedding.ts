@@ -1,20 +1,20 @@
 export const WEDDING_CONFIG = {
-  date: new Date('2025-10-15T16:00:00'),
+  date: new Date('2026-11-24T19:00:00'),
   bride: {
-    name: 'Mio',
-    fullName: 'Akiyama Mio',
+    name: 'Divya',
+    fullName: 'Divya Vashishtha',
     photo: '/assets/images/bride-circle.png',
   },
   groom: {
-    name: 'Fiqri',
-    fullName: 'M Fiqri Haikhar Anwar',
+    name: 'Chayan',
+    fullName: 'Chayan Shrang Raj',
     photo: '/assets/images/groom-circle.png',
   },
   venue: {
     ceremony: {
-      name: 'Masjid Songkok Recca Bone',
-      address: 'Jl. Jend. Ahmad Yani',
-      time: '4:00 PM',
+      name: 'The Saffron',
+      address: 'Karkarduma, New Delhi',
+      time: '7:00 PM Onwards',
     },
     reception: {
       name: 'Hotel Novena Bone',

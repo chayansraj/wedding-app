@@ -27,16 +27,16 @@ export const LetterAnimation = ({
     setIsOpening(true);
     setTimeout(() => {
       onOpen();
-    }, 2500);
+    }, 8000); // 8 seconds: 1s blur + 5s letter display + 2s loading
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 overflow-hidden">
+    <div className="fixed inset-0 z-80 bg-gradient-to-br from-amber-50 via-yellow-50 to-red-50 overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute inset-0">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-rose-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-yellow-200/20 rounded-full blur-3xl"></div>
       </div>
 
       {/* Floating Hearts */}
@@ -57,7 +57,7 @@ export const LetterAnimation = ({
               ease: 'linear',
               delay: i * 1.5,
             }}
-            className="absolute text-rose-300"
+            className="absolute text-amber-300"
             style={{
               left: `${10 + i * 15}%`,
             }}
@@ -67,23 +67,23 @@ export const LetterAnimation = ({
         ))}
       </div>
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6">
         <div className="text-center">
-          {/* Greeting Text */}
+          {/* Greeting Text - Hidden when opening */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="mb-8 sm:mb-12"
+            animate={{ opacity: isOpening ? 0 : 1, y: isOpening ? 30 : 0 }}
+            transition={{ duration: 1, delay: isOpening ? 0 : 0.5 }}
+            className="mb-3 sm:mb-4 md:mb-6"
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-gray-800 mb-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-red-800 mb-3 sm:mb-4">
               {t('hero.welcome')}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-md mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-md mx-auto px-2">
               {toName ? (
                 <>
                   {t('letter.dear')}{' '}
-                  <span className="font-medium text-rose-600">{toName}</span>
+                  <span className="font-medium text-red-700">{toName}</span>
                   <br />
                   {t('letter.you-are-invited')}
                 </>
@@ -93,133 +93,119 @@ export const LetterAnimation = ({
             </p>
           </motion.div>
 
-          {/* Letter Animation */}
+          {/* Invitation Image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 1 }}
-            className="relative mx-auto"
-            style={{ perspective: '1000px' }}
+            className="relative mx-auto w-full max-w-xs sm:max-w-xs md:max-w-sm"
           >
             <motion.div
               className="relative cursor-pointer"
               onClick={handleClick}
               onHoverStart={() => setIsHovered(true)}
               onHoverEnd={() => setIsHovered(false)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={!isOpening ? { scale: 1.05 } : {}}
+              whileTap={!isOpening ? { scale: 0.95 } : {}}
             >
-              {/* Envelope Back */}
+              {/* Invitation Image */}
               <motion.div
-                className="w-80 h-56 sm:w-96 sm:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-lg shadow-2xl relative mx-auto"
+                className="relative w-full aspect-square rounded-lg overflow-hidden shadow-2xl"
                 animate={{
-                  rotateY: isOpening ? 15 : 0,
-                  z: isOpening ? -50 : 0,
+                  filter: isOpening ? 'blur(20px)' : 'blur(0px)',
                 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1 }}
               >
-                {/* Envelope Pattern */}
-                <div className="absolute inset-4 border-2 border-rose-300/30 rounded border-dashed"></div>
-
-                {/* Wax Seal */}
-                <motion.div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full shadow-lg flex items-center justify-center"
-                  animate={{
-                    scale: isHovered ? 1.1 : 1,
-                    rotate: isHovered ? 5 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="text-white text-xl font-bold">💌</div>
-                </motion.div>
-
-                {/* Envelope Flap */}
-                <motion.div
-                  className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-rose-300 to-pink-400 origin-top"
-                  style={{
-                    clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
-                  }}
-                  animate={{
-                    rotateX: isOpening ? -180 : 0,
-                    z: isOpening ? 50 : 0,
-                  }}
-                  transition={{ duration: 1, delay: isOpening ? 0.2 : 0 }}
+                <img
+                  src="/assets/images/ChatGPT Image Jun 9, 2026, 09_55_48 PM.png"
+                  alt="Wedding invitation"
+                  className="w-full h-full object-cover"
                 />
               </motion.div>
 
-              {/* Letter Inside */}
+              {/* Click Instruction Overlay */}
               <AnimatePresence>
-                {isOpening && (
+                {!isOpening && (
                   <motion.div
-                    initial={{ y: 0, opacity: 0, scale: 0.8 }}
-                    animate={{ y: -40, opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className="absolute top-8 left-1/2 -translate-x-1/2 w-72 h-54 sm:w-80 sm:h-58 bg-gradient-to-br from-yellow-50 to-white rounded-lg shadow-xl border border-rose-200"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center"
                   >
-                    <div className="p-6 sm:p-8 h-full flex flex-col justify-center text-center">
-                      <div className="text-rose-500 text-2xl sm:text-3xl mb-4">
-                        💕
-                      </div>
-                      {toName && (
-                        <p className="text-sm sm:text-base text-gray-600 mb-2">
-                          {t('letter.to')}:{' '}
-                          <span className="font-medium text-rose-600">
-                            {toName}
-                          </span>
-                        </p>
-                      )}
-                      <h3 className="text-lg sm:text-xl font-serif text-gray-800 mb-2">
-                        {coupleName}
-                      </h3>
-                      <p className="text-sm sm:text-base text-gray-600 mb-4">
-                        {t('letter.invitation-title')}
-                      </p>
-                      <div className="text-xs sm:text-sm text-gray-500 font-serif italic">
-                        &ldquo;{t('letter.invitation-quote')}&rdquo;
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Sparkle Effects */}
-              <AnimatePresence>
-                {isHovered && !isOpening && (
-                  <>
-                    {[...Array(8)].map((_, i) => (
+                    {isHovered && (
                       <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{
-                          opacity: [0, 1, 0],
-                          scale: [0, 1, 0],
-                          x: [0, (Math.random() - 0.5) * 100],
-                          y: [0, (Math.random() - 0.5) * 100],
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 1.5,
-                          delay: i * 0.1,
-                          repeat: Infinity,
-                          repeatDelay: 2,
-                        }}
-                        className="absolute top-1/2 left-1/2 text-yellow-400 text-sm pointer-events-none"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-black/40 backdrop-blur-sm rounded-lg px-4 py-2 text-white text-xs sm:text-sm font-medium"
                       >
-                        ✨
+                        {t('letter.click-to-open-hover')}
                       </motion.div>
-                    ))}
-                  </>
+                    )}
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
           </motion.div>
+
+          {/* Letter Inside - Appears on blur */}
+          <AnimatePresence>
+            {isOpening && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="absolute inset-0 flex items-center justify-center z-50 p-4"
+              >
+                <motion.div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl shadow-2xl border-2 border-amber-200 overflow-hidden">
+                  {/* Letter Background */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-red-200 rounded-full blur-3xl"></div>
+                  </div>
+
+                  {/* Letter Content */}
+                  <div className="relative p-6 sm:p-8 md:p-10 text-center">
+                    {/* Ornamental Top */}
+                    <div className="text-3xl sm:text-4xl mb-4 text-amber-600">✦</div>
+
+                    {/* Letter Content */}
+                    <div className="space-y-4">
+                      {toName && (
+                        <p className="text-base sm:text-lg text-amber-900 font-serif">
+                          {t('letter.dear')} <span className="font-bold text-red-700">{toName}</span>
+                        </p>
+                      )}
+
+                      <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-red-800 mb-2">
+                        {coupleName}
+                      </h2>
+
+                      <p className="text-sm sm:text-base text-amber-900 font-serif leading-relaxed max-w-sm mx-auto">
+                        {t('letter.invitation-title')}
+                      </p>
+
+                      <div className="pt-4 pb-2">
+                        <p className="text-base sm:text-lg font-serif italic text-red-700">
+                          &ldquo;{t('letter.invitation-quote')}&rdquo;
+                        </p>
+                      </div>
+
+                      {/* Ornamental Bottom */}
+                      <div className="text-2xl sm:text-3xl text-amber-600">✦</div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Click Instruction */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: isOpening ? 0 : 1 }}
             transition={{ duration: 0.5, delay: 2 }}
-            className="mt-8 sm:mt-12"
+            className="mt-3 sm:mt-4 md:mt-6"
           >
             <motion.p
               animate={{
@@ -231,13 +217,11 @@ export const LetterAnimation = ({
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
-              className="text-sm sm:text-base text-gray-600 font-medium"
+              className="text-xs sm:text-sm text-gray-600 font-medium"
             >
-              {isHovered
-                ? t('letter.click-to-open-hover')
-                : t('letter.click-to-open')}
+              {t('letter.click-to-open')}
             </motion.p>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-3 sm:mt-4">
               <motion.div
                 animate={{
                   scale: [1, 1.2, 1],
@@ -248,7 +232,7 @@ export const LetterAnimation = ({
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="text-2xl"
+                className="text-xl sm:text-2xl"
               >
                 👆
               </motion.div>
@@ -263,16 +247,16 @@ export const LetterAnimation = ({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1 }}
-            className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center"
+            transition={{ duration: 0.5, delay: 5.5 }}
+            className="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-40"
           >
             <div className="text-center">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                className="w-12 h-12 border-4 border-rose-200 border-t-rose-500 rounded-full mx-auto mb-4"
+                className="w-12 h-12 border-4 border-amber-200 border-t-red-700 rounded-full mx-auto mb-4"
               />
-              <p className="text-gray-600 text-lg font-medium">
+              <p className="text-red-700 text-lg font-serif font-medium">
                 {t('letter.opening-the-invitation')}
               </p>
             </div>
