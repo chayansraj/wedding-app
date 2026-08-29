@@ -1,14 +1,12 @@
 @import 'tailwindcss';
 
 :root {
-  /* Indian Wedding Theme */
-  --background: #FFFAF0;           /* Floral White */
-  --foreground: #2D1B2E;           /* Dark Plum */
-  --primary: #8B0000;              /* Deep Maroon */
-  --secondary: #FFD700;            /* Gold */
-  --tertiary: #722F37;             /* Deep Red */
-  --accent-light: #FFE4B5;         /* Moccasin */
-  --font-poppins: 'Serif', 'Georgia', serif; /* Traditional serif for weddings */
+  --background: #fff8e8;
+  --foreground: #4b211d;
+  --primary: #8b1e1e;
+  --secondary: #c89b3c;
+  --tertiary: #7b1e1e;
+  --accent-light: #f5e2b7;
 }
 
 @theme inline {
@@ -19,17 +17,35 @@
   --color-tertiary: var(--tertiary);
 }
 
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+}
+
 body {
-  background: linear-gradient(135deg, var(--background) 0%, #FFF8F0 100%);
+  margin: 0;
+  background: var(--background);
   color: var(--foreground);
-  font-family: 'Georgia', 'Garamond', serif;
+  font-family: Georgia, 'Times New Roman', serif;
+  text-rendering: optimizeLegibility;
 }
 
-* {
-  font-family: 'Georgia', 'Garamond', serif;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-/* Gold accent for highlights */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(200, 155, 60, 0.28);
+  color: #5b201c;
+}
+
 .accent-gold {
   color: var(--secondary);
 }
@@ -38,11 +54,25 @@ body {
   background-color: var(--secondary);
 }
 
-/* Deep maroon primary */
 .accent-maroon {
   color: var(--primary);
 }
 
 .bg-accent-maroon {
   background-color: var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
