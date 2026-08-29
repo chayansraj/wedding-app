@@ -1,20 +1,6 @@
 'use client';
 
-// ----------------------------------------------------------------------
-
 export const allLangs = [
-  {
-    value: 'en',
-    label: 'English',
-    countryCode: 'EN',
-    adapterLocale: 'en',
-    numberFormat: { code: 'id-ID', currency: 'IDR' },
-  },
-  {
-    value: 'id',
-    label: 'Indonesia',
-    countryCode: 'ID',
-    adapterLocale: 'id',
-    numberFormat: { code: 'id-ID', currency: 'IDR' },
-  },
+  { value: 'en', label: 'English', countryCode: 'EN', adapterLocale: 'en', numberFormat: { code: 'en-IN', currency: 'INR' } },
+  { value: 'hi', label: 'हिंदी', countryCode: 'HI', adapterLocale: 'hi', numberFormat: { code: 'hi-IN', currency: 'INR' } },
 ];
