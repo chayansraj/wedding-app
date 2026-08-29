@@ -1,29 +1,15 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { motion } from 'motion/react';
 
 export const Mandala = ({ className = '', size = 180 }: { className?: string; size?: number }) => (
-  <motion.svg
-    width={size}
-    height={size}
-    viewBox="0 0 200 200"
-    fill="none"
-    className={className}
-    animate={{ rotate: 360 }}
-    transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
-    aria-hidden="true"
-  >
+  <motion.svg width={size} height={size} viewBox="0 0 200 200" fill="none" className={className} animate={{ rotate: 360 }} transition={{ duration: 80, repeat: Infinity, ease: 'linear' }} aria-hidden="true">
     <circle cx="100" cy="100" r="88" stroke="currentColor" strokeWidth="1" opacity=".35" />
     <circle cx="100" cy="100" r="68" stroke="currentColor" strokeWidth="1" opacity=".5" />
     <circle cx="100" cy="100" r="46" stroke="currentColor" strokeWidth="1" opacity=".55" />
-    {Array.from({ length: 16 }).map((_, i) => {
-      const angle = (i * 360) / 16;
-      return <ellipse key={i} cx="100" cy="31" rx="8" ry="22" transform={`rotate(${angle} 100 100)`} stroke="currentColor" strokeWidth="1" opacity=".55" />;
-    })}
-    {Array.from({ length: 8 }).map((_, i) => {
-      const angle = (i * 360) / 8;
-      return <path key={`p-${i}`} d="M100 54 C108 64 108 76 100 84 C92 76 92 64 100 54Z" transform={`rotate(${angle} 100 100)`} stroke="currentColor" strokeWidth="1" opacity=".7" />;
-    })}
+    {Array.from({ length: 16 }).map((_, i) => <ellipse key={i} cx="100" cy="31" rx="8" ry="22" transform={`rotate(${(i * 360) / 16} 100 100)`} stroke="currentColor" strokeWidth="1" opacity=".55" />)}
+    {Array.from({ length: 8 }).map((_, i) => <path key={`p-${i}`} d="M100 54 C108 64 108 76 100 84 C92 76 92 64 100 54Z" transform={`rotate(${(i * 360) / 8} 100 100)`} stroke="currentColor" strokeWidth="1" opacity=".7" />)}
     <circle cx="100" cy="100" r="9" fill="currentColor" opacity=".7" />
   </motion.svg>
 );
@@ -37,14 +23,7 @@ export const Lotus = ({ className = '' }: { className?: string }) => (
 );
 
 export const Diya = ({ className = '' }: { className?: string }) => (
-  <motion.svg
-    viewBox="0 0 100 100"
-    className={className}
-    fill="none"
-    aria-hidden="true"
-    animate={{ scale: [1, 1.04, 1], opacity: [0.88, 1, 0.88] }}
-    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-  >
+  <motion.svg viewBox="0 0 100 100" className={className} fill="none" aria-hidden="true" animate={{ scale: [1, 1.04, 1], opacity: [.88, 1, .88] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}>
     <path d="M50 14C42 25 43 34 50 40C57 34 58 25 50 14Z" fill="currentColor" opacity=".9" />
     <path d="M29 52C31 72 40 82 50 82C60 82 69 72 71 52C60 58 40 58 29 52Z" fill="currentColor" opacity=".7" />
     <path d="M25 50C35 57 65 57 75 50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
@@ -54,33 +33,23 @@ export const Diya = ({ className = '' }: { className?: string }) => (
 
 export const Petals = ({ count = 14 }: { count?: number }) => (
   <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-    {Array.from({ length: count }).map((_, i) => (
-      <motion.span
-        key={i}
-        className="absolute block h-2 w-3 rounded-[100%_0] bg-[#b52b3a]/50"
-        style={{ left: `${(i * 37) % 100}%`, top: `${-10 - (i % 4) * 8}%` }}
-        animate={{ y: ['0vh', '115vh'], x: [0, (i % 2 ? 1 : -1) * (18 + (i % 4) * 8)], rotate: [0, 180, 360] }}
-        transition={{ duration: 9 + (i % 5), delay: i * 0.45, repeat: Infinity, ease: 'linear' }}
-      />
-    ))}
+    {Array.from({ length: count }).map((_, i) => <motion.span key={i} className="absolute block h-2 w-3 rounded-[100%_0] bg-[#b52b3a]/50" style={{ left: `${(i * 37) % 100}%`, top: `${-10 - (i % 4) * 8}%` }} animate={{ y: ['0vh', '115vh'], x: [0, (i % 2 ? 1 : -1) * (18 + (i % 4) * 8)], rotate: [0, 180, 360] }} transition={{ duration: 9 + (i % 5), delay: i * .45, repeat: Infinity, ease: 'linear' }} />)}
   </div>
 );
 
 export const OrnamentalDivider = ({ label }: { label?: string }) => (
   <div className="flex items-center justify-center gap-3 text-[#b08a3a]" aria-hidden={!label}>
-    <span className="h-px w-14 bg-current/40" />
-    <Lotus className="h-8 w-14" />
-    {label ? <span className="font-serif text-xs uppercase tracking-[0.28em] text-[#7b1e1e]">{label}</span> : null}
-    <Lotus className="h-8 w-14 -scale-x-100" />
-    <span className="h-px w-14 bg-current/40" />
+    <span className="h-px w-14 bg-current/40" /><Lotus className="h-8 w-14" />
+    {label ? <span className="font-serif text-xs uppercase tracking-[.28em] text-[#7b1e1e]">{label}</span> : null}
+    <Lotus className="h-8 w-14 -scale-x-100" /><span className="h-px w-14 bg-current/40" />
   </div>
 );
 
-export const SectionBackdrop = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+export const SectionBackdrop = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
   <div className={`relative overflow-hidden bg-[#fff9ed] ${className}`}>
-    <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #7b1e1e 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-    <Mandala size={360} className="absolute -left-40 top-20 text-[#b08a3a] opacity-[0.16]" />
-    <Mandala size={280} className="absolute -right-32 bottom-10 text-[#7b1e1e] opacity-[0.12]" />
+    <div className="absolute inset-0 opacity-[.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #7b1e1e 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+    <Mandala size={360} className="absolute -left-40 top-20 text-[#b08a3a] opacity-[.16]" />
+    <Mandala size={280} className="absolute -right-32 bottom-10 text-[#7b1e1e] opacity-[.12]" />
     <div className="relative">{children}</div>
   </div>
 );
