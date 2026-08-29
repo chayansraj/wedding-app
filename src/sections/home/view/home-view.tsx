@@ -20,17 +20,13 @@ export default function HomeView() {
   const handleLetterOpen = () => { setShowLetter(false); setTimeout(() => setIsLoaded(true), 300); };
 
   if (showLetter) {
-    return <LetterAnimation onOpen={handleLetterOpen} coupleName={`${WEDDING_CONFIG.groom.name} & ${WEDDING_CONFIG.bride.name}`} />;
+    return <LetterAnimation onOpen={handleLetterOpen} coupleName="Chayan & Divya" />;
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-[#f6ead6] text-[#3d2420]">
-      {/* Persistent wedding atmosphere: the supplied floral/bell artwork stays behind every invitation chapter. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 bg-[#f6ead6] bg-[url('/assets/images/wedding-invitation-background.jpg')] bg-cover bg-center bg-no-repeat"
-      />
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-[5] bg-[#fff8e8]/48" />
+    <div className="relative min-h-screen overflow-x-clip bg-transparent text-[#3d2420]">
+      <div aria-hidden="true" className="wedding-background" />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-[9] bg-[#fff8e8]/30" />
 
       <FloatingNavigation activeSection={activeSection} onScrollToSection={scrollToSection} />
       <section id="hero" className="relative bg-transparent"><HeroSection isLoaded={isLoaded} couple={WEDDING_CONFIG} onScrollToSection={scrollToSection} /></section>
