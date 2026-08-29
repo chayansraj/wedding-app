@@ -24,15 +24,22 @@ export default function HomeView() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fff8e8]">
+    <div className="relative min-h-screen overflow-x-clip bg-[#f6ead6] text-[#3d2420]">
+      {/* Persistent wedding atmosphere: the supplied floral/bell artwork stays behind every invitation chapter. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 bg-[#f6ead6] bg-[url('/assets/images/wedding-invitation-background.jpg')] bg-cover bg-center bg-no-repeat"
+      />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-[5] bg-[#fff8e8]/48" />
+
       <FloatingNavigation activeSection={activeSection} onScrollToSection={scrollToSection} />
-      <section id="hero" className="relative"><HeroSection isLoaded={isLoaded} couple={WEDDING_CONFIG} onScrollToSection={scrollToSection} /></section>
-      <section id="couple" className="relative"><CoupleIntroduction bride={WEDDING_CONFIG.bride} groom={WEDDING_CONFIG.groom} isVisible={isLoaded} /></section>
-      <section id="details" className="relative"><WeddingDetailsCard date={WEDDING_CONFIG.date} venue={WEDDING_CONFIG.venue} /><CountdownTimer targetDate={WEDDING_CONFIG.date} /></section>
-      <section id="venue" className="relative"><VenueInformation venue={WEDDING_CONFIG.venue} /><EventSchedule /></section>
-      <section id="gallery" className="relative"><GalleryPreview /></section>
-      <section id="rsvp" className="relative"><RSVP /></section>
-      <section id="closing" className="relative"><ClosingMessage bride={WEDDING_CONFIG.bride.fullName} groom={WEDDING_CONFIG.groom.fullName} /></section>
+      <section id="hero" className="relative bg-transparent"><HeroSection isLoaded={isLoaded} couple={WEDDING_CONFIG} onScrollToSection={scrollToSection} /></section>
+      <section id="couple" className="relative bg-transparent"><CoupleIntroduction bride={WEDDING_CONFIG.bride} groom={WEDDING_CONFIG.groom} isVisible={isLoaded} /></section>
+      <section id="details" className="relative bg-transparent"><WeddingDetailsCard date={WEDDING_CONFIG.date} venue={WEDDING_CONFIG.venue} /><CountdownTimer targetDate={WEDDING_CONFIG.date} /></section>
+      <section id="venue" className="relative bg-transparent"><VenueInformation venue={WEDDING_CONFIG.venue} /><EventSchedule /></section>
+      <section id="gallery" className="relative bg-transparent"><GalleryPreview /></section>
+      <section id="rsvp" className="relative bg-transparent"><RSVP /></section>
+      <section id="closing" className="relative bg-transparent"><ClosingMessage bride={WEDDING_CONFIG.bride.fullName} groom={WEDDING_CONFIG.groom.fullName} /></section>
       <MusicPlayer />
       <NavigationFAB activeSection={activeSection} onScrollToSection={scrollToSection} />
       <ScrollProgressIndicator activeSection={activeSection} />
