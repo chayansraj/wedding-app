@@ -37,6 +37,14 @@ export const Petals = ({ count = 14 }: { count?: number }) => (
   </div>
 );
 
+export const OrnamentBell = ({ className = '', delay = 0 }: { className?: string; delay?: number }) => (
+  <motion.div className={className} aria-hidden="true" animate={{ rotate: [-3, 3, -2, 2, 0] }} transition={{ duration: 3.8, repeat: Infinity, delay, ease: 'easeInOut' }}>
+    <div className="mx-auto h-8 w-9 rounded-b-[45%] border border-[#b8872e]/75 bg-[linear-gradient(180deg,#e7bf5d,#a77122)] shadow-[0_4px_12px_rgba(100,50,20,.12)] sm:h-10 sm:w-11" />
+    <div className="mx-auto h-1 w-10 rounded-full bg-[#8f651c]/80 sm:w-12" />
+    <div className="mx-auto mt-1 h-2 w-2.5 rounded-full bg-[#9b641e]" />
+  </motion.div>
+);
+
 export const OrnamentalDivider = ({ label }: { label?: string }) => (
   <div className="flex items-center justify-center gap-3 text-[#b08a3a]" aria-hidden={!label}>
     <span className="h-px w-14 bg-current/40" /><Lotus className="h-8 w-14" />
@@ -50,6 +58,11 @@ export const SectionBackdrop = ({ children, className = '' }: { children: ReactN
     <div className="absolute inset-0 opacity-[.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #7b1e1e 1px, transparent 0)', backgroundSize: '28px 28px' }} />
     <Mandala size={360} className="absolute -left-40 top-20 text-[#b08a3a] opacity-[.16]" />
     <Mandala size={280} className="absolute -right-32 bottom-10 text-[#7b1e1e] opacity-[.12]" />
+
+    <div className="pointer-events-none absolute inset-x-0 top-0 h-20 border-b border-[#b08a3a]/20 bg-[radial-gradient(circle_at_10px_10px,#d89228_0_2px,transparent_3px)] [background-size:28px_24px] opacity-55" />
+    <OrnamentBell className="pointer-events-none absolute left-[7%] top-5 hidden sm:block" delay={.1} />
+    <OrnamentBell className="pointer-events-none absolute right-[7%] top-5 hidden sm:block" delay={.5} />
+    <Lotus className="pointer-events-none absolute left-1/2 top-1 h-8 w-14 -translate-x-1/2 text-[#b08a3a] opacity-45" />
     <div className="relative">{children}</div>
   </div>
 );
