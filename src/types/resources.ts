@@ -1,4 +1,4 @@
-import home from '@/locales/langs/id/home.json';
+import home from '@/locales/langs/en/home.json';
 
 const resources = {
   home,
