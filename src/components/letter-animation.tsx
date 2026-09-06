@@ -14,8 +14,8 @@ interface LetterAnimationProps {
  * - OPENING_BLUR_Y controls vertical softness. Keep this lower to preserve the
  *   artwork's vertical detail while making the diffusion predominantly horizontal.
  */
-const OPENING_BLUR_X = 18;
-const OPENING_BLUR_Y = 5;
+const OPENING_BLUR_X = 23;
+const OPENING_BLUR_Y = 6;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
