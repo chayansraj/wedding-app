@@ -7,27 +7,23 @@ interface LetterAnimationProps {
 
 /**
  * Full-screen looping wedding opening.
- *
- * The Ganesh video remains completely sharp. Only duplicates of the existing
- * Click to Enter artwork are blurred and stretched horizontally. The outer
- * diffusion is deliberately darker and substantially wider to cover the two
- * bright watermark stars at the ends without creating a hard boundary.
+ * The Ganesh video remains completely sharp. Only the Click to Enter artwork
+ * is used to create the diffuse haze around the CTA and watermark areas.
  */
-const OPENING_CTA_BLUR_X = 175;
-const OPENING_CTA_BLUR_Y = 11;
-const OPENING_CTA_DIFFUSE_SCALE_X = 2.55;
+const OPENING_CTA_BLUR_X = 240;
+const OPENING_CTA_BLUR_Y = 14;
+const OPENING_CTA_DIFFUSE_SCALE_X = 3.0;
 const OPENING_CTA_GLOW_OPACITY = 1;
 
-// Strong dark haze layer at both ends.
-const OPENING_CTA_END_DARKNESS = 0.18;
-const OPENING_CTA_END_SCALE_X = 3.4;
-const OPENING_CTA_END_BLUR_X = 125;
-const OPENING_CTA_END_BLUR_Y = 16;
+// Extra-wide, dark end haze for the two watermark locations.
+const OPENING_CTA_END_DARKNESS = 0.10;
+const OPENING_CTA_END_SCALE_X = 4.2;
+const OPENING_CTA_END_BLUR_X = 190;
+const OPENING_CTA_END_BLUR_Y = 22;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
-      {/* Original wedding artwork — completely sharp and untouched. */}
       <video
         className="absolute inset-0 h-full w-full object-cover object-center"
         autoPlay
@@ -46,10 +42,10 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         <defs>
           <filter
             id="opening-cta-horizontal-diffuse"
-            x="-140%"
-            y="-180%"
-            width="380%"
-            height="460%"
+            x="-180%"
+            y="-220%"
+            width="460%"
+            height="540%"
             colorInterpolationFilters="sRGB"
           >
             <feGaussianBlur stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`} />
@@ -57,10 +53,10 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
           <filter
             id="opening-cta-dark-end-diffuse"
-            x="-180%"
-            y="-220%"
-            width="460%"
-            height="540%"
+            x="-220%"
+            y="-280%"
+            width="540%"
+            height="660%"
             colorInterpolationFilters="sRGB"
           >
             <feGaussianBlur
@@ -82,7 +78,6 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           aria-label="Click to Enter"
           className="relative block w-[88vw] max-w-[620px] overflow-visible bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
-          {/* Strong broad horizontal diffusion. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -97,7 +92,6 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Very dark, very wide haze extending into both watermark areas. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -112,7 +106,6 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Original CTA remains crisp and unchanged. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
