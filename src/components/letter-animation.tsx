@@ -7,24 +7,27 @@ interface LetterAnimationProps {
 
 /**
  * Full-screen looping wedding opening.
- * The Ganesh video remains completely sharp. The CTA has a sharp foreground
- * plus very wide blurred/darkened diffusion underneath it. The end haze is
- * deliberately diffuse rather than a rectangular panel so it can cover the
- * two watermark stars while preserving the artwork everywhere else.
+ * The Ganesh video remains completely sharp. Only the Click to Enter artwork
+ * is used to create the diffuse haze around the CTA and watermark areas.
  */
-const OPENING_CTA_BLUR_X = 240;
-const OPENING_CTA_BLUR_Y = 14;
-const OPENING_CTA_DIFFUSE_SCALE_X = 3.0;
+const OPENING_CTA_BLUR_X = 260;
+const OPENING_CTA_BLUR_Y = 16;
+const OPENING_CTA_DIFFUSE_SCALE_X = 3.25;
 const OPENING_CTA_GLOW_OPACITY = 1;
 
-const OPENING_CTA_END_DARKNESS = 0.10;
+// Broad elliptical glow following the same soft oval character as the glow
+// immediately beneath the CTA text. This is intentionally extended sideways
+// so the two watermark stars fall inside the strongest part of the haze.
+const OPENING_CTA_ELLIPSE_SCALE_X = 5.0;
+const OPENING_CTA_ELLIPSE_SCALE_Y = 1.65;
+const OPENING_CTA_ELLIPSE_BLUR_X = 105;
+const OPENING_CTA_ELLIPSE_BLUR_Y = 28;
+const OPENING_CTA_ELLIPSE_OPACITY = 0.95;
+
 const OPENING_CTA_END_SCALE_X = 4.2;
 const OPENING_CTA_END_BLUR_X = 190;
 const OPENING_CTA_END_BLUR_Y = 22;
-
-// Mobile-safe dark diffuse haze. This is a soft radial field, not a panel.
-const OPENING_CTA_MOBILE_HAZE_OPACITY = 0.88;
-const OPENING_CTA_MOBILE_HAZE_BLUR = 26;
+const OPENING_CTA_END_DARKNESS = 0.10;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
@@ -47,13 +50,26 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         <defs>
           <filter
             id="opening-cta-horizontal-diffuse"
-            x="-180%"
-            y="-220%"
-            width="460%"
-            height="540%"
+            x="-200%"
+            y="-240%"
+            width="500%"
+            height="580%"
             colorInterpolationFilters="sRGB"
           >
             <feGaussianBlur stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`} />
+          </filter>
+
+          <filter
+            id="opening-cta-elliptical-diffuse"
+            x="-260%"
+            y="-260%"
+            width="620%"
+            height="620%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feGaussianBlur
+              stdDeviation={`${OPENING_CTA_ELLIPSE_BLUR_X} ${OPENING_CTA_ELLIPSE_BLUR_Y}`}
+            />
           </filter>
 
           <filter
@@ -83,22 +99,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           aria-label="Click to Enter"
           className="relative block w-[88vw] max-w-[620px] overflow-visible bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
-          {/*
-           * Mobile-safe dark haze. It is made from two very soft radial fields
-           * at the CTA ends. There is deliberately no hard edge/boundary.
-           * The sharp CTA below is rendered later and therefore stays crisp.
-           */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-[-18%] inset-y-[-80%]"
-            style={{
-              background: `radial-gradient(ellipse 34% 62% at 17% 50%, rgba(0,0,0,${OPENING_CTA_MOBILE_HAZE_OPACITY}) 0%, rgba(0,0,0,.68) 30%, rgba(0,0,0,.34) 55%, transparent 82%), radial-gradient(ellipse 34% 62% at 83% 50%, rgba(0,0,0,${OPENING_CTA_MOBILE_HAZE_OPACITY}) 0%, rgba(0,0,0,.68) 30%, rgba(0,0,0,.34) 55%, transparent 82%)`,
-              filter: `blur(${OPENING_CTA_MOBILE_HAZE_BLUR}px)`,
-              WebkitFilter: `blur(${OPENING_CTA_MOBILE_HAZE_BLUR}px)`,
-            }}
-          />
-
-          {/* Broad horizontal diffusion from the existing CTA artwork. */}
+          {/* Existing broad horizontal diffusion. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -113,7 +114,22 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Extra dark blurred CTA diffusion at both ends. */}
+          {/* Strong elliptical glow, expanded sideways around the text. */}
+          <img
+            src="/assets/images/click-to-enter-banner.svg"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 block h-auto w-full"
+            style={{
+              filter: 'url(#opening-cta-elliptical-diffuse)',
+              WebkitFilter: 'url(#opening-cta-elliptical-diffuse)',
+              transform: `scale(${OPENING_CTA_ELLIPSE_SCALE_X} ${OPENING_CTA_ELLIPSE_SCALE_Y})`,
+              transformOrigin: 'center center',
+              opacity: OPENING_CTA_ELLIPSE_OPACITY,
+            }}
+          />
+
+          {/* Outer end haze. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
