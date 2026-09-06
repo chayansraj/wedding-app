@@ -17,7 +17,7 @@ interface LetterAnimationProps {
  * - OPENING_BUTTON_BLUR_Y controls vertical softness.
  * - OPENING_BUTTON_GLOW_OPACITY controls the strength of the diffuse layer.
  */
-const OPENING_BUTTON_BLUR_X = 18;
+const OPENING_BUTTON_BLUR_X = 20;
 const OPENING_BUTTON_BLUR_Y = 4;
 const OPENING_BUTTON_GLOW_OPACITY = 0.72;
 
