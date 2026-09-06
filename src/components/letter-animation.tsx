@@ -7,19 +7,24 @@ interface LetterAnimationProps {
 
 /**
  * Full-screen looping wedding opening.
- * The Ganesh video remains completely sharp. Only the Click to Enter artwork
- * is used to create the diffuse haze around the CTA and watermark areas.
+ * The Ganesh video remains completely sharp. The CTA has a sharp foreground
+ * plus very wide blurred/darkened diffusion underneath it. The end haze is
+ * deliberately diffuse rather than a rectangular panel so it can cover the
+ * two watermark stars while preserving the artwork everywhere else.
  */
 const OPENING_CTA_BLUR_X = 240;
 const OPENING_CTA_BLUR_Y = 14;
 const OPENING_CTA_DIFFUSE_SCALE_X = 3.0;
 const OPENING_CTA_GLOW_OPACITY = 1;
 
-// Extra-wide, dark end haze for the two watermark locations.
 const OPENING_CTA_END_DARKNESS = 0.10;
 const OPENING_CTA_END_SCALE_X = 4.2;
 const OPENING_CTA_END_BLUR_X = 190;
 const OPENING_CTA_END_BLUR_Y = 22;
+
+// Mobile-safe dark diffuse haze. This is a soft radial field, not a panel.
+const OPENING_CTA_MOBILE_HAZE_OPACITY = 0.88;
+const OPENING_CTA_MOBILE_HAZE_BLUR = 26;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
@@ -78,6 +83,22 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           aria-label="Click to Enter"
           className="relative block w-[88vw] max-w-[620px] overflow-visible bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
+          {/*
+           * Mobile-safe dark haze. It is made from two very soft radial fields
+           * at the CTA ends. There is deliberately no hard edge/boundary.
+           * The sharp CTA below is rendered later and therefore stays crisp.
+           */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-[-18%] inset-y-[-80%]"
+            style={{
+              background: `radial-gradient(ellipse 34% 62% at 17% 50%, rgba(0,0,0,${OPENING_CTA_MOBILE_HAZE_OPACITY}) 0%, rgba(0,0,0,.68) 30%, rgba(0,0,0,.34) 55%, transparent 82%), radial-gradient(ellipse 34% 62% at 83% 50%, rgba(0,0,0,${OPENING_CTA_MOBILE_HAZE_OPACITY}) 0%, rgba(0,0,0,.68) 30%, rgba(0,0,0,.34) 55%, transparent 82%)`,
+              filter: `blur(${OPENING_CTA_MOBILE_HAZE_BLUR}px)`,
+              WebkitFilter: `blur(${OPENING_CTA_MOBILE_HAZE_BLUR}px)`,
+            }}
+          />
+
+          {/* Broad horizontal diffusion from the existing CTA artwork. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -92,6 +113,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
+          {/* Extra dark blurred CTA diffusion at both ends. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -106,6 +128,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
+          {/* Original CTA remains crisp and unchanged. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
