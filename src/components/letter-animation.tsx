@@ -8,22 +8,19 @@ interface LetterAnimationProps {
 /**
  * Full-screen looping wedding opening.
  *
- * The Ganesh video remains completely sharp. The watermark-covering effect is
- * created ONLY from a blurred duplicate of the existing Click to Enter SVG.
- * The duplicate is stretched horizontally and heavily diffused so its glow
- * reaches the two watermark stars without introducing a rectangular panel or
- * changing the sharp CTA artwork/text above it.
- *
- * Blur tuning:
- * - OPENING_CTA_BLUR_X controls the horizontal diffusion strength.
- * - OPENING_CTA_BLUR_Y controls vertical softness.
- * - OPENING_CTA_DIFFUSE_SCALE_X expands the horizontal reach of the blur.
- * - OPENING_CTA_GLOW_OPACITY controls the covering strength.
+ * The Ganesh video remains completely sharp. Only a duplicate of the existing
+ * Click to Enter artwork is blurred and stretched horizontally. The stronger
+ * outer diffusion is intentionally darkened so it can cover the two bright
+ * watermark stars at the ends without creating a hard rectangular boundary.
  */
-const OPENING_CTA_BLUR_X = 120;
-const OPENING_CTA_BLUR_Y = 7;
-const OPENING_CTA_DIFFUSE_SCALE_X = 1.8;
-const OPENING_CTA_GLOW_OPACITY = 0.98;
+const OPENING_CTA_BLUR_X = 155;
+const OPENING_CTA_BLUR_Y = 9;
+const OPENING_CTA_DIFFUSE_SCALE_X = 2.35;
+const OPENING_CTA_GLOW_OPACITY = 1;
+const OPENING_CTA_END_DARKNESS = 0.32;
+const OPENING_CTA_END_SCALE_X = 2.9;
+const OPENING_CTA_END_BLUR_X = 95;
+const OPENING_CTA_END_BLUR_Y = 12;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
@@ -41,23 +38,41 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         <source src="/assets/videos/wedding-opening.mp4" type="video/mp4" />
       </video>
 
-      {/* Very subtle overall veil, unchanged from the previous opening. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/5" />
 
-      {/* CTA-only horizontal diffusion. No filter is applied to the video. */}
       <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
         <defs>
+          {/* Broad central horizontal diffusion. */}
           <filter
             id="opening-cta-horizontal-diffuse"
-            x="-80%"
-            y="-120%"
-            width="260%"
-            height="340%"
+            x="-120%"
+            y="-160%"
+            width="340%"
+            height="420%"
             colorInterpolationFilters="sRGB"
           >
             <feGaussianBlur
               stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`}
             />
+          </filter>
+
+          {/* Darker, wider end diffusion specifically for the watermark stars. */}
+          <filter
+            id="opening-cta-dark-end-diffuse"
+            x="-140%"
+            y="-180%"
+            width="380%"
+            height="460%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feGaussianBlur
+              stdDeviation={`${OPENING_CTA_END_BLUR_X} ${OPENING_CTA_END_BLUR_Y}`}
+            />
+            <feComponentTransfer>
+              <feFuncR type="linear" slope={OPENING_CTA_END_DARKNESS} />
+              <feFuncG type="linear" slope={OPENING_CTA_END_DARKNESS} />
+              <feFuncB type="linear" slope={OPENING_CTA_END_DARKNESS} />
+            </feComponentTransfer>
           </filter>
         </defs>
       </svg>
@@ -67,13 +82,9 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           type="button"
           onClick={onOpen}
           aria-label="Click to Enter"
-          className="relative block w-[88vw] max-w-[620px] bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
+          className="relative block w-[88vw] max-w-[620px] overflow-visible bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
-          {/*
-           * This is the ONLY element being blurred. It is deliberately
-           * stretched horizontally so the diffuse glow reaches the watermark
-           * stars on both sides. The blur has no hard rectangular edge.
-           */}
+          {/* Broad horizontal glow. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -88,7 +99,22 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Original CTA stays crisp and unchanged. */}
+          {/* Extra darkened blur extends farther into both ends. */}
+          <img
+            src="/assets/images/click-to-enter-banner.svg"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 block h-auto w-full"
+            style={{
+              filter: 'url(#opening-cta-dark-end-diffuse)',
+              WebkitFilter: 'url(#opening-cta-dark-end-diffuse)',
+              transform: `scaleX(${OPENING_CTA_END_SCALE_X})`,
+              transformOrigin: 'center center',
+              opacity: 1,
+            }}
+          />
+
+          {/* Original CTA remains crisp and unchanged. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
