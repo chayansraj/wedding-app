@@ -8,15 +8,18 @@ interface LetterAnimationProps {
 /**
  * Full-screen looping video opening with a soft, devotional Click to Enter CTA.
  *
- * The video itself remains completely sharp. The directional Gaussian diffusion
- * is applied only to the CTA artwork so the invitation background is untouched.
+ * The video itself remains completely sharp. The horizontal diffusion is a
+ * separate glow layer behind the CTA, so the original artwork and CTA text
+ * remain crisp and readable.
  *
  * Blur tuning:
  * - OPENING_BUTTON_BLUR_X controls horizontal diffusion.
  * - OPENING_BUTTON_BLUR_Y controls vertical softness.
+ * - OPENING_BUTTON_GLOW_OPACITY controls the strength of the diffuse layer.
  */
 const OPENING_BUTTON_BLUR_X = 18;
 const OPENING_BUTTON_BLUR_Y = 4;
+const OPENING_BUTTON_GLOW_OPACITY = 0.72;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
@@ -36,18 +39,15 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/5" />
 
-      {/*
-       * CTA-only horizontal diffusion. The filter is deliberately attached to
-       * the button layer rather than the video, preserving the artwork sharpness.
-       */}
+      {/* CTA-only horizontal diffusion. The filter is never applied to the video or the sharp CTA. */}
       <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
         <defs>
           <filter
             id="opening-button-horizontal-diffuse"
-            x="-16%"
-            y="-12%"
-            width="132%"
-            height="124%"
+            x="-24%"
+            y="-16%"
+            width="148%"
+            height="132%"
             colorInterpolationFilters="sRGB"
           >
             <feGaussianBlur stdDeviation={`${OPENING_BUTTON_BLUR_X} ${OPENING_BUTTON_BLUR_Y}`} />
@@ -60,13 +60,25 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           type="button"
           onClick={onOpen}
           aria-label="Click to Enter"
-          className="block w-[88vw] max-w-[620px] bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
+          className="relative block w-[88vw] max-w-[620px] bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
+          {/* Diffuse horizontal glow layer. */}
+          <img
+            src="/assets/images/click-to-enter-banner.svg"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 block h-auto w-full"
+            style={{
+              filter: 'url(#opening-button-horizontal-diffuse)',
+              opacity: OPENING_BUTTON_GLOW_OPACITY,
+            }}
+          />
+
+          {/* Original CTA remains crisp and unchanged. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
-            className="block h-auto w-full"
-            style={{ filter: 'url(#opening-button-horizontal-diffuse)' }}
+            className="relative block h-auto w-full"
           />
         </button>
       </div>
