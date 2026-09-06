@@ -1,1 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" role="img" aria-label="Click to Enter"><defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f5a42" stop-opacity=".88"/><stop offset=".5" stop-color="#6e3e2e" stop-opacity=".94"/><stop offset="1" stop-color="#8b5740" stop-opacity=".9"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="5"/></filter></defs><rect x="18" y="18" width="684" height="214" rx="107" fill="#3b2118" opacity=".3" filter="url(#blur)"/><rect x="22" y="22" width="676" height="206" rx="103" fill="url(#bg)" stroke="#e7c56e" stroke-width="2"/><path d="M110 83H610M110 167H610" stroke="#e7c56e" stroke-width="1" opacity=".75"/><g fill="none" stroke="#e7c56e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M150 125c-28-30-48-30-65 0 17 30 37 30 65 0Z"/><path d="M150 125c20-28 37-28 48 0-11 28-28 28-48 0Z"/><path d="M85 125h-34m99 0h30"/><path d="M570 125c28-30 48-30 65 0-17 30-37 30-65 0Z"/><path d="M570 125c-20-28-37-28-48 0 11 28 28 28 48 0Z"/><path d="M635 125h34m-99 0h-30"/></g><text x="360" y="140" text-anchor="middle" fill="#fff3d2" font-family="Georgia,Times New Roman,serif" font-size="50" font-weight="500">Click to Enter</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" role="img" aria-label="Click to Enter">
+  <defs>
+    <radialGradient id="radiance" cx="50%" cy="52%" r="50%">
+      <stop offset="0" stop-color="#ffd978" stop-opacity=".48"/>
+      <stop offset=".42" stop-color="#f4c766" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#d99a45" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softBlur" x="-30%" y="-80%" width="160%" height="260%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="textGlow" x="-30%" y="-80%" width="160%" height="260%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#f6d477" flood-opacity=".5" result="glow"/>
+      <feComposite in="glow" in2="blur" operator="in" result="glowShape"/>
+      <feMerge><feMergeNode in="glowShape"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Diffuse devotional radiance: intentionally no enclosing button boundary. -->
+  <ellipse cx="450" cy="145" rx="330" ry="82" fill="url(#radiance)" filter="url(#softBlur)"/>
+  <ellipse cx="450" cy="145" rx="250" ry="48" fill="#8d542f" opacity=".13" filter="url(#softBlur)"/>
+
+  <!-- Lotus motif -->
+  <g fill="none" stroke="#f4d47e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".95">
+    <path d="M450 38c-25 17-34 35 0 55 34-20 25-38 0-55Z"/>
+    <path d="M450 45c-9 19-9 34 0 48 9-14 9-29 0-48Z"/>
+    <path d="M450 93c-29-12-49-5-61 12 22 9 43 6 61-12Z"/>
+    <path d="M450 93c29-12 49-5 61 12-22 9-43 6-61-12Z"/>
+  </g>
+
+  <!-- Fine traditional divider -->
+  <g fill="none" stroke="#f4d47e" stroke-width="1.6" stroke-linecap="round" opacity=".8">
+    <path d="M150 125H335"/>
+    <path d="M565 125H750"/>
+  </g>
+
+  <!-- Small floral end motifs -->
+  <g fill="none" stroke="#f4d47e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+    <path d="M150 125c-14-17-28-17-38 0 10 17 24 17 38 0Z"/>
+    <path d="M150 125c14-17 28-17 38 0-10 17-24 17-38 0Z"/>
+    <path d="M110 125H82M190 125h28"/>
+    <path d="M750 125c14-17 28-17 38 0-10 17-24 17-38 0Z"/>
+    <path d="M750 125c-14-17-28-17-38 0 10 17 24 17 38 0Z"/>
+    <path d="M790 125h28M710 125h-28"/>
+  </g>
+
+  <!-- Invitation typography -->
+  <text x="450" y="160" text-anchor="middle" fill="#fff2cf" font-family="Georgia, Times New Roman, serif" font-size="50" font-weight="400" filter="url(#textGlow)">Click to Enter</text>
+
+  <!-- Delicate lower flourish -->
+  <g fill="none" stroke="#f4d47e" stroke-linecap="round" stroke-linejoin="round" opacity=".78">
+    <path d="M335 190H565" stroke-width="1.4"/>
+    <path d="M438 190c7-12 17-12 24 0 7-12 17-12 24 0" stroke-width="1.7"/>
+    <path d="M450 207c-8 9-8 16 0 23 8-7 8-14 0-23Z" stroke-width="1.6"/>
+  </g>
+</svg>
