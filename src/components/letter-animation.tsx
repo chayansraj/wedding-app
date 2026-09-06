@@ -6,25 +6,39 @@ interface LetterAnimationProps {
 }
 
 /**
- * Full-screen looping video opening with a soft, devotional Click to Enter CTA.
- *
- * The video itself remains completely sharp. The horizontal diffusion is a
- * separate glow layer behind the CTA, so the original artwork and CTA text
- * remain crisp and readable.
+ * Full-screen looping wedding opening.
+ * The original video remains sharp. A second, identically positioned copy of
+ * the video is horizontally diffused only in a large feathered region behind
+ * the CTA. The CTA artwork itself remains sharp and unchanged.
  *
  * Blur tuning:
- * - OPENING_BUTTON_BLUR_X controls horizontal diffusion.
- * - OPENING_BUTTON_BLUR_Y controls vertical softness.
- * - OPENING_BUTTON_GLOW_OPACITY controls the strength of the diffuse layer.
+ * - OPENING_CTA_BLUR_X controls horizontal diffusion.
+ * - OPENING_CTA_BLUR_Y controls vertical softness.
+ * - OPENING_CTA_DIFFUSE_SIZE controls how broadly the feathered region reaches.
  */
-const OPENING_BUTTON_BLUR_X = 22;
-const OPENING_BUTTON_BLUR_Y = 4;
-const OPENING_BUTTON_GLOW_OPACITY = 0.77;
+const OPENING_CTA_BLUR_X = 28;
+const OPENING_CTA_BLUR_Y = 4;
+const OPENING_CTA_DIFFUSE_SIZE = 'ellipse 76% 20%';
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
-      {/* The wedding artwork/video stays completely sharp. */}
+      <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
+        <defs>
+          <filter
+            id="opening-cta-background-diffuse"
+            x="-20%"
+            y="-12%"
+            width="140%"
+            height="124%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feGaussianBlur stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`} />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Original wedding artwork — completely sharp and untouched. */}
       <video
         className="absolute inset-0 h-full w-full object-cover object-center"
         autoPlay
@@ -37,48 +51,42 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         <source src="/assets/videos/wedding-opening.mp4" type="video/mp4" />
       </video>
 
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/5" />
+      {/*
+       * Blurred duplicate of the SAME video, precisely aligned with the original.
+       * A feathered mask makes the diffusion fade naturally into the artwork;
+       * there is no rectangular panel or hard boundary.
+       */}
+      <video
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+        style={{
+          filter: 'url(#opening-cta-background-diffuse)',
+          maskImage: `radial-gradient(${OPENING_CTA_DIFFUSE_SIZE} at 50% 88%, black 0%, black 34%, rgba(0,0,0,.92) 54%, rgba(0,0,0,.48) 76%, transparent 100%)`,
+          WebkitMaskImage: `radial-gradient(${OPENING_CTA_DIFFUSE_SIZE} at 50% 88%, black 0%, black 34%, rgba(0,0,0,.92) 54%, rgba(0,0,0,.48) 76%, transparent 100%)`,
+        }}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src="/assets/videos/wedding-opening.mp4" type="video/mp4" />
+      </video>
 
-      {/* CTA-only horizontal diffusion. The filter is never applied to the video or the sharp CTA. */}
-      <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
-        <defs>
-          <filter
-            id="opening-button-horizontal-diffuse"
-            x="-24%"
-            y="-16%"
-            width="148%"
-            height="132%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feGaussianBlur stdDeviation={`${OPENING_BUTTON_BLUR_X} ${OPENING_BUTTON_BLUR_Y}`} />
-          </filter>
-        </defs>
-      </svg>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[11] bg-black/5" />
 
+      {/* Sharp CTA — original text and artwork, with no filter applied. */}
       <div className="absolute inset-x-0 bottom-[1%] z-20 flex justify-center px-2 sm:bottom-[1.5%] sm:px-4">
         <button
           type="button"
           onClick={onOpen}
           aria-label="Click to Enter"
-          className="relative block w-[88vw] max-w-[620px] bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
+          className="block w-[88vw] max-w-[620px] bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
-          {/* Diffuse horizontal glow layer. */}
-          <img
-            src="/assets/images/click-to-enter-banner.svg"
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 block h-auto w-full"
-            style={{
-              filter: 'url(#opening-button-horizontal-diffuse)',
-              opacity: OPENING_BUTTON_GLOW_OPACITY,
-            }}
-          />
-
-          {/* Original CTA remains crisp and unchanged. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
-            className="relative block h-auto w-full"
+            className="block h-auto w-full"
           />
         </button>
       </div>
