@@ -5,12 +5,40 @@ interface LetterAnimationProps {
   coupleName?: string;
 }
 
-/** Full-screen looping video opening with a soft, devotional Click to Enter CTA. */
+/**
+ * Full-screen looping video opening with a soft, devotional Click to Enter CTA.
+ *
+ * Blur tuning:
+ * - OPENING_BLUR_X controls the horizontal diffusion. Increase this to hide
+ *   fine horizontal details / watermark remnants more aggressively.
+ * - OPENING_BLUR_Y controls vertical softness. Keep this lower to preserve the
+ *   artwork's vertical detail while making the diffusion predominantly horizontal.
+ */
+const OPENING_BLUR_X = 18;
+const OPENING_BLUR_Y = 5;
+
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
+      {/* Directional Gaussian blur: strong horizontal diffusion, restrained vertically. */}
+      <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
+        <defs>
+          <filter
+            id="opening-horizontal-diffuse"
+            x="-12%"
+            y="-8%"
+            width="124%"
+            height="116%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feGaussianBlur stdDeviation={`${OPENING_BLUR_X} ${OPENING_BLUR_Y}`} />
+          </filter>
+        </defs>
+      </svg>
+
       <video
         className="absolute inset-0 h-full w-full object-cover object-center"
+        style={{ filter: 'url(#opening-horizontal-diffuse)' }}
         autoPlay
         loop
         muted
