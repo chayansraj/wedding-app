@@ -1,7 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
-
 interface LetterAnimationProps {
   onOpen: () => void;
   coupleName?: string;
@@ -13,13 +11,11 @@ interface LetterAnimationProps {
  * Add the supplied 1080x1920 MP4 to:
  *   public/assets/videos/wedding-opening.mp4
  *
- * The video is intentionally used as the actual background rather than a
- * poster image. The browser handles autoplay safely because it is muted and
- * inline; loop keeps the 10-second clip continuously moving.
+ * The video is used as the actual background. The CTA uses the supplied
+ * click-to-enter artwork, cropped to its lower banner so the visual treatment
+ * stays consistent with the artwork while the video remains visible behind it.
  */
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
-  const { t } = useTranslation('home');
-
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
       <video
@@ -41,35 +37,26 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
       />
 
       {/*
-       * Minimal backdrop around the CTA. It is deliberately not a card or
-       * rectangular panel: the blur follows a soft pill shape and lets the
-       * moving artwork remain visible around it.
+       * The supplied artwork contains the exact ornamental CTA treatment.
+       * The container crops the artwork to its lower banner, avoiding the
+       * duplicate Ganesha/scene while preserving the original typography,
+       * gold ornamentation, blur and contrast.
        */}
-      <div className="absolute inset-x-0 bottom-[9%] z-20 flex justify-center px-5">
-        <div className="relative rounded-full px-3 py-2">
-          <div
+      <div className="absolute inset-x-0 bottom-[8.5%] z-20 flex justify-center px-4 sm:bottom-[8%]">
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-label="Click to Enter"
+          className="relative h-[92px] w-[min(92vw,430px)] overflow-hidden rounded-[999px] drop-shadow-[0_10px_30px_rgba(50,20,5,.35)] transition-transform duration-200 hover:scale-[1.02] active:scale-[.97] sm:h-[112px] sm:w-[min(78vw,520px)]"
+        >
+          <img
+            src="/assets/images/click-to-enter-style.png"
+            alt=""
             aria-hidden="true"
-            className="absolute inset-0 rounded-full bg-black/20 backdrop-blur-md"
+            className="absolute inset-0 h-full w-full object-cover object-[50%_71%]"
           />
-          <button
-            type="button"
-            onClick={onOpen}
-            className="relative rounded-full px-7 py-3 font-serif text-base font-semibold tracking-[0.08em] text-[#fff7df] drop-shadow-[0_2px_8px_rgba(0,0,0,.9)] transition-transform duration-200 hover:scale-[1.03] active:scale-95 sm:px-9 sm:py-3.5 sm:text-lg"
-          >
-            {t('letter.click-to-open')}
-          </button>
-        </div>
+        </button>
       </div>
-
-      {/*
-       * Small localized blur patch over the source video's AI mark in the
-       * lower-right corner. The original video remains unchanged; this only
-       * masks the mark at presentation time while preserving the moving scene.
-       */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-[4.2%] right-[2.2%] z-10 h-12 w-20 rounded-xl bg-black/15 backdrop-blur-md sm:h-14 sm:w-24"
-      />
     </main>
   );
 };
