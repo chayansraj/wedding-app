@@ -8,19 +8,21 @@ interface LetterAnimationProps {
 /**
  * Full-screen looping wedding opening.
  *
- * The Ganesh video remains completely sharp. Only a duplicate of the existing
- * Click to Enter artwork is blurred and stretched horizontally. The stronger
- * outer diffusion is intentionally darkened so it can cover the two bright
- * watermark stars at the ends without creating a hard rectangular boundary.
+ * The Ganesh video remains completely sharp. Only duplicates of the existing
+ * Click to Enter artwork are blurred and stretched horizontally. The outer
+ * diffusion is deliberately darker and substantially wider to cover the two
+ * bright watermark stars at the ends without creating a hard boundary.
  */
-const OPENING_CTA_BLUR_X = 155;
-const OPENING_CTA_BLUR_Y = 9;
-const OPENING_CTA_DIFFUSE_SCALE_X = 2.35;
+const OPENING_CTA_BLUR_X = 175;
+const OPENING_CTA_BLUR_Y = 11;
+const OPENING_CTA_DIFFUSE_SCALE_X = 2.55;
 const OPENING_CTA_GLOW_OPACITY = 1;
-const OPENING_CTA_END_DARKNESS = 0.32;
-const OPENING_CTA_END_SCALE_X = 2.9;
-const OPENING_CTA_END_BLUR_X = 95;
-const OPENING_CTA_END_BLUR_Y = 12;
+
+// Strong dark haze layer at both ends.
+const OPENING_CTA_END_DARKNESS = 0.18;
+const OPENING_CTA_END_SCALE_X = 3.4;
+const OPENING_CTA_END_BLUR_X = 125;
+const OPENING_CTA_END_BLUR_Y = 16;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
@@ -42,27 +44,23 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
       <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
         <defs>
-          {/* Broad central horizontal diffusion. */}
           <filter
             id="opening-cta-horizontal-diffuse"
-            x="-120%"
-            y="-160%"
-            width="340%"
-            height="420%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feGaussianBlur
-              stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`}
-            />
-          </filter>
-
-          {/* Darker, wider end diffusion specifically for the watermark stars. */}
-          <filter
-            id="opening-cta-dark-end-diffuse"
             x="-140%"
             y="-180%"
             width="380%"
             height="460%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feGaussianBlur stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`} />
+          </filter>
+
+          <filter
+            id="opening-cta-dark-end-diffuse"
+            x="-180%"
+            y="-220%"
+            width="460%"
+            height="540%"
             colorInterpolationFilters="sRGB"
           >
             <feGaussianBlur
@@ -84,7 +82,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           aria-label="Click to Enter"
           className="relative block w-[88vw] max-w-[620px] overflow-visible bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
-          {/* Broad horizontal glow. */}
+          {/* Strong broad horizontal diffusion. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -99,7 +97,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Extra darkened blur extends farther into both ends. */}
+          {/* Very dark, very wide haze extending into both watermark areas. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
