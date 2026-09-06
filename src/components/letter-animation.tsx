@@ -8,37 +8,22 @@ interface LetterAnimationProps {
 /**
  * Full-screen looping video opening with a soft, devotional Click to Enter CTA.
  *
+ * The video itself remains completely sharp. The directional Gaussian diffusion
+ * is applied only to the CTA artwork so the invitation background is untouched.
+ *
  * Blur tuning:
- * - OPENING_BLUR_X controls the horizontal diffusion. Increase this to hide
- *   fine horizontal details / watermark remnants more aggressively.
- * - OPENING_BLUR_Y controls vertical softness. Keep this lower to preserve the
- *   artwork's vertical detail while making the diffusion predominantly horizontal.
+ * - OPENING_BUTTON_BLUR_X controls horizontal diffusion.
+ * - OPENING_BUTTON_BLUR_Y controls vertical softness.
  */
-const OPENING_BLUR_X = 23;
-const OPENING_BLUR_Y = 6;
+const OPENING_BUTTON_BLUR_X = 18;
+const OPENING_BUTTON_BLUR_Y = 4;
 
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
-      {/* Directional Gaussian blur: strong horizontal diffusion, restrained vertically. */}
-      <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
-        <defs>
-          <filter
-            id="opening-horizontal-diffuse"
-            x="-12%"
-            y="-8%"
-            width="124%"
-            height="116%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feGaussianBlur stdDeviation={`${OPENING_BLUR_X} ${OPENING_BLUR_Y}`} />
-          </filter>
-        </defs>
-      </svg>
-
+      {/* The wedding artwork/video stays completely sharp. */}
       <video
         className="absolute inset-0 h-full w-full object-cover object-center"
-        style={{ filter: 'url(#opening-horizontal-diffuse)' }}
         autoPlay
         loop
         muted
@@ -52,10 +37,24 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/5" />
 
       {/*
-       * The CTA uses a transparent SVG with a broad Gaussian-blurred radiance,
-       * matching the soft foreground blur in the devotional artwork. There is
-       * deliberately no rounded panel or hard button boundary.
+       * CTA-only horizontal diffusion. The filter is deliberately attached to
+       * the button layer rather than the video, preserving the artwork sharpness.
        */}
+      <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
+        <defs>
+          <filter
+            id="opening-button-horizontal-diffuse"
+            x="-16%"
+            y="-12%"
+            width="132%"
+            height="124%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feGaussianBlur stdDeviation={`${OPENING_BUTTON_BLUR_X} ${OPENING_BUTTON_BLUR_Y}`} />
+          </filter>
+        </defs>
+      </svg>
+
       <div className="absolute inset-x-0 bottom-[1%] z-20 flex justify-center px-2 sm:bottom-[1.5%] sm:px-4">
         <button
           type="button"
@@ -67,6 +66,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
             className="block h-auto w-full"
+            style={{ filter: 'url(#opening-button-horizontal-diffuse)' }}
           />
         </button>
       </div>
