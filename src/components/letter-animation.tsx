@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface LetterAnimationProps {
   onOpen: () => void;
@@ -25,32 +25,24 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   const [showTransition, setShowTransition] = useState(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  useEffect(() => {
-    if (!showTransition) return;
-
+  const handleEnter = () => {
     const video = transitionVideoRef.current;
     if (!video) return;
 
-    const startVideo = () => {
-      video.currentTime = 0;
-      void video.play().catch(() => {
-        // The video is muted, so browsers should allow playback. If a browser
-        // delays playback until the next event, canplay/loadeddata retries it.
-      });
-    };
-
-    if (video.readyState >= 2) {
-      startVideo();
-    } else {
-      video.addEventListener('loadeddata', startVideo, { once: true });
-    }
-
-    return () => video.removeEventListener('loadeddata', startVideo);
-  }, [showTransition]);
-
-  const handleEnter = () => setShowTransition(true);
-
-  const handleTransitionEnded = () => onOpen();
+    // Start playback directly from the user's click gesture. This is more
+    // reliable on iOS/Android browsers than starting it from an effect after
+    // React changes the rendered tree.
+    video.currentTime = 0;
+    video.muted = true;
+    video.playsInline = true;
+    setShowTransition(true);
+    void video.play().catch(() => {
+      // Retry once the browser has loaded enough media to begin playback.
+      const retry = () => void video.play().catch(() => undefined);
+      video.addEventListener('canplay', retry, { once: true });
+      video.load();
+    });
+  };
 
   if (showTransition) {
     return (
@@ -62,15 +54,11 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           playsInline
           autoPlay
           preload="auto"
-          onLoadedData={(event) => {
-            const video = event.currentTarget;
-            if (video.paused) void video.play().catch(() => undefined);
-          }}
           onCanPlay={(event) => {
             const video = event.currentTarget;
             if (video.paused) void video.play().catch(() => undefined);
           }}
-          onEnded={handleTransitionEnded}
+          onEnded={onOpen}
           aria-hidden="true"
         >
           <source src="/assets/videos/Doors_opening_to_wedding_scene.mp4" type="video/mp4" />
@@ -81,6 +69,19 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
+      {/* Keep the transition video mounted before the click so the browser can
+          preload it and the click itself can authorize playback. */}
+      <video
+        ref={transitionVideoRef}
+        className="pointer-events-none absolute inset-0 h-full w-full object-contain bg-black opacity-0"
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src="/assets/videos/Doors_opening_to_wedding_scene.mp4" type="video/mp4" />
+      </video>
+
       <video
         className="absolute inset-0 h-full w-full object-cover object-center"
         autoPlay
