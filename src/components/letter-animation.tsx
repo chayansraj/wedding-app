@@ -7,14 +7,6 @@ interface LetterAnimationProps {
   coupleName?: string;
 }
 
-/**
- * Full-screen wedding opening.
- *
- * The existing landing animation is preserved. Clicking "Click to Enter"
- * now starts the door-opening transition video. The main invitation is only
- * revealed once that video finishes, so the final wedding-scene frame leads
- * naturally into the invitation background instead of cutting away early.
- */
 const OPENING_CTA_BLUR_X = 260;
 const OPENING_CTA_BLUR_Y = 16;
 const OPENING_CTA_DIFFUSE_SCALE_X = 3.25;
@@ -39,44 +31,50 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
     const video = transitionVideoRef.current;
     if (!video) return;
 
-    video.currentTime = 0;
-    void video.play().catch(() => undefined);
+    const startVideo = () => {
+      video.currentTime = 0;
+      void video.play().catch(() => {
+        // The video is muted, so browsers should allow playback. If a browser
+        // delays playback until the next event, canplay/loadeddata retries it.
+      });
+    };
+
+    if (video.readyState >= 2) {
+      startVideo();
+    } else {
+      video.addEventListener('loadeddata', startVideo, { once: true });
+    }
+
+    return () => video.removeEventListener('loadeddata', startVideo);
   }, [showTransition]);
 
-  const handleEnter = () => {
-    setShowTransition(true);
-  };
+  const handleEnter = () => setShowTransition(true);
 
-  const handleTransitionEnded = () => {
-    onOpen();
-  };
+  const handleTransitionEnded = () => onOpen();
 
   if (showTransition) {
     return (
       <main className="fixed inset-0 z-[100] overflow-hidden bg-black" aria-label="Opening transition">
         <video
           ref={transitionVideoRef}
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-contain bg-black"
           muted
           playsInline
+          autoPlay
           preload="auto"
-          onEnded={handleTransitionEnded}
-          onCanPlay={() => {
-            const video = transitionVideoRef.current;
-            if (video?.paused) void video.play().catch(() => undefined);
+          onLoadedData={(event) => {
+            const video = event.currentTarget;
+            if (video.paused) void video.play().catch(() => undefined);
           }}
+          onCanPlay={(event) => {
+            const video = event.currentTarget;
+            if (video.paused) void video.play().catch(() => undefined);
+          }}
+          onEnded={handleTransitionEnded}
           aria-hidden="true"
         >
-          <source
-            src="/assets/videos/Doors_opening_to_wedding_scene.mp4"
-            type="video/mp4"
-          />
+          <source src="/assets/videos/Doors_opening_to_wedding_scene.mp4" type="video/mp4" />
         </video>
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-black opacity-40 animate-[opening-video-fade-in_450ms_ease-out_forwards]"
-        />
       </main>
     );
   }
@@ -99,41 +97,14 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
       <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
         <defs>
-          <filter
-            id="opening-cta-horizontal-diffuse"
-            x="-200%"
-            y="-240%"
-            width="500%"
-            height="580%"
-            colorInterpolationFilters="sRGB"
-          >
+          <filter id="opening-cta-horizontal-diffuse" x="-200%" y="-240%" width="500%" height="580%" colorInterpolationFilters="sRGB">
             <feGaussianBlur stdDeviation={`${OPENING_CTA_BLUR_X} ${OPENING_CTA_BLUR_Y}`} />
           </filter>
-
-          <filter
-            id="opening-cta-elliptical-diffuse"
-            x="-260%"
-            y="-260%"
-            width="620%"
-            height="620%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feGaussianBlur
-              stdDeviation={`${OPENING_CTA_ELLIPSE_BLUR_X} ${OPENING_CTA_ELLIPSE_BLUR_Y}`}
-            />
+          <filter id="opening-cta-elliptical-diffuse" x="-260%" y="-260%" width="620%" height="620%" colorInterpolationFilters="sRGB">
+            <feGaussianBlur stdDeviation={`${OPENING_CTA_ELLIPSE_BLUR_X} ${OPENING_CTA_ELLIPSE_BLUR_Y}`} />
           </filter>
-
-          <filter
-            id="opening-cta-dark-end-diffuse"
-            x="-220%"
-            y="-280%"
-            width="540%"
-            height="660%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feGaussianBlur
-              stdDeviation={`${OPENING_CTA_END_BLUR_X} ${OPENING_CTA_END_BLUR_Y}`}
-            />
+          <filter id="opening-cta-dark-end-diffuse" x="-220%" y="-280%" width="540%" height="660%" colorInterpolationFilters="sRGB">
+            <feGaussianBlur stdDeviation={`${OPENING_CTA_END_BLUR_X} ${OPENING_CTA_END_BLUR_Y}`} />
             <feComponentTransfer>
               <feFuncR type="linear" slope={OPENING_CTA_END_DARKNESS} />
               <feFuncG type="linear" slope={OPENING_CTA_END_DARKNESS} />
@@ -150,54 +121,10 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           aria-label="Click to Enter"
           className="relative block w-[88vw] max-w-[620px] overflow-visible bg-transparent p-0 transition-transform duration-200 hover:scale-[1.015] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f7d98b]/70"
         >
-          {/* Existing broad horizontal diffusion. */}
-          <img
-            src="/assets/images/click-to-enter-banner.svg"
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 block h-auto w-full"
-            style={{
-              filter: 'url(#opening-cta-horizontal-diffuse)',
-              WebkitFilter: 'url(#opening-cta-horizontal-diffuse)',
-              transform: `scaleX(${OPENING_CTA_DIFFUSE_SCALE_X})`,
-              transformOrigin: 'center center',
-              opacity: OPENING_CTA_GLOW_OPACITY,
-            }}
-          />
-
-          <img
-            src="/assets/images/click-to-enter-banner.svg"
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 block h-auto w-full"
-            style={{
-              filter: 'url(#opening-cta-elliptical-diffuse)',
-              WebkitFilter: 'url(#opening-cta-elliptical-diffuse)',
-              transform: `scale(${OPENING_CTA_ELLIPSE_SCALE_X} ${OPENING_CTA_ELLIPSE_SCALE_Y})`,
-              transformOrigin: 'center center',
-              opacity: OPENING_CTA_ELLIPSE_OPACITY,
-            }}
-          />
-
-          <img
-            src="/assets/images/click-to-enter-banner.svg"
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 block h-auto w-full"
-            style={{
-              filter: 'url(#opening-cta-dark-end-diffuse)',
-              WebkitFilter: 'url(#opening-cta-dark-end-diffuse)',
-              transform: `scaleX(${OPENING_CTA_END_SCALE_X})`,
-              transformOrigin: 'center center',
-              opacity: 1,
-            }}
-          />
-
-          <img
-            src="/assets/images/click-to-enter-banner.svg"
-            alt="Click to Enter"
-            className="relative block h-auto w-full"
-          />
+          <img src="/assets/images/click-to-enter-banner.svg" alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 block h-auto w-full" style={{ filter: 'url(#opening-cta-horizontal-diffuse)', WebkitFilter: 'url(#opening-cta-horizontal-diffuse)', transform: `scaleX(${OPENING_CTA_DIFFUSE_SCALE_X})`, transformOrigin: 'center center', opacity: OPENING_CTA_GLOW_OPACITY }} />
+          <img src="/assets/images/click-to-enter-banner.svg" alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 block h-auto w-full" style={{ filter: 'url(#opening-cta-elliptical-diffuse)', WebkitFilter: 'url(#opening-cta-elliptical-diffuse)', transform: `scale(${OPENING_CTA_ELLIPSE_SCALE_X} ${OPENING_CTA_ELLIPSE_SCALE_Y})`, transformOrigin: 'center center', opacity: OPENING_CTA_ELLIPSE_OPACITY }} />
+          <img src="/assets/images/click-to-enter-banner.svg" alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 block h-auto w-full" style={{ filter: 'url(#opening-cta-dark-end-diffuse)', WebkitFilter: 'url(#opening-cta-dark-end-diffuse)', transform: `scaleX(${OPENING_CTA_END_SCALE_X})`, transformOrigin: 'center center', opacity: 1 }} />
+          <img src="/assets/images/click-to-enter-banner.svg" alt="Click to Enter" className="relative block h-auto w-full" />
         </button>
       </div>
     </main>
