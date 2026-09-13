@@ -36,16 +36,11 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   useEffect(() => {
     if (!showTransition) return;
 
-    // Starting playback explicitly keeps this reliable on mobile browsers:
-    // the play() call happens directly after the user's click interaction.
     const video = transitionVideoRef.current;
     if (!video) return;
 
     video.currentTime = 0;
-    void video.play().catch(() => {
-      // The source is muted, but keep the UI usable if a browser still delays
-      // playback. The media element will retry once it can play.
-    });
+    void video.play().catch(() => undefined);
   }, [showTransition]);
 
   const handleEnter = () => {
@@ -78,10 +73,9 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           />
         </video>
 
-        {/* A very short fade-in masks the hand-off from the CTA scene. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-black animate-[opening-video-fade-in_450ms_ease-out]"
+          className="pointer-events-none absolute inset-0 bg-black opacity-40 animate-[opening-video-fade-in_450ms_ease-out_forwards]"
         />
       </main>
     );
@@ -171,7 +165,6 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Strong elliptical glow, expanded sideways around the text. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -186,7 +179,6 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Outer end haze. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt=""
@@ -201,7 +193,6 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
             }}
           />
 
-          {/* Original CTA remains crisp and unchanged. */}
           <img
             src="/assets/images/click-to-enter-banner.svg"
             alt="Click to Enter"
