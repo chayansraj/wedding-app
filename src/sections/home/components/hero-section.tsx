@@ -33,21 +33,18 @@ export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSection
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 22 }} transition={{ duration: 1, delay: .15 }} className="mt-7">
-            <p className="text-[11px] font-semibold uppercase tracking-[.28em] text-[#8a4c23] sm:text-sm">With the blessings of our families</p>
-            <h1 className="mt-3 font-serif text-[clamp(3.2rem,12vw,7rem)] leading-[.9] text-[#7b1e1e]">{couple.groom.name}<span className="mx-2 text-[.42em] text-[#b8872e] sm:mx-5">&amp;</span>{couple.bride.name}</h1>
-            <div className="mx-auto mt-5 max-w-xs"><OrnamentalDivider /></div>
-            <p className="mx-auto mt-5 max-w-2xl font-serif text-base italic leading-relaxed text-[#6f4c3b] sm:text-xl">We invite you to share in the joy, blessings and celebration of our wedding</p>
+            <div className="mx-auto max-w-xs"><OrnamentalDivider /></div>
+            <p className="mx-auto mt-5 max-w-2xl font-serif text-base italic leading-relaxed text-[#6f4c3b] sm:text-xl">We invite you to share the joy, blessings and celebration of our wedding</p>
           </motion.div>
 
-          <div className="mt-7 flex flex-col items-center justify-center gap-6 sm:mt-9 sm:flex-row sm:gap-10">
-            <Portrait src={couple.groom.photo} name={couple.groom.name} label="The Groom" />
-            <motion.div animate={{ scale:[1,1.14,1], rotate:[0,6,-6,0] }} transition={{ duration:2.7, repeat:Infinity, ease:'easeInOut' }} className="flex h-12 w-12 items-center justify-center rounded-full border border-[#c89b3c]/60 bg-[#fff9ed] text-xl text-[#8b1e1e] shadow-lg sm:h-16 sm:w-16 sm:text-2xl">ॐ</motion.div>
-            <Portrait src={couple.bride.photo} name={couple.bride.name} label="The Bride" />
+          <div className="mt-8 flex flex-row items-center justify-center gap-3 sm:mt-10 sm:gap-10">
+            <Portrait src={couple.groom.photo} name={couple.groom.name} label="The Groom" family={couple.groom.parents} />
+            <motion.div animate={{ scale:[1,1.14,1], rotate:[0,6,-6,0] }} transition={{ duration:2.7, repeat:Infinity, ease:'easeInOut' }} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#c89b3c]/60 bg-[#fff9ed] text-xl text-[#8b1e1e] shadow-lg sm:h-16 sm:w-16 sm:text-2xl">ॐ</motion.div>
+            <Portrait src={couple.bride.photo} name={couple.bride.name} label="The Bride" family={couple.bride.parents} />
           </div>
 
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 12 }} transition={{ duration: .8, delay: .45 }} className="mt-6">
-            <p className="font-serif text-lg text-[#5f3028] sm:text-xl">24 November 2026 <span className="px-2 text-[#b8872e]">·</span> 7:00 PM onwards</p>
-            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 12 }} transition={{ duration: .8, delay: .45 }} className="mt-8">
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
               <motion.button onClick={() => onScrollToSection('details')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#8b1e1e] bg-[#8b1e1e] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#fff8e8] shadow-[0_10px_28px_rgba(123,30,30,.2)]">Explore the Celebration</motion.button>
               <motion.button onClick={() => onScrollToSection('rsvp')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#c89b3c]/55 bg-[#fffaf0] px-7 py-3.5 text-sm font-semibold text-[#6c3028] shadow-sm">RSVP</motion.button>
             </div>
@@ -60,16 +57,17 @@ export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSection
   );
 };
 
-function Portrait({ src, name, label }: { src: string; name: string; label: string }) {
+function Portrait({ src, name, label, family }: { src: string; name: string; label: string; family?: string }) {
   return (
-    <div className="w-36 text-center sm:w-44">
-      <div className="relative mx-auto h-32 w-32 sm:h-40 sm:w-40">
+    <div className="w-32 text-center sm:w-44">
+      <div className="relative mx-auto h-28 w-28 sm:h-44 sm:w-44">
         <div className="absolute inset-0 rounded-full border border-[#b08a3a]/75 p-1.5" />
-        <div className="absolute inset-3 rounded-full border border-[#b08a3a]/35 p-1.5" />
-        <div className="absolute inset-5 overflow-hidden rounded-full border-4 border-[#fff8e8] shadow-[0_16px_35px_rgba(80,35,20,.18)]"><img src={src} alt={name} className="h-full w-full object-cover" /></div>
+        <div className="absolute inset-2 rounded-full border border-[#b08a3a]/35 p-1.5 sm:inset-3" />
+        <div className="absolute inset-4 overflow-hidden rounded-full border-2 border-[#fff8e8] shadow-[0_16px_35px_rgba(80,35,20,.18)] sm:inset-5 sm:border-4"><img src={src} alt={name} className="h-full w-full object-cover" /></div>
       </div>
-      <p className="mt-2 text-[9px] uppercase tracking-[.25em] text-[#b08a3a]">{label}</p>
-      <p className="mt-1 font-serif text-xl text-[#572a24] sm:text-2xl">{name}</p>
+      <p className="mt-3 text-[9px] uppercase tracking-[.25em] text-[#b08a3a]">{label}</p>
+      <p className="mt-1 font-serif text-lg text-[#572a24] sm:text-2xl">{name}</p>
+      {family ? <p className="mt-1.5 text-sm font-semibold leading-snug text-[#4a2717] sm:text-base">{family}</p> : null}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { MarigoldCorner } from './indian-ornaments';
 
 interface LetterAnimationProps {
   onOpen: () => void;
@@ -68,6 +69,14 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         <source src="/assets/videos/Doors_opening_to_wedding_scene.mp4" type="video/mp4" />
       </video>
 
+      {/* Marigold bouquets framing the transition video's contained rect, hiding the corner watermark. */}
+      <div className={`pointer-events-none absolute inset-0 z-40 transition-opacity duration-300 ${showTransition ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">
+        <div className="absolute" style={{ inset: 0, margin: 'auto', aspectRatio: '9 / 16', maxWidth: '100%', maxHeight: '100%' }}>
+          <MarigoldCorner idPrefix="drR" className="absolute bottom-0 right-0 w-[64%]" />
+          <MarigoldCorner idPrefix="drL" className="absolute bottom-0 left-0 w-[64%] -scale-x-100" />
+        </div>
+      </div>
+
       <div className={showTransition ? 'pointer-events-none absolute inset-0 z-20 opacity-0' : 'absolute inset-0 z-10 opacity-100'}>
         <video
           className="absolute inset-0 h-full w-full object-cover object-center"
@@ -82,6 +91,12 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         </video>
 
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/5" />
+
+        {/* Marigold bouquets in the bottom corners hide the corner watermark on the looping background video. */}
+        <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
+          <MarigoldCorner idPrefix="bgR" className="absolute bottom-0 right-0 w-[58vw] max-w-[380px]" />
+          <MarigoldCorner idPrefix="bgL" className="absolute bottom-0 left-0 w-[58vw] max-w-[380px] -scale-x-100" />
+        </div>
 
         <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
           <defs>

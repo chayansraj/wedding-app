@@ -3,18 +3,20 @@ export const WEDDING_CONFIG = {
   bride: {
     name: 'Divya',
     fullName: 'Divya Vashishtha',
+    parents: 'D/o Mrs Madhu & Mr Yogendra Vashishtha',
     photo: '/assets/images/bride-circle.png',
   },
   groom: {
     name: 'Chayan',
     fullName: 'Chayan Shrang Raj',
+    parents: 'S/o Mrs Anjali & Mr Sanjay Mishra',
     photo: '/assets/images/groom-circle.png',
   },
   venue: {
     ceremony: {
       name: 'The Saffron',
       address: 'Karkarduma, New Delhi',
-      time: '7:00 PM Onwards',
+      time: '8:00 PM Onwards',
     },
     reception: {
       name: 'Hotel Novena Bone',

@@ -201,7 +201,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.9 }}
-          className="fixed bottom-44 right-6 z-50 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-3 rounded-lg shadow-xl backdrop-blur-sm max-w-xs"
+          className="fixed bottom-24 left-4 z-50 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-3 rounded-lg shadow-xl backdrop-blur-sm max-w-xs"
         >
           <div className="flex items-center space-x-2">
             <motion.div
@@ -221,7 +221,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
             </div>
           </div>
           <motion.div
-            className="absolute -bottom-1 right-8 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-blue-500"
+            className="absolute -bottom-1 left-8 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-blue-500"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.3 }}
@@ -238,7 +238,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
           type: 'spring',
           stiffness: 200,
         }}
-        className={`fixed bottom-24 right-6 z-50 ${className}`}
+        className={`fixed bottom-6 left-4 z-50 ${className}`}
       >
         {/* Hidden audio element */}
         <audio
@@ -259,7 +259,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
         {/* Progress Ring */}
         <div className="relative">
           <svg
-            className="w-14 h-14 transform -rotate-90 absolute inset-0"
+            className="w-11 h-11 transform -rotate-90 absolute inset-0"
             viewBox="0 0 64 64"
           >
             {/* Background circle */}
@@ -309,7 +309,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`relative w-14 h-14 bg-white/95 backdrop-blur-md border border-white/20 rounded-full shadow-2xl hover:shadow-cyan-200/50 transition-all duration-300 group overflow-hidden ${
+            className={`relative w-11 h-11 bg-white/95 backdrop-blur-md border border-white/20 rounded-full shadow-2xl hover:shadow-cyan-200/50 transition-all duration-300 group overflow-hidden ${
               autoplayBlocked && !hasInteracted ? 'animate-pulse' : ''
             }`}
             onClick={togglePlayPause}
@@ -395,7 +395,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
                     repeat: Infinity,
                     ease: 'easeInOut',
                   }}
-                  className="text-2xl filter drop-shadow-sm"
+                  className="text-lg filter drop-shadow-sm"
                 >
                   🎵
                 </motion.div>
@@ -415,7 +415,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
           <motion.div
             initial={{ opacity: 0, x: 10 }}
             whileHover={{ opacity: 1, x: 0 }}
-            className="absolute right-full top-1/2 -translate-y-1/2 mr-4 bg-gray-800/90 text-white text-xs px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm whitespace-nowrap pointer-events-none"
+            className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-gray-800/90 text-white text-xs px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm whitespace-nowrap pointer-events-none"
           >
             <div className="font-medium">
               {isPlaying
