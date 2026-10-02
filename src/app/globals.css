@@ -16,6 +16,8 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
+  --font-invocation-en: var(--font-cinzel-decorative), 'Cinzel Decorative', Georgia, serif;
+  --font-invocation-hi: var(--font-tiro-devanagari), 'Tiro Devanagari Hindi', Georgia, serif;
 }
 
 html { scroll-behavior: smooth; background: var(--background); }

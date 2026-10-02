@@ -3,9 +3,10 @@
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { LanguageToggle } from '@/components';
+import { HIDDEN_SECTIONS } from '@/constants';
 
 interface NavigationFABProps { activeSection: string; onScrollToSection: (sectionId: string) => void; }
-const sections = ['hero','couple','details','venue','gallery','rsvp','closing'];
+const sections = ['hero','couple','details','venue','gallery','rsvp','closing'].filter((id) => !HIDDEN_SECTIONS.includes(id));
 
 export default function NavigationFAB({ activeSection, onScrollToSection }: NavigationFABProps) {
   const { t } = useTranslation('home');

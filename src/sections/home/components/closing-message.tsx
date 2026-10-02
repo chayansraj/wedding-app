@@ -11,7 +11,7 @@ export const ClosingMessage = () => {
 
   return (
     <SectionBackdrop className="bg-[#7b1e1e] text-[#fff9ed]">
-      <div ref={ref} className="relative px-4 py-28 text-center sm:py-36">
+      <div ref={ref} className="relative px-4 py-10 text-center sm:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }} transition={{ duration: .8 }}>
           <p className="font-serif text-sm uppercase tracking-[.35em] text-[#d7b76b]">{t('closing-message.eyebrow')}</p>
           <div className="my-7"><OrnamentalDivider /></div>

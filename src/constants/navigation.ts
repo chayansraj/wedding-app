@@ -6,7 +6,10 @@ export const NAVIGATION_ANIMATIONS = {
   pulse: { animate: { scale: [1, 1.5, 1] }, transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' } },
 };
 
-export const NAVIGATION_SECTIONS = [
+// Sections listed here stay in the code but are not rendered or navigable.
+export const HIDDEN_SECTIONS: string[] = [];
+
+export const ALL_NAVIGATION_SECTIONS = [
   { id: 'hero', labelKey: 'navigation.home', icon: '✦', gradient: 'from-amber-700 to-red-800' },
   { id: 'couple', labelKey: 'navigation.couple', icon: '♡', gradient: 'from-red-700 to-amber-700' },
   { id: 'details', labelKey: 'navigation.details', icon: '❖', gradient: 'from-amber-700 to-yellow-700' },
@@ -14,3 +17,5 @@ export const NAVIGATION_SECTIONS = [
   { id: 'gallery', labelKey: 'navigation.gallery', icon: '◈', gradient: 'from-amber-700 to-red-700' },
   { id: 'rsvp', labelKey: 'navigation.rsvp', icon: '❧', gradient: 'from-red-700 to-yellow-700' },
 ];
+
+export const NAVIGATION_SECTIONS = ALL_NAVIGATION_SECTIONS.filter((section) => !HIDDEN_SECTIONS.includes(section.id));

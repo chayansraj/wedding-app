@@ -42,7 +42,7 @@ export const VenueInformation = ({ venue }: VenueInformationProps) => {
 
   return (
     <SectionBackdrop>
-      <div ref={ref} className="px-4 py-24 sm:py-28">
+      <div ref={ref} className="px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">
             <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('venue.eyebrow')}</p>

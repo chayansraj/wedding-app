@@ -38,7 +38,7 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
 
   return (
     <SectionBackdrop className="border-t border-[#b08a3a]/15">
-      <div ref={ref} className="px-4 py-20 sm:py-24">
+      <div ref={ref} className="px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-4xl text-center">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }}>
             <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('details.countdown-eyebrow')}</p>

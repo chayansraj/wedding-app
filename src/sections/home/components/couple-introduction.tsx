@@ -10,15 +10,34 @@ import { Lotus, OrnamentalDivider, SectionBackdrop } from '@/components/indian-o
 interface CoupleIntroductionProps { bride: WeddingConfigType['bride']; groom: WeddingConfigType['groom']; isVisible: boolean; }
 
 export const CoupleIntroduction = ({ bride, groom }: CoupleIntroductionProps) => {
-  const { t } = useTranslation('home');
+  const { t, i18n } = useTranslation('home');
+  const isHindi = i18n.language.startsWith('hi');
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.18 });
 
-  return <SectionBackdrop><div ref={ref} className="px-4 py-20 sm:py-28"><div className="mx-auto max-w-6xl">
-    <motion.div initial={{opacity:0,y:28}} animate={{opacity:inView?1:0,y:inView?0:28}} className="mb-14 text-center">
+  return <SectionBackdrop><div ref={ref} className="px-4 py-10 sm:py-16"><div className="mx-auto max-w-6xl">
+    <motion.div initial={{opacity:0,y:28}} animate={{opacity:inView?1:0,y:inView?0:28}} className="mb-10 text-center">
+      {/* Previous header, kept for later:
       <p className="mb-4 font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('couple.eyebrow')}</p>
       <h2 className="font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('couple.our-story')}</h2>
-      <div className="mx-auto mt-6"><OrnamentalDivider /></div>
-      <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#6e5c55] sm:text-lg">{t('couple.story-text')}</p>
+      */}
+      <h2 className="relative mx-auto max-w-3xl">
+        {/* Shimmering gold-maroon gradient sweeps across the text; drop-shadow (not text-shadow) so the glow works with background-clip text */}
+        <motion.span initial={{opacity:0,letterSpacing:'.14em'}} animate={{opacity:inView?1:0,letterSpacing:inView?'.04em':'.14em',backgroundPosition:['0% 50%','200% 50%']}} transition={{opacity:{duration:1.1,delay:.1},letterSpacing:{duration:1.1,delay:.1},backgroundPosition:{duration:4.5,repeat:Infinity,ease:'linear'}}}
+          className={`block bg-clip-text font-bold leading-[1.25] text-transparent [filter:drop-shadow(0_0_12px_rgba(214,170,80,.45))] ${isHindi ? 'font-invocation-hi text-[2rem] sm:text-5xl md:text-[3.4rem]' : 'font-invocation-en text-[1.3rem] sm:text-[2.3rem] md:text-5xl'}`}
+          style={{ backgroundImage: 'linear-gradient(100deg, #8a3b2e 0%, #8a3b2e 38%, #d9b25c 48%, #fff1c2 52%, #d9b25c 56%, #8a3b2e 66%, #8a3b2e 100%)', backgroundSize: '200% 100%' }}>{t('couple.journey-title')}</motion.span>
+        {GLINTS.map((g) => (
+          <motion.span key={g.left} aria-hidden="true" className="pointer-events-none absolute text-[#ffe9a8] [text-shadow:0_0_8px_rgba(255,222,140,.9)]" style={{ left: g.left, top: g.top, fontSize: g.size }}
+            animate={{ opacity: [0, 1, 0], scale: [0.4, 1.1, 0.4], rotate: [0, 60] }} transition={{ duration: 1.5, delay: g.delay, repeat: Infinity, repeatDelay: 3.6, ease: 'easeInOut' }}>✦</motion.span>
+        ))}
+        <span className="mx-auto mt-3 flex items-center justify-center gap-3">
+          <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#c89b3c]/70 sm:w-16" />
+          <motion.span animate={{opacity:[.75,1,.75],scale:[1,1.12,1]}} transition={{duration:3.2,repeat:Infinity,ease:'easeInOut'}} className="text-sm text-[#c89b3c] [text-shadow:0_0_10px_rgba(214,170,80,.8)]">✦</motion.span>
+          <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#c89b3c]/70 sm:w-16" />
+        </span>
+        <motion.span initial={{opacity:0,y:10}} animate={{opacity:inView?1:0,y:inView?0:10}} transition={{duration:.9,delay:.45}} className="mt-2 block whitespace-nowrap font-serif text-[0.7rem] uppercase tracking-[.22em] text-[#9a6a2a] [text-shadow:0_0_12px_rgba(214,170,80,.35)] sm:text-sm sm:tracking-[.38em]">{t('couple.journey-subtitle')}</motion.span>
+      </h2>
+      {/* Divider kept for later: <div className="mx-auto mt-7"><OrnamentalDivider /></div> */}
+      <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-[#5a4740] sm:text-lg">{t('couple.story-text')}</p>
     </motion.div>
 
     <div className="grid items-start gap-10 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
@@ -29,9 +48,15 @@ export const CoupleIntroduction = ({ bride, groom }: CoupleIntroductionProps) =>
       <PersonCard person={bride} name={t('couple.bride-full-name')} role={t('couple.the-bride')} description={t('couple.bride-description')} inView={inView} delay={.25} />
     </div>
 
-    <motion.div initial={{opacity:0,y:20}} animate={{opacity:inView?1:0,y:inView?0:20}} transition={{delay:.6}} className="mx-auto mt-16 max-w-3xl text-center"><OrnamentalDivider /><p className="mt-7 font-serif text-2xl italic leading-relaxed text-[#4a3530] sm:text-3xl">“{t('couple.love-quote')}”</p><p className="mt-4 text-xs uppercase tracking-[.3em] text-[#b08a3a]">{t('couple.new-chapter')}</p></motion.div>
+    <motion.div initial={{opacity:0,y:20}} animate={{opacity:inView?1:0,y:inView?0:20}} transition={{delay:.6}} className="mx-auto mt-6 max-w-3xl text-center sm:mt-10"><OrnamentalDivider />{/* Quote kept for later: <p className="mt-7 font-serif text-2xl italic leading-relaxed text-[#4a3530] sm:text-3xl">“{t('couple.love-quote')}”</p> */}<p className="mt-4 text-xs uppercase tracking-[.3em] text-[#b08a3a]">{t('couple.new-chapter')}</p></motion.div>
   </div></div></SectionBackdrop>;
 };
+
+const GLINTS = [
+  { left: '4%', top: '-14%', size: 12, delay: 0 },
+  { left: '92%', top: '-6%', size: 10, delay: 1.3 },
+  { left: '70%', top: '58%', size: 9, delay: 2.5 },
+];
 
 function PersonCard({ person, name, role, description, inView, delay }: { person: WeddingConfigType['bride'] | WeddingConfigType['groom']; name: string; role: string; description: string; inView: boolean; delay: number }) {
   return <motion.div initial={{opacity:0,y:35}} animate={{opacity:inView?1:0,y:inView?0:35}} transition={{duration:.8,delay}} className="text-center">

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Cinzel_Decorative, Poppins, Tiro_Devanagari_Hindi } from 'next/font/google';
 import './globals.css';
 import { LangProvider, LocalizationProvider } from '@/locales';
 import { Toaster } from 'sonner';
@@ -8,6 +8,18 @@ const poppins = Poppins({
   variable: '--font-poppins',
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
+
+const cinzelDecorative = Cinzel_Decorative({
+  variable: '--font-cinzel-decorative',
+  subsets: ['latin'],
+  weight: ['700'],
+});
+
+const tiroDevanagari = Tiro_Devanagari_Hindi({
+  variable: '--font-tiro-devanagari',
+  subsets: ['latin', 'devanagari'],
+  weight: ['400'],
 });
 
 export const metadata: Metadata = {
@@ -23,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>
+      <body className={`${poppins.variable} ${cinzelDecorative.variable} ${tiroDevanagari.variable} antialiased`}>
         <LangProvider>
           <LocalizationProvider>
             {children}

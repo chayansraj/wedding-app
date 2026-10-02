@@ -19,7 +19,7 @@ export const RSVP = () => {
 
   if (isSubmitted) return (
     <SectionBackdrop className="bg-[#f8f0e1]">
-      <div className="px-4 py-28 text-center">
+      <div className="px-4 py-10 text-center sm:py-16">
         <motion.div initial={{ opacity: 0, scale: .94 }} animate={{ opacity: 1, scale: 1 }} className="mx-auto max-w-2xl rounded-[2rem] border border-[#b08a3a]/35 bg-[#fffdf5] p-12 shadow-2xl">
           <Diya className="mx-auto h-20 w-20 text-[#b08a3a]" />
           <h3 className="mt-6 font-serif text-4xl text-[#7b1e1e]">{t('rsvp.thank-you')}</h3>
@@ -32,7 +32,7 @@ export const RSVP = () => {
 
   return (
     <SectionBackdrop className="bg-[#f8f0e1]">
-      <div ref={ref} className="px-4 py-24 sm:py-28">
+      <div ref={ref} className="px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">
             <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('rsvp.eyebrow')}</p>

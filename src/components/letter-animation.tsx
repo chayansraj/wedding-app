@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type SyntheticEvent } from 'react';
+import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 
 interface LetterAnimationProps {
   onOpen: () => void;
@@ -74,14 +74,48 @@ const OPENING_CTA_END_BLUR_X = 190;
 const OPENING_CTA_END_BLUR_Y = 22;
 const OPENING_CTA_END_DARKNESS = 0.10;
 
+const GANESH_MANTRA_SRC = '/assets/audio/ganesh-mantra.mp3';
+
 export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
   const [showTransition, setShowTransition] = useState(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
+  const mantraRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const audio = mantraRef.current;
+    if (!audio) return;
+
+    const events: (keyof WindowEventMap)[] = ['pointerdown', 'touchstart', 'keydown'];
+    const startOnGesture = () => {
+      events.forEach((name) => window.removeEventListener(name, startOnGesture));
+      void audio.play().catch(() => undefined);
+    };
+
+    audio.currentTime = 0;
+    // Unmuted autoplay is blocked by most browsers until the user interacts;
+    // fall back to the first tap/key anywhere on the opening screen.
+    void audio.play().catch(() => {
+      events.forEach((name) => window.addEventListener(name, startOnGesture, { once: true }));
+    });
+
+    return () => {
+      events.forEach((name) => window.removeEventListener(name, startOnGesture));
+      audio.pause();
+    };
+  }, []);
+
+  const stopMantra = () => {
+    const audio = mantraRef.current;
+    if (!audio) return;
+    audio.pause();
+    audio.currentTime = 0;
+  };
 
   const handleEnter = () => {
     const video = transitionVideoRef.current;
     if (!video) return;
 
+    stopMantra();
     video.currentTime = 0;
     video.muted = true;
     video.playsInline = true;
@@ -102,6 +136,8 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
+      <audio ref={mantraRef} src={GANESH_MANTRA_SRC} loop preload="auto" aria-hidden="true" />
+
       {/* The transition video stays mounted for the entire interaction. This
           prevents React from destroying the exact video element whose play()
           was authorized by the user's tap. */}

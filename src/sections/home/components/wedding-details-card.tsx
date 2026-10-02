@@ -16,7 +16,7 @@ export const WeddingDetailsCard = ({ date, venue }: WeddingDetailsCardProps) => 
 
   return (
     <SectionBackdrop>
-      <div className="px-4 py-24 sm:py-28">
+      <div className="px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .8 }} className="text-center">
             <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('details.eyebrow')}</p>

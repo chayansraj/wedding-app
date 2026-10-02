@@ -4,6 +4,7 @@ export { WeddingDetailsCard } from './wedding-details-card';
 export { CountdownTimer } from './countdown-timer';
 export { VenueInformation } from './venue-information';
 export { EventSchedule } from './event-schedule';
+export { EventStory } from './event-story';
 export { GalleryPreview } from './gallery-preview';
 export { RSVP } from './rsvp';
 export { ClosingMessage } from './closing-message';
