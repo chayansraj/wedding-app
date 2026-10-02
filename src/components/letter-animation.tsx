@@ -136,7 +136,10 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
 
   return (
     <main className="fixed inset-0 z-[100] overflow-hidden bg-black">
-      <audio ref={mantraRef} src={GANESH_MANTRA_SRC} loop preload="auto" aria-hidden="true" />
+      <audio ref={mantraRef} src={GANESH_MANTRA_SRC} loop preload="auto" aria-hidden="true">
+        {/* Instrumental mantra — no spoken content to caption; satisfies jsx-a11y/media-has-caption */}
+        <track kind="captions" label="No captions available" />
+      </audio>
 
       {/* The transition video stays mounted for the entire interaction. This
           prevents React from destroying the exact video element whose play()
