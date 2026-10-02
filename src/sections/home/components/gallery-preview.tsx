@@ -10,12 +10,12 @@ export const GalleryPreview = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: .12 });
 
   const memories = [
-    ['engagement', t('gallery.engagement'), 'A moment that began it all'],
-    ['travel', t('gallery.travel'), 'Adventures together'],
-    ['date', t('gallery.date'), 'Little moments, forever'],
-    ['proposal', t('gallery.proposal'), 'A promise for a lifetime'],
-    ['family', t('gallery.family'), 'Two families, one celebration'],
-    ['friends', t('gallery.friends'), 'The people who make it special'],
+    ['engagement', t('gallery.engagement'), t('gallery.engagement-caption')],
+    ['travel', t('gallery.travel'), t('gallery.travel-caption')],
+    ['date', t('gallery.date'), t('gallery.date-caption')],
+    ['proposal', t('gallery.proposal'), t('gallery.proposal-caption')],
+    ['family', t('gallery.family'), t('gallery.family-caption')],
+    ['friends', t('gallery.friends'), t('gallery.friends-caption')],
   ];
 
   return (
@@ -23,7 +23,7 @@ export const GalleryPreview = () => {
       <div ref={ref} className="px-4 py-24 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">
-            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">Our memories</p>
+            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('gallery.eyebrow')}</p>
             <h2 className="mt-3 font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('gallery.journey-title')}</h2>
             <div className="mt-6"><OrnamentalDivider /></div>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#6e5c55]">{t('gallery.journey-subtitle')}</p>
@@ -44,7 +44,7 @@ export const GalleryPreview = () => {
               </motion.div>
             ))}
           </div>
-          <p className="mt-10 text-center text-xs text-[#8c7568]">Replace these album frames with your wedding photographs in <code className="rounded bg-[#efe2cd] px-1.5 py-0.5">public/</code> when ready.</p>
+          <p className="mt-10 text-center text-xs text-[#8c7568]">{t('gallery.placeholder-note')}</p>
         </div>
       </div>
     </SectionBackdrop>

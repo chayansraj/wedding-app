@@ -21,7 +21,7 @@ export const VenueInformation = ({ venue }: VenueInformationProps) => {
         <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full border border-[#b08a3a]/20" />
         <div className="flex items-start justify-between gap-5">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[.28em] text-[#b08a3a]">{isCeremony ? 'The sacred ceremony' : 'The celebration'}</p>
+            <p className="text-xs font-semibold uppercase tracking-[.28em] text-[#b08a3a]">{isCeremony ? t('venue.sacred-ceremony') : t('venue.celebration')}</p>
             <h3 className="mt-3 font-serif text-3xl text-[#7b1e1e] sm:text-4xl">{isCeremony ? t('venue.ceremony-time') : t('venue.reception-time')}</h3>
           </div>
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#b08a3a]/40 bg-[#f8ead0] text-[#8b1e1e]"><Diya className="h-9 w-9" /></div>
@@ -45,7 +45,7 @@ export const VenueInformation = ({ venue }: VenueInformationProps) => {
       <div ref={ref} className="px-4 py-24 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">
-            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">Where we gather</p>
+            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('venue.eyebrow')}</p>
             <h2 className="mt-3 font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('venue.location-title')}</h2>
             <div className="mt-6"><OrnamentalDivider /></div>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#6e5c55]">{t('venue.location-subtitle')}</p>

@@ -36,10 +36,10 @@ export const EventSchedule = () => {
 
         <div className="relative z-10 mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-16 text-center">
-            <p className="font-serif text-xs uppercase tracking-[.38em] text-[#8b1e1e] sm:text-sm">The celebrations</p>
+            <p className="font-serif text-xs uppercase tracking-[.38em] text-[#8b1e1e] sm:text-sm">{t('schedule.eyebrow')}</p>
             <h3 className="mt-3 font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('schedule.title')}</h3>
             <div className="mt-6"><OrnamentalDivider /></div>
-            <p className="mx-auto mt-5 max-w-xl font-serif text-base italic text-[#6e5c55] sm:text-lg">A day of blessings, rituals, music, laughter and togetherness.</p>
+            <p className="mx-auto mt-5 max-w-xl font-serif text-base italic text-[#6e5c55] sm:text-lg">{t('schedule.subtitle')}</p>
           </motion.div>
 
           <div className="relative">

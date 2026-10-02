@@ -35,7 +35,7 @@ export const RSVP = () => {
       <div ref={ref} className="px-4 py-24 sm:py-28">
         <div className="mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">
-            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">Your presence is precious to us</p>
+            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('rsvp.eyebrow')}</p>
             <h2 className="mt-3 font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('rsvp.title')}</h2>
             <div className="my-6"><OrnamentalDivider /></div>
             <p className="mx-auto max-w-2xl text-base leading-8 text-[#6e5c55]">{t('rsvp.subtitle')}</p>
@@ -55,7 +55,7 @@ export const RSVP = () => {
             </motion.form>
 
             <motion.aside initial={{ opacity: 0, x: 30 }} animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 30 }} transition={{ duration: .7, delay: .25 }} className="flex flex-col justify-between rounded-[2rem] border border-[#b08a3a]/30 bg-[#8b1e1e] p-8 text-[#fff9ed] shadow-[0_18px_55px_rgba(83,42,24,.16)] sm:p-10">
-              <div><Diya className="h-20 w-20 text-[#d7b76b]" /><h3 className="mt-7 font-serif text-3xl">A seat awaits you</h3><p className="mt-4 text-sm leading-7 text-[#f5dfc4]/85">Please let us know if you can join us in celebrating this beginning.</p></div>
+              <div><Diya className="h-20 w-20 text-[#d7b76b]" /><h3 className="mt-7 font-serif text-3xl">{t('rsvp.seat-title')}</h3><p className="mt-4 text-sm leading-7 text-[#f5dfc4]/85">{t('rsvp.seat-text')}</p></div>
               <div className="mt-10 border-t border-[#d7b76b]/30 pt-7"><p className="text-xs uppercase tracking-[.28em] text-[#d7b76b]">{t('rsvp.deadline')}</p><p className="mt-2 font-serif text-xl">{t('rsvp.deadline-date')}</p><p className="mt-3 text-xs leading-6 text-[#f5dfc4]/75">{t('rsvp.deadline-help')}</p></div>
               <Lotus className="mt-10 h-12 w-24 text-[#d7b76b]" />
             </motion.aside>

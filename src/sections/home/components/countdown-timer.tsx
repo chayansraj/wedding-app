@@ -41,7 +41,7 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
       <div ref={ref} className="px-4 py-20 sm:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }}>
-            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">A day to remember</p>
+            <p className="font-serif text-sm uppercase tracking-[.35em] text-[#8b1e1e]">{t('details.countdown-eyebrow')}</p>
             <h2 className="mt-3 font-serif text-4xl text-[#2d2020] sm:text-5xl">{t('details.countdown-title')}</h2>
             <div className="my-6"><OrnamentalDivider /></div>
             <p className="text-[#6e5c55]">{t('details.countdown-subtitle')}</p>

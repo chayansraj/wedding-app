@@ -426,7 +426,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
             </div>
             <div className="text-gray-300 text-xs">
               {autoplayBlocked && !hasInteracted
-                ? `${t('music.wedding-music')} (Autoplay Blocked)`
+                ? `${t('music.wedding-music')} ${t('music.autoplay-blocked')}`
                 : t('music.wedding-music')}
             </div>
 

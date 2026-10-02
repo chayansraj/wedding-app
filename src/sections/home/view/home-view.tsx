@@ -46,7 +46,7 @@ export default function HomeView() {
         <section id="venue" className="relative bg-transparent"><VenueInformation venue={WEDDING_CONFIG.venue} /><EventSchedule /></section>
         <section id="gallery" className="relative bg-transparent"><GalleryPreview /></section>
         <section id="rsvp" className="relative bg-transparent"><RSVP /></section>
-        <section id="closing" className="relative bg-transparent"><ClosingMessage bride={WEDDING_CONFIG.bride.fullName} groom={WEDDING_CONFIG.groom.fullName} /></section>
+        <section id="closing" className="relative bg-transparent"><ClosingMessage /></section>
         <MusicPlayer />
         <NavigationFAB activeSection={activeSection} onScrollToSection={scrollToSection} />
         <ScrollProgressIndicator activeSection={activeSection} />

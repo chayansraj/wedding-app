@@ -1,12 +1,14 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import type { WeddingConfigType } from '@/types';
 import { Diya, Mandala, OrnamentalDivider, Petals, SectionBackdrop } from '@/components/indian-ornaments';
 
 interface HeroSectionProps { isLoaded: boolean; couple: WeddingConfigType; onScrollToSection: (sectionId: string) => void; }
 
 export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSectionProps) => {
+  const { t } = useTranslation('home');
   return (
     <SectionBackdrop className="min-h-[100svh]">
       <div className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pb-14 pt-28 sm:px-8 sm:pt-32">
@@ -28,29 +30,29 @@ export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSection
 
         <div className="relative z-10 mx-auto w-full max-w-6xl text-center">
           <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : -16 }} transition={{ duration: .85 }}>
-            <p className="font-serif text-base tracking-[.18em] text-[#7b1e1e] sm:text-2xl">ॐ श्री गणेशाय नमः</p>
-            <p className="mt-1 text-[9px] uppercase tracking-[.4em] text-[#a77735] sm:text-xs">Om Shree Ganeshay Namah</p>
+            <p className="font-serif text-base tracking-[.18em] text-[#7b1e1e] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:text-2xl">{t('hero.invocation')}</p>
+            <p className="mt-1 text-[9px] font-semibold uppercase tracking-[.4em] text-[#5a2a12] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:text-xs">{t('hero.invocation-sub')}</p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 22 }} transition={{ duration: 1, delay: .15 }} className="mt-7">
             <div className="mx-auto max-w-xs"><OrnamentalDivider /></div>
-            <p className="mx-auto mt-5 max-w-2xl font-serif text-base italic leading-relaxed text-[#6f4c3b] sm:text-xl">We invite you to share the joy, blessings and celebration of our wedding</p>
+            <p className="mx-auto mt-5 max-w-2xl font-serif text-base italic leading-relaxed text-[#4a2717] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:text-xl">{t('hero.invite')}</p>
           </motion.div>
 
           <div className="mt-8 flex flex-row items-center justify-center gap-3 sm:mt-10 sm:gap-10">
-            <Portrait src={couple.groom.photo} name={couple.groom.name} label="The Groom" family={couple.groom.parents} />
+            <Portrait src={couple.groom.photo} name={t('couple.groom-name')} label={t('couple.the-groom')} family={t('couple.groom-parents')} />
             <motion.div animate={{ scale:[1,1.14,1], rotate:[0,6,-6,0] }} transition={{ duration:2.7, repeat:Infinity, ease:'easeInOut' }} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#c89b3c]/60 bg-[#fff9ed] text-xl text-[#8b1e1e] shadow-lg sm:h-16 sm:w-16 sm:text-2xl">ॐ</motion.div>
-            <Portrait src={couple.bride.photo} name={couple.bride.name} label="The Bride" family={couple.bride.parents} />
+            <Portrait src={couple.bride.photo} name={t('couple.bride-name')} label={t('couple.the-bride')} family={t('couple.bride-parents')} />
           </div>
 
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 12 }} transition={{ duration: .8, delay: .45 }} className="mt-8">
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
-              <motion.button onClick={() => onScrollToSection('details')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#8b1e1e] bg-[#8b1e1e] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#fff8e8] shadow-[0_10px_28px_rgba(123,30,30,.2)]">Explore the Celebration</motion.button>
-              <motion.button onClick={() => onScrollToSection('rsvp')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#c89b3c]/55 bg-[#fffaf0] px-7 py-3.5 text-sm font-semibold text-[#6c3028] shadow-sm">RSVP</motion.button>
+              <motion.button onClick={() => onScrollToSection('details')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#8b1e1e] bg-[#8b1e1e] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#fff8e8] shadow-[0_10px_28px_rgba(123,30,30,.2)]">{t('hero.explore')}</motion.button>
+              <motion.button onClick={() => onScrollToSection('rsvp')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#c89b3c]/55 bg-[#fffaf0] px-7 py-3.5 text-sm font-semibold text-[#6c3028] shadow-sm">{t('hero.rsvp')}</motion.button>
             </div>
           </motion.div>
 
-          <motion.button onClick={() => onScrollToSection('couple')} animate={{ y:[0,7,0], opacity:[.55,1,.55] }} transition={{ duration:1.8, repeat:Infinity }} className="mt-8 text-[10px] uppercase tracking-[.32em] text-[#765746] sm:mt-10">Scroll to discover ↓</motion.button>
+          <motion.button onClick={() => onScrollToSection('couple')} animate={{ y:[0,7,0], opacity:[.8,1,.8] }} transition={{ duration:1.8, repeat:Infinity }} className="mt-8 text-[10px] font-semibold uppercase tracking-[.32em] text-[#5a2a12] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:mt-10">{t('hero.scroll-to-discover')}</motion.button>
         </div>
       </div>
     </SectionBackdrop>
@@ -65,9 +67,9 @@ function Portrait({ src, name, label, family }: { src: string; name: string; lab
         <div className="absolute inset-2 rounded-full border border-[#b08a3a]/35 p-1.5 sm:inset-3" />
         <div className="absolute inset-4 overflow-hidden rounded-full border-2 border-[#fff8e8] shadow-[0_16px_35px_rgba(80,35,20,.18)] sm:inset-5 sm:border-4"><img src={src} alt={name} className="h-full w-full object-cover" /></div>
       </div>
-      <p className="mt-3 text-[9px] uppercase tracking-[.25em] text-[#b08a3a]">{label}</p>
-      <p className="mt-1 font-serif text-lg text-[#572a24] sm:text-2xl">{name}</p>
-      {family ? <p className="mt-1.5 text-sm font-semibold leading-snug text-[#4a2717] sm:text-base">{family}</p> : null}
+      <p className="mt-3 text-[9px] font-semibold uppercase tracking-[.25em] text-[#5a2a12] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)]">{label}</p>
+      <p className="mt-1 font-serif text-lg text-[#4a1a14] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:text-2xl">{name}</p>
+      {family ? <p className="mt-1.5 text-sm font-semibold leading-snug text-[#4a2717] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:text-base">{family}</p> : null}
     </div>
   );
 }

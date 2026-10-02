@@ -1,12 +1,64 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { MarigoldCorner } from './indian-ornaments';
+import { useRef, useState, type SyntheticEvent } from 'react';
 
 interface LetterAnimationProps {
   onOpen: () => void;
   coupleName?: string;
 }
+
+const LOOP_CROSSFADE_SECONDS = 1.2;
+
+// Two copies of the same clip; the next one fades in over the tail of the
+// current one so the loop point is never a hard cut.
+const SeamlessLoopVideo = ({ src }: { src: string }) => {
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [active, setActive] = useState(0);
+  const switching = useRef(false);
+
+  const handleTimeUpdate = (index: number) => (event: SyntheticEvent<HTMLVideoElement>) => {
+    const video = event.currentTarget;
+    if (index !== active || switching.current || !Number.isFinite(video.duration)) return;
+    if (video.duration - video.currentTime > LOOP_CROSSFADE_SECONDS) return;
+
+    switching.current = true;
+    const next = videoRefs.current[1 - index];
+    if (next) {
+      next.currentTime = 0;
+      void next.play().catch(() => undefined);
+    }
+    setActive(1 - index);
+  };
+
+  const handleEnded = (event: SyntheticEvent<HTMLVideoElement>) => {
+    const video = event.currentTarget;
+    video.pause();
+    video.currentTime = 0;
+    switching.current = false;
+  };
+
+  return (
+    <>
+      {[0, 1].map((index) => (
+        <video
+          key={index}
+          ref={(el) => { videoRefs.current[index] = el; }}
+          className={`absolute inset-0 h-full w-full object-cover object-center ${index === active ? 'z-20' : 'z-10'}`}
+          style={index === active ? { animation: `video-fade-in ${LOOP_CROSSFADE_SECONDS}s linear` } : undefined}
+          autoPlay={index === 0}
+          muted
+          playsInline
+          preload="auto"
+          onTimeUpdate={handleTimeUpdate(index)}
+          onEnded={handleEnded}
+          aria-hidden="true"
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      ))}
+    </>
+  );
+};
 
 const OPENING_CTA_BLUR_X = 260;
 const OPENING_CTA_BLUR_Y = 16;
@@ -55,7 +107,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
           was authorized by the user's tap. */}
       <video
         ref={transitionVideoRef}
-        className={`absolute inset-0 z-30 h-full w-full bg-black object-contain transition-opacity duration-300 ${showTransition ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`absolute inset-0 z-30 h-full w-full bg-black object-cover object-center transition-opacity duration-300 ${showTransition ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
         muted
         playsInline
         preload="auto"
@@ -69,34 +121,10 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         <source src="/assets/videos/Doors_opening_to_wedding_scene.mp4" type="video/mp4" />
       </video>
 
-      {/* Marigold bouquets framing the transition video's contained rect, hiding the corner watermark. */}
-      <div className={`pointer-events-none absolute inset-0 z-40 transition-opacity duration-300 ${showTransition ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">
-        <div className="absolute" style={{ inset: 0, margin: 'auto', aspectRatio: '9 / 16', maxWidth: '100%', maxHeight: '100%' }}>
-          <MarigoldCorner idPrefix="drR" className="absolute bottom-0 right-0 w-[64%]" />
-          <MarigoldCorner idPrefix="drL" className="absolute bottom-0 left-0 w-[64%] -scale-x-100" />
-        </div>
-      </div>
-
       <div className={showTransition ? 'pointer-events-none absolute inset-0 z-20 opacity-0' : 'absolute inset-0 z-10 opacity-100'}>
-        <video
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-        >
-          <source src="/assets/videos/wedding-opening.mp4" type="video/mp4" />
-        </video>
+        <SeamlessLoopVideo src="/assets/videos/wedding-opening.mp4" />
 
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/5" />
-
-        {/* Marigold bouquets in the bottom corners hide the corner watermark on the looping background video. */}
-        <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
-          <MarigoldCorner idPrefix="bgR" className="absolute bottom-0 right-0 w-[58vw] max-w-[380px]" />
-          <MarigoldCorner idPrefix="bgL" className="absolute bottom-0 left-0 w-[58vw] max-w-[380px] -scale-x-100" />
-        </div>
 
         <svg aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
           <defs>

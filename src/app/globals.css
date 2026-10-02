@@ -28,6 +28,15 @@ body {
   text-rendering: optimizeLegibility;
 }
 *, *::before, *::after { box-sizing: border-box; }
+
+@keyframes petal-fall {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); }
+  to { transform: translate3d(var(--petal-drift, 0px), 125vh, 0) rotate(360deg); }
+}
+@keyframes video-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 button, a { -webkit-tap-highlight-color: transparent; }
 ::selection { background: rgba(176, 138, 58, .25); color: #5b201c; }
 .accent-gold { color: var(--secondary); }

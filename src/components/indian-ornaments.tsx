@@ -119,7 +119,23 @@ export const MarigoldCorner = ({ className = '', idPrefix = 'mc' }: { className?
 
 export const Petals = ({ count = 14 }: { count?: number }) => (
   <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-    {Array.from({ length: count }).map((_, i) => <motion.span key={i} className="absolute block h-2 w-3 rounded-[100%_0] bg-[#b52b3a]/50" style={{ left: `${(i * 37) % 100}%`, top: `${-10 - (i % 4) * 8}%` }} animate={{ y: ['0vh', '115vh'], x: [0, (i % 2 ? 1 : -1) * (18 + (i % 4) * 8)], rotate: [0, 180, 360] }} transition={{ duration: 9 + (i % 5), delay: i * .45, repeat: Infinity, ease: 'linear' }} />)}
+    {Array.from({ length: count }).map((_, i) => {
+      const duration = 9 + (i % 5) + (i % 3) * 0.7;
+      // Negative delay spreads petals across the whole cycle so there is no synchronized reset
+      const phase = -((i * 0.618) % 1) * duration;
+      return (
+        <span
+          key={i}
+          className="absolute block h-2 w-3 rounded-[100%_0] bg-[#b52b3a]/50"
+          style={{
+            left: `${(i * 37) % 100}%`,
+            top: '-6%',
+            ['--petal-drift' as string]: `${(i % 2 ? 1 : -1) * (18 + (i % 4) * 8)}px`,
+            animation: `petal-fall ${duration}s linear ${phase}s infinite`,
+          }}
+        />
+      );
+    })}
   </div>
 );
 

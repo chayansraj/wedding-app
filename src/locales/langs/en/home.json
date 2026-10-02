@@ -15,10 +15,18 @@
     "quote": "Your presence in our lives has been a blessing, and having you celebrate this special day with us would make our joy complete. Thank you for being part of our love story.",
     "with-love": "With all our love,",
     "hashtags": "#ChayanAndDivya #LoveWins #ForeverStartsNow",
-    "contact": "Questions? Contact us at wedding@fihaa.my.id"
+    "contact": "Questions? Contact us at wedding@fihaa.my.id",
+    "eyebrow": "Until we meet under the mandap",
+    "gratitude": "With gratitude for being part of our celebration."
   },
   "hero": {
     "welcome": "Om Shree Ganeshay Namah",
+    "invocation": "ॐ श्री गणेशाय नमः",
+    "invocation-sub": "Om Shree Ganeshay Namah",
+    "invite": "We invite you to share the joy, blessings and celebration of our wedding",
+    "explore": "Explore the Celebration",
+    "rsvp": "RSVP",
+    "scroll-to-discover": "Scroll to discover ↓",
     "together": "Together",
     "scroll-down": "Scroll Down",
     "scroll-to-explore": "Scroll to explore our love story",
@@ -26,6 +34,14 @@
   },
   "couple": {
     "title": "Meet the Happy Couple",
+    "groom-name": "Chayan",
+    "groom-full-name": "Chayan Shrang Raj",
+    "groom-parents": "S/o Mrs Anjali & Mr Sanjay Mishra",
+    "bride-name": "Divya",
+    "bride-full-name": "Divya Vashishtha",
+    "bride-parents": "D/o Mrs Madhu & Mr Yogendra Vashishtha",
+    "eyebrow": "Together with our families",
+    "new-chapter": "A new chapter begins",
     "bride-description": "A beautiful soul with a heart full of love and dreams of a wonderful future together.",
     "groom-description": "A kind and caring partner who brings joy and laughter to every day.",
     "our-story": "Our Love Story",
@@ -36,6 +52,8 @@
   },
   "details": {
     "title": "Wedding Details",
+    "eyebrow": "Mark your calendar",
+    "countdown-eyebrow": "A day to remember",
     "date": "Save the Date",
     "time": "Time",
     "day": "Day",
@@ -69,6 +87,9 @@
   },
   "venue": {
     "title": "Venue Information",
+    "eyebrow": "Where we gather",
+    "sacred-ceremony": "The sacred ceremony",
+    "celebration": "The celebration",
     "ceremony": "Ceremony",
     "reception": "Reception",
     "get-directions": "Get Directions",
@@ -101,6 +122,14 @@
   },
   "gallery": {
     "title": "Our Memories",
+    "eyebrow": "Our memories",
+    "engagement-caption": "A moment that began it all",
+    "travel-caption": "Adventures together",
+    "date-caption": "Little moments, forever",
+    "proposal-caption": "A promise for a lifetime",
+    "family-caption": "Two families, one celebration",
+    "friends-caption": "The people who make it special",
+    "placeholder-note": "Replace these album frames with your wedding photographs in public/ when ready.",
     "subtitle": "A glimpse into our journey together",
     "journey-title": "Our Journey Together",
     "journey-subtitle": "Take a glimpse into our beautiful love story through these precious moments",
@@ -114,6 +143,9 @@
   },
   "rsvp": {
     "title": "Please RSVP",
+    "eyebrow": "Your presence is precious to us",
+    "seat-title": "A seat awaits you",
+    "seat-text": "Please let us know if you can join us in celebrating this beginning.",
     "subtitle": "Help us plan our special day",
     "name": "Full Name",
     "email": "Email Address",
@@ -155,10 +187,13 @@
     "details": "Details",
     "venue": "Venue",
     "gallery": "Gallery",
-    "rsvp": "RSVP Now"
+    "rsvp": "RSVP Now",
+    "next-section": "Go to next section"
   },
   "schedule": {
     "title": "Timeline of Events",
+    "eyebrow": "The celebrations",
+    "subtitle": "A day of blessings, rituals, music, laughter and togetherness.",
     "guest-arrival": "Guest Arrival & Seating",
     "welcome-drinks": "Welcome drinks available",
     "wedding-ceremony": "Wedding Ceremony",
@@ -187,6 +222,7 @@
     "safari": "Safari: Settings → Websites → Auto-Play → Allow All Auto-Play",
     "play-music": "🎵 Play Music",
     "later": "Later",
-    "auto-note": "Music will play automatically after you enable it"
+    "auto-note": "Music will play automatically after you enable it",
+    "autoplay-blocked": "(Autoplay Blocked)"
   }
 }
