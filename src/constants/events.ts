@@ -24,5 +24,5 @@ export const EVENT_VENUES: ReadonlyArray<{ events: readonly WeddingEventKey[]; m
 export const venueMapHref = (venue: (typeof EVENT_VENUES)[number]): string | null => venue.mapUrl ?? (venue.mapQuery ? generateMapLink(venue.mapQuery) : null);
 
 // Bump ART_VERSION whenever an artwork file is replaced so browsers drop the cached copy.
-const ART_VERSION = 2;
+const ART_VERSION = 3;
 export const eventArt = (name: string, thumb = false) => `/assets/images/events/${name}${thumb ? '-thumb' : ''}.webp?v=${ART_VERSION}`;

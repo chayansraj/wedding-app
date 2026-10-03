@@ -22,12 +22,9 @@ const HAND_OPACITY = 0.55;
 /* Gap between the bottom of the visible screen and the event text block (px).
    Raise it if the fixed music / language buttons overlap the text. */
 const TEXT_BOTTOM_PX = 118;
-/* How far each artwork is pushed down from the top so the heading doesn't cover it
-   (the gap blends into the cream heading wash). Bigger = lower. */
-const ART_TOP = '8svh';
 /* Per-artwork horizontal framing (CSS object-position x). 50% = centred; higher %
    slides the picture LEFT (shows more of its right side), lower % slides it right. */
-const ART_X: Partial<Record<(typeof EVENTS)[number]['key'], string>> = { 'matra-pujan': '60%' };
+const ART_X: Partial<Record<(typeof EVENTS)[number]['key'], string>> = { 'matra-pujan': '100%' };
 
 const Chevron = ({ dir }: { dir: 'left' | 'right' }) => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -57,9 +54,9 @@ const SwipeHand = ({ dir }: { dir: -1 | 1 }) => (
 );
 
 /* One full-screen slide per event, swiped horizontally with native scroll-snap
-   (no scroll hijacking). The section is h-lvh so it never resizes when the
-   mobile URL bar shows/hides; all UI lives in a top h-svh box so it stays
-   visible while the bar is shown. */
+   (no scroll hijacking). The section and artwork are h-lvh so they never resize
+   when the mobile browser bars show/hide; text and controls live in a top h-dvh
+   box so they always sit at the bottom of whatever is actually visible. */
 export const EventCarousel = () => {
   const { t } = useTranslation('home');
   const sectionRef = useRef<HTMLElement>(null);
@@ -117,11 +114,11 @@ export const EventCarousel = () => {
                 decoding="async"
                 loading={i < 2 ? 'eager' : 'lazy'}
                 fetchPriority={i === 0 ? 'high' : 'auto'}
-                style={{ top: ART_TOP, objectPosition: `${ART_X[event.key] ?? '50%'} center`, transitionDuration: `${ZOOM_MS}ms`, transform: isActive && revealed ? 'scale(1)' : `scale(${ZOOM_FROM})` }}
-                className="absolute inset-x-0 h-full w-full object-cover transition-transform ease-out"
+                style={{ objectPosition: `${ART_X[event.key] ?? '50%'} center`, transitionDuration: `${ZOOM_MS}ms`, transform: isActive && revealed ? 'scale(1)' : `scale(${ZOOM_FROM})` }}
+                className="absolute inset-0 h-full w-full object-cover transition-transform ease-out"
               />
-              <div className="absolute inset-x-0 top-0 h-svh">
-                <div className="absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-[#1a0c0a]/95 via-[#1a0c0a]/60 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-[#1a0c0a]/95 via-[#1a0c0a]/60 to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-dvh">
                 <motion.div
                   initial={false}
                   animate={{ opacity: isActive && revealed ? 1 : 0, y: isActive && revealed ? 0 : 24 }}
@@ -146,7 +143,7 @@ export const EventCarousel = () => {
       </div>
 
       {/* Fixed chrome over every slide (pointer-events only on controls so swipes pass through). */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-svh">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-dvh">
         {/* Page colour melts into the artwork so heading and art read as one piece. */}
         <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-[#fff8e8] via-[#fff8e8]/80 to-transparent" />
         <motion.div
