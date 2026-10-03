@@ -2,7 +2,8 @@
    played inside the "Click to Enter" tap handler: Safari/iOS only honour
    play() in the gesture call stack and only on that same element, so the
    MusicPlayer (mounted much later) reuses this instance instead of its own. */
-const WEDDING_SONG_SRC = '/assets/audio/shirushi-lisa.mp3';
+// Previous song (file kept): '/assets/audio/shirushi-lisa.mp3'
+const WEDDING_SONG_SRC = '/assets/audio/wedding-song.mp3';
 
 let instance: HTMLAudioElement | null = null;
 

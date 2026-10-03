@@ -6,6 +6,7 @@ export { VenueInformation } from './venue-information';
 export { EventSchedule } from './event-schedule';
 export { EventStory } from './event-story';
 export { EventJourney } from './event-journey';
+export { EventCarousel } from './event-carousel';
 export { GalleryPreview } from './gallery-preview';
 export { RSVP } from './rsvp';
 export { ClosingMessage } from './closing-message';

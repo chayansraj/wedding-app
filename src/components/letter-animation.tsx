@@ -86,21 +86,24 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
     const audio = mantraRef.current;
     if (!audio) return;
 
-    const events: (keyof WindowEventMap)[] = ['pointerdown', 'touchstart', 'keydown'];
-    const startOnGesture = () => {
-      events.forEach((name) => window.removeEventListener(name, startOnGesture));
-      void audio.play().catch(() => undefined);
-    };
+    // Only these grant user activation on iOS WebKit (touchstart/pointerdown from
+    // a finger do not), so the old listeners were spent on taps that couldn't unlock audio.
+    const events: (keyof WindowEventMap)[] = ['touchend', 'pointerup', 'click', 'keydown'];
+    const stopListening = () => events.forEach((name) => window.removeEventListener(name, startOnGesture, true));
+    function startOnGesture() {
+      if (!audio || !audio.paused) return stopListening();
+      void audio.play().then(stopListening, () => undefined);
+    }
 
     audio.currentTime = 0;
-    // Unmuted autoplay is blocked by most browsers until the user interacts;
-    // fall back to the first tap/key anywhere on the opening screen.
+    // Unmuted autoplay is blocked by iOS until the user interacts; keep trying on
+    // every gesture until one is accepted.
     void audio.play().catch(() => {
-      events.forEach((name) => window.addEventListener(name, startOnGesture, { once: true }));
+      events.forEach((name) => window.addEventListener(name, startOnGesture, { capture: true, passive: true }));
     });
 
     return () => {
-      events.forEach((name) => window.removeEventListener(name, startOnGesture));
+      stopListening();
       audio.pause();
     };
   }, []);

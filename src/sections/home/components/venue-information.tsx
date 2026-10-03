@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
 import { Lotus, OrnamentalDivider, SectionBackdrop } from '@/components/indian-ornaments';
 import { EVENT_VENUES, WEDDING_EVENTS, eventArt, venueMapHref } from '@/constants/events';
+import { EventDate } from '@/components/event-date';
 
 const PinIcon = ({ className = '' }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -58,7 +59,7 @@ export const VenueInformation = () => {
                         {events.map((event) => (
                           <li key={event.key} className="leading-tight">
                             <h3 className="font-serif text-2xl text-[#2d2020] sm:text-3xl">{t(`schedule.${event.key}`)}</h3>
-                            <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[.2em] text-[#8b1e1e]">{t(`schedule.${event.key}-date`)} · {t(`schedule.${event.key}-time`)}</p>
+                            <p className="mt-1 text-[11px] font-semibold uppercase tracking-[.12em] text-[#8b1e1e]"><EventDate date={t(`schedule.${event.key}-date`)} time={t(`schedule.${event.key}-time`)} /></p>
                           </li>
                         ))}
                       </ul>

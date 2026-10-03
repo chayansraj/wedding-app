@@ -21,9 +21,10 @@ export const CoupleIntroduction = ({ bride, groom }: CoupleIntroductionProps) =>
       <h2 className="font-serif text-4xl text-[#2d2020] sm:text-5xl md:text-6xl">{t('couple.our-story')}</h2>
       */}
       <h2 className="relative mx-auto max-w-3xl">
-        {/* Shimmering gold-maroon gradient sweeps across the text; drop-shadow (not text-shadow) so the glow works with background-clip text */}
-        <motion.span initial={{opacity:0,letterSpacing:'.14em'}} animate={{opacity:inView?1:0,letterSpacing:inView?'.04em':'.14em',backgroundPosition:['0% 50%','200% 50%']}} transition={{opacity:{duration:1.1,delay:.1},letterSpacing:{duration:1.1,delay:.1},backgroundPosition:{duration:4.5,repeat:Infinity,ease:'linear'}}}
-          className={`block bg-clip-text font-bold leading-[1.25] text-transparent [filter:drop-shadow(0_0_12px_rgba(214,170,80,.45))] ${isHindi ? 'font-invocation-hi text-[2rem] sm:text-5xl md:text-[3.4rem]' : 'font-invocation-en text-[1.3rem] sm:text-[2.3rem] md:text-5xl'}`}
+        {/* Shimmering gold-maroon gradient sweeps across the text; drop-shadow (not text-shadow) so the glow works with background-clip text.
+            The "tracking-in" is a scaleX, not letter-spacing, so the line never re-wraps mid-animation. */}
+        <motion.span initial={{opacity:0,scaleX:1.12}} animate={{opacity:inView?1:0,scaleX:inView?1:1.12,backgroundPosition:['0% 50%','200% 50%']}} transition={{opacity:{duration:1.1,delay:.1},scaleX:{duration:1.1,delay:.1,ease:'easeOut'},backgroundPosition:{duration:4.5,repeat:Infinity,ease:'linear'}}}
+          className={`block bg-clip-text font-bold leading-[1.25] tracking-[.04em] text-transparent [filter:drop-shadow(0_0_12px_rgba(214,170,80,.45))] ${isHindi ? 'font-invocation-hi text-[2rem] sm:text-5xl md:text-[3.4rem]' : 'font-invocation-en text-[1.3rem] sm:text-[2.3rem] md:text-5xl'}`}
           style={{ backgroundImage: 'linear-gradient(100deg, #8a3b2e 0%, #8a3b2e 38%, #d9b25c 48%, #fff1c2 52%, #d9b25c 56%, #8a3b2e 66%, #8a3b2e 100%)', backgroundSize: '200% 100%' }}>{t('couple.journey-title')}</motion.span>
         {GLINTS.map((g) => (
           <motion.span key={g.left} aria-hidden="true" className="pointer-events-none absolute text-[#ffe9a8] [text-shadow:0_0_8px_rgba(255,222,140,.9)]" style={{ left: g.left, top: g.top, fontSize: g.size }}

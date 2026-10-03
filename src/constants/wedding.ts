@@ -4,7 +4,7 @@ export const WEDDING_CONFIG = {
     name: 'Divya',
     fullName: 'Divya Vashishtha',
     parents: 'D/o Mrs Madhu & Mr Yogendra Vashishtha',
-    photo: '/assets/images/bride-circle.png?v=2',
+    photo: '/assets/images/bride-circle.png?v=4',
     artwork: '/assets/images/bride-art.png',
   },
   groom: {
@@ -12,7 +12,7 @@ export const WEDDING_CONFIG = {
     fullName: 'Chayan Shrang Raj',
     parents: 'S/o Mrs Anjali & Mr Sanjay Mishra',
     // ?v busts browser + Next image caches whenever the portrait is re-rendered
-    photo: '/assets/images/groom-circle.png?v=2',
+    photo: '/assets/images/groom-circle.png?v=3',
     artwork: '/assets/images/groom-art.png',
   },
   venue: {

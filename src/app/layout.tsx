@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   title: 'The Wedding of Chayan & Divya',
   description:
     'Join us in celebrating the union of Chayan and Divya. Discover our love story, wedding details, and more.',
+  // iOS Safari/Chrome otherwise auto-underline addresses and dates and open a
+  // Maps/Calendar sheet on tap; we provide our own map links and tel: links.
+  formatDetection: { telephone: false, address: false, date: false, email: false },
 };
 
 export default function RootLayout({

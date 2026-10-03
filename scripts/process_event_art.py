@@ -1,4 +1,6 @@
-"""Downscale the 1536x1024 event artworks to web-sized WebP (hero + thumb)."""
+"""Downscale the 1536x1024 event artworks to web-sized WebP (hero + thumb).
+Usage: python process_event_art.py [slug ...]   (no args = all)"""
+import sys
 from pathlib import Path
 
 from PIL import Image
@@ -9,13 +11,16 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 FILES = {
     "matra-pujan": "matra pujan.png",
-    "haldi": "haldi.png",
+    # haldi (previous): "haldi.png",
+    "haldi": "haldi (2).png",
     "mehendi": "mehendi.png",
     "engagement": "engagement.png",
     "wedding": "wedding.png",
 }
 
 for slug, name in FILES.items():
+    if len(sys.argv) > 1 and slug not in sys.argv[1:]:
+        continue
     im = Image.open(SRC / name).convert("RGB")
     hero = im.resize((1400, round(1400 * im.height / im.width)), Image.LANCZOS)
     hero.save(OUT / f"{slug}.webp", "WEBP", quality=82, method=6)

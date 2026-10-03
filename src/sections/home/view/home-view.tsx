@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useScrollSpy } from '@/hooks/use-scroll-spy';
-import { LetterAnimation } from '@/components';
-import { HeroSection, CoupleIntroduction, CountdownTimer, VenueInformation, EventJourney, RSVP, GalleryPreview, ClosingMessage, FloatingNavigation, NavigationFAB, MusicPlayer, ScrollProgressIndicator } from '../components';
+import { LanguageToggle, LetterAnimation } from '@/components';
+import { HeroSection, CoupleIntroduction, CountdownTimer, VenueInformation, EventCarousel, RSVP, GalleryPreview, ClosingMessage, FloatingNavigation, MusicPlayer, ScrollProgressIndicator } from '../components';
 import { HIDDEN_SECTIONS, NAVIGATION_SECTIONS, WEDDING_CONFIG } from '@/constants';
 
 const BACKGROUND_SOURCE = '/assets/images/wedding-invitation-background.png';
@@ -51,7 +51,8 @@ export default function HomeView() {
           {/* Mark-your-calendar card kept for later: <WeddingDetailsCard date={WEDDING_CONFIG.date} venue={WEDDING_CONFIG.venue} /> */}
           {/* Classic vertical timeline kept for later: <EventSchedule /> (still used as the reduced-motion fallback inside EventJourney) */}
           {/* Pinned card story kept for later: <EventStory /> */}
-          <EventJourney />
+          {/* Vertical sticky-panel journey kept for later: <EventJourney /> */}
+          <EventCarousel />
         </section>
         <section id="venue" className="relative bg-transparent">
           <VenueInformation />
@@ -62,7 +63,9 @@ export default function HomeView() {
         <section id="rsvp" className="relative bg-transparent"><RSVP /></section>
         <section id="closing" className="relative bg-transparent"><ClosingMessage /></section>
         <MusicPlayer />
-        <NavigationFAB activeSection={activeSection} onScrollToSection={scrollToSection} />
+        {/* Next-section FAB kept for later: <NavigationFAB activeSection={activeSection} onScrollToSection={scrollToSection} /> */}
+        {/* bottom-7 centres the ~36px toggle on the 44px music button at bottom-6 */}
+        <div className="fixed bottom-7 right-4 z-50 sm:hidden"><LanguageToggle /></div>
         <ScrollProgressIndicator activeSection={activeSection} />
       </div>
     </div>

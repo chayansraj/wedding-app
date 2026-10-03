@@ -9,9 +9,10 @@ OUT = 640
 # Face boxes (x, y, w, h) on the EXIF-transposed images, from detect_faces.py
 SUBJECTS = {
     # groom (previous): (r"C:\Users\n1698725\Downloads\377A7551.JPG", (1956, 672, 594, 594), 2.1, 0.5, -0.03, -5),
-    "groom": (r"C:\Users\n1698725\Downloads\_DSC0615.JPG", (1014, 732, 600, 600), 2.9, 0.75, 0.12, 0),
+    "groom": (r"C:\Users\n1698725\Downloads\_DSC0615.JPG", (1014, 732, 600, 600), 2.5, 0.62, 0.12, 0),
     # bride (previous): (r"C:\Users\n1698725\Downloads\NVS_0198.JPG", (1572, 1932, 1272, 1272), 2.05, 0.42, 0.0, 0),
-    "bride": (r"C:\Users\n1698725\Downloads\377A7485.JPG", (882, 1362, 1608, 1608), 2.4, 0.55, 0.1, 0),
+    # bride (previous): (r"C:\Users\n1698725\Downloads\377A7485.JPG", (882, 1362, 1608, 1608), 2.4, 0.55, 0.1, 0),
+    "bride": (r"C:\Users\n1698725\Downloads\IMG_9890.jpg", (896, 1454, 842, 842), 2.0, 0.45, 0.0, 0),
 }
 # Subjects whose original photo background is kept (no cut-out / cream wash).
 KEEP_BACKGROUND = {"groom", "bride"}

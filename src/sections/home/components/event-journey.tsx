@@ -195,7 +195,9 @@ const Journey = ({ trackRef, scrollToEvent }: JourneyProps) => {
   useMotionValueEvent(scrollYProgress, 'change', (v) => setActive(Math.min(COUNT - 1, Math.max(0, Math.round((v * TOTAL_SVH) / PANEL_SVH)))));
 
   return (
-    <div ref={trackRef} className="relative">
+    // overflow-clip (not hidden) keeps sticky working while stopping the last
+    // panel's h-lvh artwork from spilling over the Venue heading below.
+    <div ref={trackRef} className="relative overflow-clip">
       <Rail progress={scrollYProgress} active={active} scrollToEvent={scrollToEvent} />
       {EVENTS.map((event, index) => (
         <Panel key={event.key} event={event} index={index} progress={scrollYProgress} />
