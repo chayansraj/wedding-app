@@ -149,7 +149,6 @@ export const OrnamentalDivider = ({ label }: { label?: string }) => (
 
 export const SectionBackdrop = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
   <div className={`relative overflow-hidden bg-transparent ${className}`}>
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,241,199,.36),transparent_42%),linear-gradient(180deg,rgba(255,249,237,.35),rgba(255,249,237,.18))]" />
     <div className="absolute inset-0 opacity-[.05]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #7b1e1e 1px, transparent 0)', backgroundSize: '28px 28px' }} />
     <Mandala size={360} className="absolute -left-40 top-20 text-[#b08a3a] opacity-[.13]" />
     <Mandala size={280} className="absolute -right-32 bottom-10 text-[#7b1e1e] opacity-[.1]" />

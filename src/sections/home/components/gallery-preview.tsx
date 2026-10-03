@@ -19,7 +19,7 @@ export const GalleryPreview = () => {
   ];
 
   return (
-    <SectionBackdrop className="bg-[#f8f0e1]">
+    <SectionBackdrop className="border-t border-[#b08a3a]/15">
       <div ref={ref} className="px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 25 }} transition={{ duration: .8 }} className="mb-14 text-center">

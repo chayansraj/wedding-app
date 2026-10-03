@@ -7,7 +7,7 @@ export const NAVIGATION_ANIMATIONS = {
 };
 
 // Sections listed here stay in the code but are not rendered or navigable.
-export const HIDDEN_SECTIONS: string[] = [];
+export const HIDDEN_SECTIONS: string[] = ['gallery'];
 
 export const ALL_NAVIGATION_SECTIONS = [
   { id: 'hero', labelKey: 'navigation.home', icon: '✦', gradient: 'from-amber-700 to-red-800' },

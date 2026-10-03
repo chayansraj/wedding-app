@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
+import { startWeddingAudio } from '@/lib/wedding-audio';
 
 interface LetterAnimationProps {
   onOpen: () => void;
@@ -116,6 +117,9 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
     if (!video) return;
 
     stopMantra();
+    // Same tap unlocks and starts the wedding song so it is already playing
+    // when the doors open — no second tap needed on Safari/iOS.
+    startWeddingAudio();
     video.currentTime = 0;
     video.muted = true;
     video.playsInline = true;

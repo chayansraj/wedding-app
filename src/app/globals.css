@@ -39,6 +39,11 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+/* Split-flap clock: old top half folds down, then the new bottom half unfolds. */
+@keyframes flip-top { from { transform: rotateX(0); } to { transform: rotateX(-90deg); } }
+@keyframes flip-bottom { from { transform: rotateX(90deg); } to { transform: rotateX(0); } }
+.flip-top { z-index: 2; transform-origin: bottom; backface-visibility: hidden; animation: flip-top .32s ease-in forwards; }
+.flip-bottom { z-index: 2; transform-origin: top; transform: rotateX(90deg); backface-visibility: hidden; animation: flip-bottom .32s ease-out .32s forwards; }
 button, a { -webkit-tap-highlight-color: transparent; }
 ::selection { background: rgba(176, 138, 58, .25); color: #5b201c; }
 .accent-gold { color: var(--secondary); }
@@ -49,6 +54,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .input { width: 100%; border: 1px solid rgba(176,138,58,.32); border-radius: .9rem; background: #fffaf0; padding: .82rem 1rem; color: #382622; outline: none; transition: border-color .2s, box-shadow .2s, background .2s; }
 .input::placeholder { color: #aa9588; }
 .input:focus { border-color: #8b1e1e; background: #fffdf5; box-shadow: 0 0 0 3px rgba(139,30,30,.08); }
+
+/* Letter-spacing detaches Devanagari matras/conjuncts from their base glyphs,
+   so every tracked label falls back to natural spacing while Hindi is active. */
+html[lang="hi"] [class*="tracking-"],
+html[lang="hi"] .label { letter-spacing: 0 !important; }
 
 @media (max-width: 640px) { html, body { min-height: 100%; } }
 @media (prefers-reduced-motion: reduce) {

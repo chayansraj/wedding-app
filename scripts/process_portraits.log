@@ -1,11 +1,6 @@
-groom
-  crop (1611, 375, 1247)
-  rembg ok
-  alpha coverage 0.46
-  saved C:\Users\n1698725\wedding-app\public\assets\images\groom-circle.png 367 KB
 bride
-  crop (904, 1397, 2607)
+  crop (0, 477, 3859)
   rembg ok
-  alpha coverage 0.71
-  saved C:\Users\n1698725\wedding-app\public\assets\images\bride-circle.png 678 KB
+  alpha coverage 0.54
+  saved C:\Users\n1698725\wedding-app\public\assets\images\bride-circle.png 569 KB
 done

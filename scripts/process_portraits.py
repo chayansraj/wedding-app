@@ -1,4 +1,5 @@
 """Crop head-and-shoulders portraits, replace background with the theme cream, export round PNGs."""
+import sys
 import numpy as np
 import cv2
 from PIL import Image, ImageOps, ImageFilter
@@ -7,9 +8,16 @@ Image.MAX_IMAGE_PIXELS = None
 OUT = 640
 # Face boxes (x, y, w, h) on the EXIF-transposed images, from detect_faces.py
 SUBJECTS = {
-    "groom": (r"C:\Users\n1698725\Downloads\377A7551.JPG", (1956, 672, 594, 594), 2.1, 0.5, -0.03, -5),
-    "bride": (r"C:\Users\n1698725\Downloads\NVS_0198.JPG", (1572, 1932, 1272, 1272), 2.05, 0.42, 0.0, 0),
+    # groom (previous): (r"C:\Users\n1698725\Downloads\377A7551.JPG", (1956, 672, 594, 594), 2.1, 0.5, -0.03, -5),
+    "groom": (r"C:\Users\n1698725\Downloads\_DSC0615.JPG", (1014, 732, 600, 600), 2.9, 0.75, 0.12, 0),
+    # bride (previous): (r"C:\Users\n1698725\Downloads\NVS_0198.JPG", (1572, 1932, 1272, 1272), 2.05, 0.42, 0.0, 0),
+    "bride": (r"C:\Users\n1698725\Downloads\377A7485.JPG", (882, 1362, 1608, 1608), 2.4, 0.55, 0.1, 0),
 }
+# Subjects whose original photo background is kept (no cut-out / cream wash).
+KEEP_BACKGROUND = {"groom", "bride"}
+# Extra Gaussian blur (sigma, on the 1100px working image) applied to the original
+# background behind the subject; subject itself stays sharp.
+BLUR_BACKGROUND = {"bride": 16}
 log = open(r"C:\Users\n1698725\wedding-app\scripts\process_portraits.log", "w")
 
 
@@ -47,6 +55,9 @@ def theme_background(size: int) -> Image.Image:
 
 
 for name, (path, (fx, fy, fw, fh), scale, head_room, x_shift, tilt) in SUBJECTS.items():
+    # `python process_portraits.py groom` re-renders a single subject
+    if len(sys.argv) > 1 and name not in sys.argv[1:]:
+        continue
     say(name)
     im = ImageOps.exif_transpose(Image.open(path)).convert("RGB")
     W, H = im.size
@@ -63,12 +74,21 @@ for name, (path, (fx, fy, fw, fh), scale, head_room, x_shift, tilt) in SUBJECTS.
         # Inscribed circle stays fully covered for small angles, so no fill shows
         work = work.rotate(tilt, resample=Image.BICUBIC, center=(550, 550))
     rgb = np.array(work)
-    alpha = get_alpha(rgb)
-    say("  alpha coverage %.2f" % (alpha.mean() / 255))
-
-    subject = Image.fromarray(np.dstack([rgb, alpha]), "RGBA")
-    bg = theme_background(1100).convert("RGBA")
-    comp = Image.alpha_composite(bg, subject).convert("RGB")
+    if name in KEEP_BACKGROUND:
+        comp = work
+        if BLUR_BACKGROUND.get(name):
+            alpha = get_alpha(rgb)
+            say("  alpha coverage %.2f" % (alpha.mean() / 255))
+            # soften the matte edge so the sharp subject blends into the blurred plate
+            soft = Image.fromarray(alpha).filter(ImageFilter.GaussianBlur(1.5))
+            blurred = work.filter(ImageFilter.GaussianBlur(BLUR_BACKGROUND[name]))
+            comp = Image.composite(work, blurred, soft)
+    else:
+        alpha = get_alpha(rgb)
+        say("  alpha coverage %.2f" % (alpha.mean() / 255))
+        subject = Image.fromarray(np.dstack([rgb, alpha]), "RGBA")
+        bg = theme_background(1100).convert("RGBA")
+        comp = Image.alpha_composite(bg, subject).convert("RGB")
 
     comp = comp.resize((OUT, OUT), Image.LANCZOS)
     circle = Image.new("L", (OUT * 4, OUT * 4), 0)

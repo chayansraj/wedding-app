@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getWeddingAudio } from '@/lib/wedding-audio';
 
 interface MusicPlayerProps {
   className?: string;
@@ -17,20 +18,41 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
   const [showAutoplayModal, setShowAutoplayModal] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = getWeddingAudio();
 
     if (!audio) return;
+    audioRef.current = audio;
 
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
     const handleEnded = () => setIsPlaying(false);
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
 
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    if (Number.isFinite(audio.duration)) setDuration(audio.duration);
+
+    const cleanup = () => {
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+    };
+
+    // Normally already playing: the "Click to Enter" tap started it.
+    if (!audio.paused) {
+      setIsPlaying(true);
+      setHasInteracted(true);
+      return cleanup;
+    }
 
     // Auto-play attempt
     const attemptAutoPlay = async () => {
@@ -63,9 +85,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
     }, 1500);
 
     return () => {
-      audio.removeEventListener('timeupdate', updateTime);
-      audio.removeEventListener('loadedmetadata', updateDuration);
-      audio.removeEventListener('ended', handleEnded);
+      cleanup();
       clearTimeout(timer);
     };
   }, []); // Empty dependency array is correct here
@@ -240,21 +260,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
         }}
         className={`fixed bottom-6 left-4 z-50 ${className}`}
       >
-        {/* Hidden audio element */}
-        <audio
-          ref={audioRef}
-          loop
-          preload="auto"
-          src="/assets/audio/shirushi-lisa.mp3"
-          aria-label="Wedding background music"
-        >
-          <track
-            kind="captions"
-            src="/assets/audio/shirushi-lisa.mp3"
-            label="No captions available"
-          />
-          Your browser does not support the audio element.
-        </audio>
+        {/* Audio element is the shared instance from @/lib/wedding-audio */}
 
         {/* Progress Ring */}
         <div className="relative">
