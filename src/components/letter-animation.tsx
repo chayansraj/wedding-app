@@ -164,7 +164,7 @@ export const LetterAnimation = ({ onOpen }: LetterAnimationProps) => {
         onEnded={handleTransitionEnded}
         aria-hidden="true"
       >
-        <source src="/assets/videos/Doors_opening_to_wedding_scene.mp4" type="video/mp4" />
+        <source src="/assets/videos/Couple_walking_down_wedding_aisle.mp4" type="video/mp4" />
       </video>
 
       <div className={showTransition ? 'pointer-events-none absolute inset-0 z-20 opacity-0' : 'absolute inset-0 z-10 opacity-100'}>

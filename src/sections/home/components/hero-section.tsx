@@ -14,7 +14,7 @@ export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSection
   const isHindi = i18n.language.startsWith('hi');
   return (
     <SectionBackdrop className="min-h-[100svh]">
-      <div className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pb-14 pt-24 sm:px-8 sm:pt-32">
+      <div className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pb-14 pt-20 sm:px-8 sm:pt-32">
         <Petals count={18} />
         {[10, 20, 30, 70, 80, 90].map((left, i) => (
           <motion.div key={left} className="absolute top-0 hidden sm:block" style={{ left: `${left}%` }} animate={{ rotate: i % 2 ? [0, 2, -2, 0] : [0, -2, 2, 0] }} transition={{ duration: 4.5, repeat: Infinity, delay: i * .15 }}>
@@ -38,7 +38,7 @@ export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSection
             <p className="mx-auto mt-2 max-w-2xl font-serif text-base italic leading-relaxed text-[#4a2717] drop-shadow-[0_1px_2px_rgba(255,248,232,.9)] sm:mt-4 sm:text-xl">{t('hero.invite')}</p>
           </motion.div>
 
-          <div className="mt-8 flex flex-row items-center justify-center gap-3 sm:mt-10 sm:gap-10">
+          <div className="mt-7 flex flex-row items-center justify-center gap-3 sm:mt-10 sm:gap-10">
             <Portrait artwork={couple.groom.artwork} photo={couple.groom.photo} name={t('couple.groom-name')} label={t('couple.the-groom')} family={t('couple.groom-parents')} revealLabel={t('hero.reveal-photo', { name: t('couple.groom-name') })} />
             <motion.div animate={{ scale:[1,1.14,1], rotate:[0,6,-6,0] }} transition={{ duration:2.7, repeat:Infinity, ease:'easeInOut' }} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#c89b3c]/60 bg-[#fff9ed] text-xl text-[#8b1e1e] shadow-lg sm:h-16 sm:w-16 sm:text-2xl">ॐ</motion.div>
             <Portrait artwork={couple.bride.artwork} photo={couple.bride.photo} name={t('couple.bride-name')} label={t('couple.the-bride')} family={t('couple.bride-parents')} revealLabel={t('hero.reveal-photo', { name: t('couple.bride-name') })} />
@@ -46,7 +46,7 @@ export const HeroSection = ({ isLoaded, couple, onScrollToSection }: HeroSection
 
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 12 }} transition={{ duration: .8, delay: .45 }} className="mt-6 sm:mt-8">
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
-              <motion.button onClick={() => onScrollToSection('details')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#8b1e1e] bg-[#8b1e1e] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#fff8e8] shadow-[0_10px_28px_rgba(123,30,30,.2)]">{t('hero.explore')}</motion.button>
+              <motion.button onClick={() => onScrollToSection(HIDDEN_SECTIONS.includes('couple') ? 'details' : 'couple')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#8b1e1e] bg-[#8b1e1e] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#fff8e8] shadow-[0_10px_28px_rgba(123,30,30,.2)]">{t('hero.explore')}</motion.button>
               <motion.button onClick={() => onScrollToSection('rsvp')} whileHover={{ y:-2 }} whileTap={{ scale:.97 }} className="rounded-full border border-[#c89b3c]/55 bg-[#fffaf0] px-7 py-3.5 text-sm font-semibold text-[#6c3028] shadow-sm">{t('hero.rsvp')}</motion.button>
             </div>
           </motion.div>
