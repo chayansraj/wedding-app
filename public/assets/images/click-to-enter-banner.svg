@@ -15,7 +15,7 @@
     </filter>
     <filter id="textGlow" x="-30%" y="-80%" width="160%" height="260%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
-      <feFlood flood-color="#f6d477" flood-opacity=".58" result="glow"/>
+      <feFlood flood-color="#ffe9b3" flood-opacity=".75" result="glow"/>
       <feComposite in="glow" in2="blur" operator="in" result="glowShape"/>
       <feMerge><feMergeNode in="glowShape"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
@@ -34,29 +34,6 @@
     <path d="M450 93c29-12 49-5 61 12-22 9-43 6-61-12Z"/>
   </g>
 
-  <!-- Fine traditional divider -->
-  <g fill="none" stroke="#f7d982" stroke-width="1.6" stroke-linecap="round" opacity=".84">
-    <path d="M150 125H335"/>
-    <path d="M565 125H750"/>
-  </g>
-
-  <!-- Small floral end motifs -->
-  <g fill="none" stroke="#f7d982" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".92">
-    <path d="M150 125c-14-17-28-17-38 0 10 17 24 17 38 0Z"/>
-    <path d="M150 125c14-17 28-17 38 0-10 17-24 17-38 0Z"/>
-    <path d="M110 125H82M190 125h28"/>
-    <path d="M750 125c14-17 28-17 38 0-10 17-24 17-38 0Z"/>
-    <path d="M750 125c-14-17-28-17-38 0 10 17 24 17 38 0Z"/>
-    <path d="M790 125h28M710 125h-28"/>
-  </g>
-
   <!-- Invitation typography -->
-  <text x="450" y="160" text-anchor="middle" fill="#fff3d2" font-family="Georgia, Times New Roman, serif" font-size="50" font-weight="400" filter="url(#textGlow)">Click to Enter</text>
-
-  <!-- Delicate lower flourish -->
-  <g fill="none" stroke="#f7d982" stroke-linecap="round" stroke-linejoin="round" opacity=".82">
-    <path d="M335 190H565" stroke-width="1.4"/>
-    <path d="M438 190c7-12 17-12 24 0 7-12 17-12 24 0" stroke-width="1.7"/>
-    <path d="M450 207c-8 9-8 16 0 23 8-7 8-14 0-23Z" stroke-width="1.6"/>
-  </g>
+  <text x="450" y="162" text-anchor="middle" fill="#4a140f" font-family="Georgia, Times New Roman, serif" font-size="53" font-weight="600" filter="url(#textGlow)">Click to Enter</text>
 </svg>

@@ -13,6 +13,34 @@ import { toast } from 'sonner';
 
 // ----------------------------------------------------------------------
 
+const ANCHOR_HOLD_MS = 1200;
+
+// Translated copy reflows every section above the viewport, so the page would
+// jump by the accumulated height difference. iOS Safari has no native scroll
+// anchoring, so pin the section currently at the top of the screen ourselves
+// and keep correcting until the language-change re-renders have settled.
+function holdSectionInPlace() {
+  if (typeof window === 'undefined') return;
+  // First element whose top edge is in the upper part of the screen: everything
+  // that reflows above it moves it, so pinning it pins what the user is reading.
+  const limit = window.innerHeight * 0.6;
+  const candidates = Array.from(document.querySelectorAll<HTMLElement>('section[id], section[id] :is(h1, h2, h3, h4, p, img, button, li)'));
+  const anchor =
+    candidates.find((el) => { const r = el.getBoundingClientRect(); return r.height > 0 && r.top >= 0 && r.top < limit; }) ??
+    candidates.find((el) => el.getBoundingClientRect().bottom > 0);
+  if (!anchor) return;
+
+  const top = anchor.getBoundingClientRect().top;
+  const until = performance.now() + ANCHOR_HOLD_MS;
+  const correct = () => {
+    if (!anchor.isConnected) return;
+    const delta = anchor.getBoundingClientRect().top - top;
+    if (Math.abs(delta) >= 0.5) window.scrollBy({ top: delta, behavior: 'instant' });
+    if (performance.now() < until) requestAnimationFrame(correct);
+  };
+  requestAnimationFrame(correct);
+}
+
 export function useTranslate(ns?: typeof resources) {
   const router = useRouter();
 
@@ -26,6 +54,7 @@ export function useTranslate(ns?: typeof resources) {
   const onChangeLang = useCallback(
     async (newLang: string) => {
       try {
+        holdSectionInPlace();
         const langChangePromise = i18n.changeLanguage(newLang);
 
         const currentMessages =
