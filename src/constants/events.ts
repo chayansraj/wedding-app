@@ -14,7 +14,7 @@ export type WeddingEventKey = (typeof WEDDING_EVENTS)[number]['key'];
     `mapUrl` is a full Google Maps link (paste the "Share" link for an exact pin);
     otherwise `mapQuery` is resolved through Maps search. */
 export const EVENT_VENUES: ReadonlyArray<{ events: readonly WeddingEventKey[]; mapQuery: string | null; mapUrl?: string }> = [
-  { events: ['haldi', 'mehendi'], mapQuery: 'Coco and Khwaab Farms, Sector 135, Noida, Uttar Pradesh 201304' },
+  { events: ['haldi', 'mehendi'], mapQuery: 'Coco and Khwaab Farms, Sector 135, Noida, Uttar Pradesh 201304', mapUrl: 'https://maps.app.goo.gl/WWUZpXPrAtc8MWhH9' },
   { events: ['sangeet'], mapQuery: 'Khwaab Farm House, Sector 135, Noida, Uttar Pradesh 201304' },
   { events: ['wedding'], mapQuery: 'The Saffron, CBD Ground, Karkardooma, Delhi 110092' },
 ];
