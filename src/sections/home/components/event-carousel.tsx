@@ -24,7 +24,7 @@ const HAND_OPACITY = 0.55;
 const TEXT_BOTTOM_PX = 118;
 /* Per-artwork horizontal framing (CSS object-position x). 50% = centred; higher %
    slides the picture LEFT (shows more of its right side), lower % slides it right. */
-const ART_X: Partial<Record<(typeof EVENTS)[number]['key'], string>> = { 'matra-pujan': '100%' };
+const ART_X: Partial<Record<(typeof EVENTS)[number]['key'], string>> = {};
 
 const Chevron = ({ dir }: { dir: 'left' | 'right' }) => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

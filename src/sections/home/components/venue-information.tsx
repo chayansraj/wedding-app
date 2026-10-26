@@ -92,12 +92,6 @@ export const VenueInformation = () => {
               );
             })}
           </ol>
-
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: inView ? 1 : 0 }} transition={{ duration: .8, delay: .55 }} className="mt-10 flex items-center justify-center gap-2 text-center font-serif text-sm italic tracking-[.08em] text-[#7b1e1e]">
-            <Lotus className="h-6 w-12 shrink-0 text-[#b08a3a]" />
-            {t('venue.transport-note')}
-            <Lotus className="h-6 w-12 shrink-0 -scale-x-100 text-[#b08a3a]" />
-          </motion.p>
         </div>
       </div>
     </SectionBackdrop>
