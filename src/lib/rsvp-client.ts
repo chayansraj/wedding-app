@@ -7,7 +7,8 @@
    collapsed in the sheet — it never blocks the guest. */
 import { localStorageAvailable } from '@/utils/storage-available';
 
-const ENDPOINT = (process.env.NEXT_PUBLIC_RSVP_ENDPOINT ?? '').trim();
+// Same sheet as the main site; rows are told apart by the `page` URL.
+const ENDPOINT = (process.env.NEXT_PUBLIC_RSVP_ENDPOINT || 'https://script.google.com/macros/s/AKfycbx-5QDhw0t1Kow8-7Mkp0KBDYAUrG6WQOboA3KdiRIPsUqvRxd54UcMSNfS6eJVbM2I/exec').trim();
 const DEVICE_KEY = 'wedding.rsvp.device';
 const LAST_KEY = 'wedding.rsvp.last';
 

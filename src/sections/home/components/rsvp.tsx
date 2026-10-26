@@ -127,12 +127,16 @@ export const RSVP = () => {
               <h3 className="mt-2 font-serif text-3xl">{t('rsvp.rsvp-to')}</h3>
               <ul className="mt-5 space-y-4">
                 {RSVP_CONTACTS.map((contact) => (
-                  <li key={contact.name} className="flex items-center justify-between gap-4 border-t border-[#d7b76b]/30 pt-4">
-                    <div>
-                      <p className="font-serif text-xl">{contact.name}</p>
-                      {contact.phone ? <p className="mt-0.5 text-sm tracking-wide text-[#f5dfc4]/85">{contact.phone}</p> : null}
-                    </div>
-                    {contact.phone ? <a href={`tel:${contact.phone.replace(/[^+\d]/g, '')}`} className="shrink-0 rounded-full border border-[#d7b76b]/70 px-4 py-2 text-xs font-semibold uppercase tracking-[.18em] text-[#f6d98b] transition hover:bg-[#d7b76b] hover:text-[#5a1010]">{t('rsvp.call')}</a> : null}
+                  <li key={contact.name} className="border-t border-[#d7b76b]/30 pt-4">
+                    <p className="font-serif text-xl">{contact.name}</p>
+                    <ul className="mt-2 space-y-2">
+                      {contact.phones.map((phone) => (
+                        <li key={phone} className="flex items-center justify-between gap-4">
+                          <p className="text-sm tracking-wide text-[#f5dfc4]/85">{phone}</p>
+                          <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} className="shrink-0 rounded-full border border-[#d7b76b]/70 px-4 py-2 text-xs font-semibold uppercase tracking-[.18em] text-[#f6d98b] transition hover:bg-[#d7b76b] hover:text-[#5a1010]">{t('rsvp.call')}</a>
+                        </li>
+                      ))}
+                    </ul>
                   </li>
                 ))}
               </ul>
