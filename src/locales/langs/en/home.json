@@ -182,7 +182,7 @@
     "replied-before": "You replied earlier as {{name}} — {{answer}}. If anything has changed, just update below.",
     "error": "We couldn’t send that right now. Please try again in a moment, or call us.",
     "or-call": "Prefer not to use the form?",
-    "rsvp-to": "RSVP to",
+    "rsvp-to": "RSVP",
     "call": "Call",
     "questions": "Questions?",
     "questions-help": "We're here to help!",
