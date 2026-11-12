@@ -28,7 +28,6 @@ const CUT_MARGIN = 6;
 /* Cards a held screen must show whole or not at all. */
 export const PROTECTED_BLOCKS = [
   '#venue ol > li',
-  '#venue .grid-cols-4',
   '#rsvp aside',
   '#closing .rounded-\\[2rem\\]',
 ];
@@ -56,7 +55,12 @@ section[aria-roledescription="carousel"] [aria-roledescription="slide"] > img { 
 #rsvp aside > p:first-child,
 #rsvp aside a[href^="tel:"] { display: none !important; }
 #rsvp aside > h3 { margin-top: 0 !important; }
-/* Venue in two screens: heading + first two cards, then wedding card + countdown. */
+/* Without the countdown the RSVP and closing cards peek into each other's screens; give each a full screen. */
+#rsvp > *, #closing > * { min-height: 100vh; }
+#closing > * { display: flex; flex-direction: column; justify-content: center; }
+/* The countdown would sit frozen in a video. */
+#venue > :has(.grid-cols-4) { display: none !important; }
+/* Venue in two screens: heading + first two cards, then the wedding card. */
 #venue .text-center > div.mt-6,
 #venue .max-w-3xl .my-5 { display: none !important; }
 #venue .max-w-3xl .my-5 + p { margin-top: 12px !important; }
